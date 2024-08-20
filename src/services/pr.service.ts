@@ -6,7 +6,7 @@ import { Response } from '../interfaces/api.interface';
 import { SongInput } from '../interfaces/song.interface';
 
 @Injectable()
-export class PrService {
+export class PRService {
   private apiService = new ApiService();
   private apiEndpoint = 'pr';
 
@@ -53,6 +53,8 @@ export class PrService {
   }
 
   public async deletePR(prId: string): Promise<Response> {
-    return await this.apiService.deleteData(`${this.apiEndpoint}/delete/${prId}`);
+    return await this.apiService.deleteData(
+      `${this.apiEndpoint}/delete/${prId}`
+    );
   }
 }

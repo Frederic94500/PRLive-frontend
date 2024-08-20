@@ -4,16 +4,16 @@ import { environment } from '../environments/environment';
 
 @Injectable()
 export class ApiService {
-  private api = environment.apiUrl;
+  private apiUrl = environment.apiUrl;
   private apiEndpoint = 'api';
 
   public async getNoCred(endpoint: string): Promise<Response> {
-    const response = await fetch(`${this.api}/${this.apiEndpoint}/${endpoint}`, {});
+    const response = await fetch(`${this.apiUrl}/${this.apiEndpoint}/${endpoint}`, {});
     return response.json();
   }
 
   public async getWithCred(endpoint: string): Promise<Response> {
-    const response = await fetch(`${this.api}/${this.apiEndpoint}/${endpoint}`, {
+    const response = await fetch(`${this.apiUrl}/${this.apiEndpoint}/${endpoint}`, {
       credentials: 'include',
     });
     return response.json();
@@ -24,7 +24,7 @@ export class ApiService {
     endpoint: string,
     method: string
   ): Promise<Response> {
-    const response = await fetch(`${this.api}/${this.apiEndpoint}/${endpoint}`, {
+    const response = await fetch(`${this.apiUrl}/${this.apiEndpoint}/${endpoint}`, {
       method: method,
       headers: {
         'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ export class ApiService {
   }
 
   public async deleteData(endpoint: string): Promise<Response> {
-    const response = await fetch(`${this.api}/${this.apiEndpoint}/${endpoint}`, {
+    const response = await fetch(`${this.apiUrl}/${this.apiEndpoint}/${endpoint}`, {
       method: 'DELETE',
       credentials: 'include',
     });
