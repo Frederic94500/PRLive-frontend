@@ -53,8 +53,6 @@ export interface AnisongDb {
 }
 
 export interface SongInput {
-  _id: string;
-  orderId: number;
   nominatedId?: string;
   artist: string;
   title: string;
