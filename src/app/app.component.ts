@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { ToolbarComponent } from "./toolbar/toolbar.component";
 import { environment } from '../environments/environment';
 
 @Component({
@@ -19,32 +20,11 @@ import { environment } from '../environments/environment';
     MatSidenavModule,
     RouterModule,
     CommonModule,
-  ],
+    ToolbarComponent
+],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  title = 'PRLive-frontend';
-  authService = new AuthService();
-  loginButton = '';
-  linkLog = '';
-
-  ngOnInit() {
-    this.authService
-      .getWhoAmI()
-      .then((res) => {
-        if (res.code === 200) {
-          this.loginButton = 'Logout';
-          this.linkLog = environment.apiUrl + '/api/auth/logout';
-        } else {
-          this.loginButton = 'Login';
-          this.linkLog = environment.apiUrl + '/api/auth/discord/login';
-        }
-      })
-      .catch((err) => {
-        this.loginButton = 'Login';
-        this.linkLog = environment.apiUrl + '/api/auth/discord/login';
-        console.error(err);
-      });
-  }
+  
 }
