@@ -1,6 +1,7 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 
 import { ApiService } from '@services/api.service';
+import { AuthGuard } from '@guards/auth.guard';
 import { AuthService } from '@services/auth.service';
 import { PRService } from '@services/pr.service';
 import { SheetService } from '@services/sheet.service';
@@ -18,6 +19,7 @@ export const appConfig: ApplicationConfig = {
     ApiService,
     AuthService,
     PRService,
-    SheetService
+    SheetService,
+    AuthGuard
   ],
 };

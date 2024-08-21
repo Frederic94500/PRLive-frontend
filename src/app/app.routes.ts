@@ -1,8 +1,9 @@
 import { ActivatedRoute, Routes } from '@angular/router';
-import { Inject, inject } from '@angular/core';
 
+import { AuthGuard } from '@guards/auth.guard';
 import { AuthService } from '@services/auth.service';
 import { IndexComponent } from '@components/index/index.component';
+import { LoginRedirectComponent } from './login-redirect/login-redirect.component';
 import { PRComponent } from '@components/pr/pr.component';
 import { PRCreateComponent } from '@components/pr-create/pr-create.component';
 import { PREditComponent } from '@components/pr-edit/pr-edit.component';
@@ -11,12 +12,17 @@ import { PRService } from '@services/pr.service';
 import { ProfileComponent } from '@components/profile/profile.component';
 import { SheetComponent } from '@components/sheet/sheet.component';
 import { SheetService } from '@services/sheet.service';
+import { inject } from '@angular/core';
 
 export const routes: Routes = [
   {
     path: '',
     resolve: { data: () => inject(AuthService).getWhoAmI() },
     component: IndexComponent,
+  },
+  {
+    path: 'login',
+    component: LoginRedirectComponent
   },
   {
     path: 'pr',
@@ -54,6 +60,7 @@ export const routes: Routes = [
   {
     path: 'sheet/:id',
     component: SheetComponent,
+    canActivate: [() => inject(AuthGuard).canActivate()],
     resolve: {
       auth: () => inject(AuthService).getWhoAmI(),
       sheet: () =>
@@ -65,6 +72,7 @@ export const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
+    canActivate: [() => inject(AuthGuard).canActivate()],
     resolve: {
       auth: () => inject(AuthService).getWhoAmI(),
     },
