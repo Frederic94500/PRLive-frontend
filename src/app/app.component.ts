@@ -1,14 +1,11 @@
-import { Router, RouterModule } from '@angular/router';
-
-import { AuthService } from '../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { ToolbarComponent } from "./toolbar/toolbar.component";
-import { environment } from '../environments/environment';
+import { RouterModule } from '@angular/router';
+import { ToolbarComponent } from "@components/toolbar/toolbar.component";
 
 @Component({
   selector: 'app-root',

@@ -1,6 +1,6 @@
-import { AnisongDb, Song, SongInput, SongOutput } from './song.interface';
+import { AnisongDb, Song, SongInput, SongOutput } from '@interfaces/song.interface';
 
-import { UserOutput } from './user.interface';
+import { UserOutput } from '@interfaces/user.interface';
 
 export interface PRSimple {
   _id: string;

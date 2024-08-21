@@ -1,4 +1,4 @@
-import { SongModel } from "./song.model";
+import { SongModel } from "@models/song.model";
 
 export class PRModel {
   _id!: string;

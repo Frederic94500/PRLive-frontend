@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Response } from '../interfaces/api.interface';
-import { environment } from '../environments/environment';
+import { Response } from '@interfaces/api.interface';
+import { environment } from '@environments/environment';
 
 @Injectable()
 export class ApiService {

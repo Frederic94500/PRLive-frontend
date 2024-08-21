@@ -1,9 +1,9 @@
-import { PR, PRInput } from '../interfaces/pr.interface';
+import { PR, PRInput } from '@interfaces/pr.interface';
 
-import { ApiService } from './api.service';
+import { ApiService } from '@services/api.service';
 import { Injectable } from '@angular/core';
-import { Response } from '../interfaces/api.interface';
-import { SongInput } from '../interfaces/song.interface';
+import { Response } from '@interfaces/api.interface';
+import { SongInput } from '@interfaces/song.interface';
 
 @Injectable()
 export class PRService {

@@ -1,4 +1,4 @@
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '@services/auth.service';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
-import { environment } from '../../environments/environment';
+import { environment } from '@environments/environment';
 
 @Component({
   selector: 'app-toolbar',

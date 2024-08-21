@@ -1,6 +1,6 @@
-import { ApiService } from "./api.service";
+import { ApiService } from "@services/api.service";
 import { Injectable } from "@angular/core";
-import { Response } from "../interfaces/api.interface";
+import { Response } from "@interfaces/api.interface";
 
 @Injectable()
 export class AuthService {

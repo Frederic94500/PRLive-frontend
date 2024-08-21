@@ -1,7 +1,7 @@
-import { ApiService } from "./api.service";
+import { ApiService } from "@services/api.service";
 import { Injectable } from "@angular/core";
-import { Response } from "../interfaces/api.interface";
-import { Sheet } from "../interfaces/sheet.interface";
+import { Response } from "@interfaces/api.interface";
+import { Sheet } from "@interfaces/sheet.interface";
 
 @Injectable()
 export class SheetService {
