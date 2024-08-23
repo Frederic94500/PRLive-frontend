@@ -1,6 +1,6 @@
 import { environment } from '@environments/environment';
 import { DOCUMENT } from '@angular/common';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-login-redirect',
@@ -9,7 +9,7 @@ import { Component, Inject } from '@angular/core';
   templateUrl: './login-redirect.component.html',
   styleUrl: './login-redirect.component.css'
 })
-export class LoginRedirectComponent {
+export class LoginRedirectComponent implements OnInit {
   constructor(@Inject(DOCUMENT) private document: Document) {}
 
   ngOnInit() {

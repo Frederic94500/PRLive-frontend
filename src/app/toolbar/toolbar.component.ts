@@ -1,6 +1,7 @@
+import { Component, OnInit } from '@angular/core';
+
 import { AuthService } from '@services/auth.service';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -22,7 +23,7 @@ import { environment } from '@environments/environment';
   templateUrl: './toolbar.component.html',
   styleUrl: './toolbar.component.css',
 })
-export class ToolbarComponent {
+export class ToolbarComponent implements OnInit {
   title = 'PRLive-frontend';
   authService = new AuthService();
   loginButton = '';
