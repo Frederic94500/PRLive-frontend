@@ -33,7 +33,7 @@ export class ProfileComponent implements OnInit {
   profileForm!: FormGroup;
 
   constructor(
-    public route: ActivatedRoute,
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar
   ) {}
