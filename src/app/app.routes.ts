@@ -11,7 +11,7 @@ import { PRListComponent } from '@components/pr-list/pr-list.component';
 import { PRService } from '@services/pr.service';
 import { ProfileComponent } from '@components/profile/profile.component';
 import { SheetComponent } from '@components/sheet/sheet.component';
-import { SheetService } from '@services/sheet.service';
+import { SheetResolver } from '@resolvers/sheet.resolver';
 import { inject } from '@angular/core';
 
 export const routes: Routes = [
@@ -22,14 +22,14 @@ export const routes: Routes = [
   },
   {
     path: 'login',
-    component: LoginRedirectComponent
+    component: LoginRedirectComponent,
   },
   {
     path: 'pr',
     component: PRComponent,
     resolve: {
       auth: () => inject(AuthService).getWhoAmI(),
-      prs: () => inject(PRService).getPRSimple,
+      prs: () => inject(PRService).getPRSimple(),
     },
   },
   {
@@ -63,10 +63,7 @@ export const routes: Routes = [
     canActivate: [() => inject(AuthGuard).canActivate()],
     resolve: {
       auth: () => inject(AuthService).getWhoAmI(),
-      sheet: () =>
-        inject(SheetService).getSheet(
-          inject(ActivatedRoute).snapshot.params['id']
-        ),
+      sheet: SheetResolver,
     },
   },
   {
@@ -76,5 +73,5 @@ export const routes: Routes = [
     resolve: {
       auth: () => inject(AuthService).getWhoAmI(),
     },
-  }
+  },
 ];

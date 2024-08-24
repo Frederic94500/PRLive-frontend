@@ -31,6 +31,8 @@
       "@services/*": ["./src/services/*"],
       "@interfaces/*": ["./src/interfaces/*"],
       "@components/*": ["./src/app/*"],
+      "@toolbox/*": ["./src/toolbox/*"],
+      "@resolvers/*": ["./src/resolvers/*"],
     }
   },
   "angularCompilerOptions": {

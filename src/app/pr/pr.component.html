@@ -1,0 +1,187 @@
+<p>Ongoing Party Ranking</p>
+
+<table
+  mat-table
+  [dataSource]="prs"
+  matSort
+  class="mat-elevation-z8 centered-content"
+>
+  <!-- ID Column -->
+  <ng-container matColumnDef="_id" *ngIf="isAdmin">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+    <td mat-cell *matCellDef="let element"> {{element._id}} </td>
+  </ng-container> 
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+    <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+  </ng-container>
+
+  <!-- Creator Column -->
+  <ng-container matColumnDef="creator">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Creator</th>
+    <td mat-cell *matCellDef="let element">{{ element.creator }}</td>
+  </ng-container>
+
+  <!-- Nomination Column -->
+  <ng-container matColumnDef="nomination">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Nomination</th>
+    <td mat-cell *matCellDef="let element">
+      <mat-icon>{{ element.nomination ? "check_circle" : "cancel" }}</mat-icon>
+    </td>
+  </ng-container>
+
+  <!-- Blind Column -->
+  <ng-container matColumnDef="blind">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Blind</th>
+    <td mat-cell *matCellDef="let element">
+      <mat-icon>{{ element.blind ? "check_circle" : "cancel" }}</mat-icon>
+    </td>
+  </ng-container>
+
+  <!-- Deadline Nomination Column -->
+  <ng-container matColumnDef="deadlineNomination">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      Deadline Nomination
+    </th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.deadlineNomination | unixTimestamp }}
+    </td>
+  </ng-container>
+
+  <!-- Deadline Column -->
+  <ng-container matColumnDef="deadline">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Deadline</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.deadline | unixTimestamp }}
+    </td>
+  </ng-container>
+
+  <!-- Number Songs Column -->
+  <ng-container matColumnDef="numberSongs">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Songs</th>
+    <td mat-cell *matCellDef="let element">{{ element.numberSongs }}</td>
+  </ng-container>
+
+  <!-- Finished Column -->
+  <ng-container matColumnDef="finished">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Finished</th>
+    <td mat-cell *matCellDef="let element">
+      <mat-icon>{{ element.finished ? "check_circle" : "cancel" }}</mat-icon>
+    </td>
+  </ng-container>
+
+  <!-- Sheet Column -->
+  <ng-container matColumnDef="sheet" *ngIf="isLoggedIn">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Sheet</th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-button target="_blank" [routerLink]="['/sheet', element._id]">Sheet</button>
+    </td>
+  </ng-container>
+
+  <!-- Edit Column -->
+  <ng-container matColumnDef="edit" *ngIf="isCreator">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-button target="_blank" [routerLink]="['/pr', element._id]">Edit</button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+
+<p>Finished Party Ranking</p>
+
+<table
+  mat-table
+  [dataSource]="prsFinished"
+  matSort
+  class="mat-elevation-z8 centered-content"
+>
+  <!-- ID Column -->
+  <ng-container matColumnDef="_id" *ngIf="isAdmin">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+    <td mat-cell *matCellDef="let element"> {{element._id}} </td>
+  </ng-container> 
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+    <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+  </ng-container>
+
+  <!-- Creator Column -->
+  <ng-container matColumnDef="creator">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Creator</th>
+    <td mat-cell *matCellDef="let element">{{ element.creator }}</td>
+  </ng-container>
+
+  <!-- Nomination Column -->
+  <ng-container matColumnDef="nomination">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Nomination</th>
+    <td mat-cell *matCellDef="let element">
+      <mat-icon>{{ element.nomination ? "check_circle" : "cancel" }}</mat-icon>
+    </td>
+  </ng-container>
+
+  <!-- Blind Column -->
+  <ng-container matColumnDef="blind">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Blind</th>
+    <td mat-cell *matCellDef="let element">
+      <mat-icon>{{ element.blind ? "check_circle" : "cancel" }}</mat-icon>
+    </td>
+  </ng-container>
+
+  <!-- Deadline Nomination Column -->
+  <ng-container matColumnDef="deadlineNomination">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      Deadline Nomination
+    </th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.deadlineNomination | unixTimestamp }}
+    </td>
+  </ng-container>
+
+  <!-- Deadline Column -->
+  <ng-container matColumnDef="deadline">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Deadline</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.deadline | unixTimestamp }}
+    </td>
+  </ng-container>
+
+  <!-- Number Songs Column -->
+  <ng-container matColumnDef="numberSongs">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Songs</th>
+    <td mat-cell *matCellDef="let element">{{ element.numberSongs }}</td>
+  </ng-container>
+
+  <!-- Finished Column -->
+  <ng-container matColumnDef="finished">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Finished</th>
+    <td mat-cell *matCellDef="let element">
+      <mat-icon>{{ element.finished ? "check_circle" : "cancel" }}</mat-icon>
+    </td>
+  </ng-container>
+
+  <!-- Sheet Column -->
+  <ng-container matColumnDef="sheet" *ngIf="isLoggedIn">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Sheet</th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-button target="_blank" [routerLink]="['/sheet', element._id]">Sheet</button>
+    </td>
+  </ng-container>
+
+  <!-- Edit Column -->
+  <ng-container matColumnDef="edit" *ngIf="isCreator">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-button target="_blank" [routerLink]="['/pr', element._id]">Edit</button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
