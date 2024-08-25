@@ -33,6 +33,7 @@
       "@components/*": ["./src/app/*"],
       "@toolbox/*": ["./src/toolbox/*"],
       "@resolvers/*": ["./src/resolvers/*"],
+      "@components": ["./src/app/components/*"],
     }
   },
   "angularCompilerOptions": {
