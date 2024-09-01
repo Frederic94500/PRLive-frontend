@@ -9,7 +9,6 @@ import { MatSort } from '@angular/material/sort';
 import { MatSortModule } from '@angular/material/sort';
 import { PRModel } from '@models/pr.model';
 import { PRTableComponent } from '@components/pr-table/pr-table.component';
-import { UnixTimestampPipe } from '@toolbox/unixTimestampPipe.toolbox';
 
 @Component({
   selector: 'app-pr',
@@ -18,7 +17,6 @@ import { UnixTimestampPipe } from '@toolbox/unixTimestampPipe.toolbox';
     CommonModule,
     MatTableModule,
     MatSortModule,
-    UnixTimestampPipe,
     MatIcon,
     MatButton,
     RouterLink,

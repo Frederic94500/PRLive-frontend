@@ -7,7 +7,6 @@ import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { PRModel } from '@models/pr.model';
 import { RouterLink } from '@angular/router';
-import { UnixTimestampPipe } from '@toolbox/unixTimestampPipe.toolbox';
 
 @Component({
   selector: 'app-table',
@@ -18,7 +17,6 @@ import { UnixTimestampPipe } from '@toolbox/unixTimestampPipe.toolbox';
     CommonModule,
     MatTableModule,
     MatSortModule,
-    UnixTimestampPipe,
     MatIcon,
     MatButton,
     RouterLink,

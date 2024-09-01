@@ -8,6 +8,7 @@ import { PRComponent } from '@components/pr/pr.component';
 import { PRCreateComponent } from '@components/pr-create/pr-create.component';
 import { PREditComponent } from '@components/pr-edit/pr-edit.component';
 import { PRListComponent } from '@components/pr-list/pr-list.component';
+import { PRResolver } from '../resolvers/pr.resolver';
 import { PRService } from '@services/pr.service';
 import { ProfileComponent } from '@components/profile/profile.component';
 import { SheetComponent } from '@components/sheet/sheet.component';
@@ -35,6 +36,7 @@ export const routes: Routes = [
   {
     path: 'pr/create',
     component: PRCreateComponent,
+    canActivate: [() => inject(AuthGuard).canActivate()],
     resolve: {
       auth: () => inject(AuthService).getWhoAmI(),
     },
@@ -62,8 +64,8 @@ export const routes: Routes = [
     component: SheetComponent,
     canActivate: [() => inject(AuthGuard).canActivate()],
     resolve: {
-      auth: () => inject(AuthService).getWhoAmI(),
       sheet: SheetResolver,
+      pr: PRResolver
     },
   },
   {

@@ -44,7 +44,7 @@
       Deadline Nomination
     </th>
     <td mat-cell *matCellDef="let element">
-      {{ element.deadlineNomination | unixTimestamp }}
+      {{ element.deadlineNomination | date: "dd/MM/yyyy HH:mm" }}
     </td>
   </ng-container>
 
@@ -52,7 +52,7 @@
   <ng-container matColumnDef="deadline">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Deadline</th>
     <td mat-cell *matCellDef="let element">
-      {{ element.deadline | unixTimestamp }}
+      {{ element.deadline | date: "dd/MM/yyyy HH:mm" }}
     </td>
   </ng-container>
 

@@ -25,7 +25,7 @@ export interface PR {
   finished: boolean;
   numberSongs: number;
   hashKey: string;
-  songs: Song[];
+  songList: Song[];
 }
 
 export interface PRInput {
