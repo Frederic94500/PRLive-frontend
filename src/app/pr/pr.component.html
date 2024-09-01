@@ -1,4 +1,15 @@
-<p>Ongoing Party Ranking</p>
+<br />
+
+<div class="centered-content">
+  <button mat-raised-button routerLink="/pr/create">Create Party Ranking</button>
+</div>
+
+<br />
+
+<div class="centered-content">
+  <h4>Ongoing Party Ranking</h4>
+</div>
+
 <app-table
   [dataSource]="prsUnfinished"
   [displayedColumns]="displayedColumns"
@@ -7,7 +18,11 @@
   [isCreator]="isCreator"
 ></app-table>
 
-<p>Finished Party Ranking</p>
+<br />
+
+<div class="centered-content">
+  <h4>Finished Party Ranking</h4>
+</div>
 <app-table
   [dataSource]="prsFinished"
   [displayedColumns]="displayedColumns"

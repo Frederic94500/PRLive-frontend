@@ -1,0 +1,57 @@
+<div class="centered-content">
+  <h2>Create PR</h2>
+  <form [formGroup]="prForm" (ngSubmit)="onSubmit()">
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" required />
+    </mat-form-field>
+
+    <br />
+
+    <mat-checkbox formControlName="nomination" class="custom-checkbox">Nomination</mat-checkbox>
+    
+    <br />
+
+    <mat-checkbox formControlName="blind" class="custom-checkbox">Blind</mat-checkbox>
+
+    <br />
+
+    <mat-form-field appearance="fill">
+      <mat-label>Deadline</mat-label>
+      <input
+        matInput
+        type="datetime-local"
+        formControlName="deadline"
+        required
+      />
+    </mat-form-field>
+
+    <br />
+
+    <mat-form-field appearance="fill">
+      <mat-label>Deadline Nomination</mat-label>
+      <input
+        matInput
+        type="datetime-local"
+        formControlName="deadlineNomination"
+      />
+    </mat-form-field>
+
+    <br />
+
+    <div>
+      <label for="jsonFile">Upload JSON</label>
+      <br>
+      <input
+        id="jsonFile"
+        type="file"
+        (change)="onFileChange($event)"
+        accept=".json"
+      />
+    </div>
+
+    <br />
+
+    <button mat-raised-button type="submit">Submit</button>
+  </form>
+</div>
