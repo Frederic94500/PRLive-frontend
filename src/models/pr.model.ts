@@ -6,10 +6,11 @@ export class PRModel {
   creator!: string;
   nomination!: boolean;
   blind!: boolean;
-  deadlineNomination!: number;
-  deadline!: number;
+  deadlineNomination!: string;
+  deadline!: string;
   finished!: boolean;
   numberSongs!: number;
+  mustBe!: number;
   hashKey!: string;
   songList!: SongModel[];
 }

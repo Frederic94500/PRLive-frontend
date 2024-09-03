@@ -43,8 +43,8 @@ export interface PROutput {
   creator: string;
   nomination: boolean;
   blind: boolean;
-  deadlineNomination: number;
-  deadline: number;
+  deadlineNomination: string;
+  deadline: string;
   numberVoters: number;
   numberSongs: number;
   mustBe: number;

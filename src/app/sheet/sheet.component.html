@@ -1,0 +1,93 @@
+<div class="centered-content">
+  <h3>Sheet {{ pr.name }}</h3>
+  <p>
+    Creator : <b>{{ user.name }}</b> | 
+    Deadline: <b class="{{ passedDeadline() }}">{{ pr.deadline | date : "dd/MM/yyyy HH:mm" }}</b> | 
+    Must be: <b>{{ pr.mustBe }}</b> | 
+    Total rank: <b class="{{ mustBeChecker() }}">{{ totalRank }}</b>
+  </p>
+  <p>
+    <button mat-raised-button color="primary" (click)="autoFillRank()">Auto Fill Rank</button>
+      <audio controls [src]="currentAudioSource" *ngIf="currentAudioSource" autoplay></audio>
+  </p>
+</div>
+
+<table mat-table [dataSource]="sheetTable" matSort class="mat-elevation-z8">
+  <!-- OrderId Column -->
+  <ng-container matColumnDef="orderId">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Order</th>
+    <td mat-cell *matCellDef="let song">
+      {{ getEntry(song.uuid, "orderId") }}
+    </td>
+  </ng-container>
+
+  <!-- Title Column -->
+  <ng-container matColumnDef="title">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+    <td mat-cell *matCellDef="let song">{{ getEntry(song.uuid, "title") }}</td>
+  </ng-container>
+
+  <!-- Artist Column -->
+  <ng-container matColumnDef="artist">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Artist</th>
+    <td mat-cell *matCellDef="let song">{{ getEntry(song.uuid, "artist") }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="type">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
+    <td mat-cell *matCellDef="let song">{{ getEntry(song.uuid, "type") }}</td>
+  </ng-container>
+
+  <!-- Video Column -->
+  <ng-container matColumnDef="video">
+    <th mat-header-cell *matHeaderCellDef>Video</th>
+    <td mat-cell *matCellDef="let song">
+      <button mat-button (click)="openInNewTab(song.uuid)">Open Video</button>
+    </td>
+  </ng-container>
+
+  <!-- Audio Column -->
+  <ng-container matColumnDef="audio">
+    <th mat-header-cell *matHeaderCellDef>Audio</th>
+    <td mat-cell *matCellDef="let song">
+      <button mat-button (click)="playAudio(song.uuid)">Play Audio</button>
+    </td>
+  </ng-container>
+
+  <!-- Rank Column -->
+  <ng-container matColumnDef="rank">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Rank</th>
+    <td mat-cell *matCellDef="let song">
+      <mat-form-field appearance="fill">
+        <mat-label>Rank</mat-label>
+        <input
+          id="{{ song.uuid + 'rank' }}"
+          matInput
+          type="number"
+          [value]="song.rank"
+          (change)="updateRank(song.uuid)"
+        />
+      </mat-form-field>
+    </td>
+  </ng-container>
+
+  <!-- Score Column -->
+  <ng-container matColumnDef="score">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Score</th>
+    <td mat-cell *matCellDef="let song">
+      <mat-form-field appearance="fill">
+        <mat-label>Score</mat-label>
+        <input
+          id="{{ song.uuid + 'score' }}"
+          matInput
+          type="number"
+          [value]="song.score"
+          (change)="updateScore(song.uuid)"
+        />
+      </mat-form-field>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
