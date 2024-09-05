@@ -6,7 +6,7 @@ import { IndexComponent } from '@components/index/index.component';
 import { LoginRedirectComponent } from './login-redirect/login-redirect.component';
 import { PRComponent } from '@components/pr/pr.component';
 import { PRCreateComponent } from '@components/pr-create/pr-create.component';
-import { PREditComponent } from '@components/pr-edit/pr-edit.component';
+import { PRDetailComponent } from '@components/pr-detail/pr-detail.component';
 import { PRListComponent } from '@components/pr-list/pr-list.component';
 import { PRResolver } from '../resolvers/pr.resolver';
 import { PRService } from '@services/pr.service';
@@ -51,8 +51,8 @@ export const routes: Routes = [
     },
   },
   {
-    path: 'pr/:id/edit',
-    component: PREditComponent,
+    path: 'pr/:id/detail',
+    component: PRDetailComponent,
     resolve: {
       auth: () => inject(AuthService).getWhoAmI(),
       pr: () =>
