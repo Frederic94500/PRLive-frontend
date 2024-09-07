@@ -73,24 +73,24 @@ export class PRCreateComponent implements OnInit {
         urlAudio: 'URL to audio (no audio? put URL to video)',
       },
       {
-        artist: "YOASOBI",
-        title: "Kaibutsu",
-        anime: "Beastars",
-        type: "Opening 1",
+        artist: 'YOASOBI',
+        title: 'Kaibutsu',
+        anime: 'Beastars',
+        type: 'Opening 1',
         startSample: 34,
         sampleLength: 30,
-        urlVideo: "https://ladist1.catbox.video/t3j0fc.webm",
-        urlAudio: "https://ladist1.catbox.video/w7mtjf.mp3"
+        urlVideo: 'https://ladist1.catbox.video/t3j0fc.webm',
+        urlAudio: 'https://ladist1.catbox.video/w7mtjf.mp3',
       },
       {
         nominatedId: '771428089024479263',
-        artist: "MAN WITH A MISSION",
-        title: "Dead End in Tokyo",
-        type: "Musique Originale",
+        artist: 'MAN WITH A MISSION',
+        title: 'Dead End in Tokyo',
+        type: 'Musique Originale',
         startSample: 68,
         sampleLength: 30,
-        urlVideo: "https://www.youtube.com/watch?v=JjIiK9VcIsA",
-        urlAudio: "https://files.catbox.moe/gmdrge.mp3"
+        urlVideo: 'https://www.youtube.com/watch?v=JjIiK9VcIsA',
+        urlAudio: 'https://files.catbox.moe/gmdrge.mp3',
       },
     ];
     const blob = new Blob([JSON.stringify(template)], {
@@ -103,7 +103,6 @@ export class PRCreateComponent implements OnInit {
     a.click();
   }
 
-
   onFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length) {
@@ -115,7 +114,7 @@ export class PRCreateComponent implements OnInit {
           console.log(json);
           this.prForm.get('songList')?.setValue(json);
         } catch (e) {
-          console.error('Invalid JSON file');
+          this.snackBar.open('Invalid JSON file', 'Close', { duration: 2000 });
         }
       };
       reader.readAsText(file);
@@ -134,9 +133,13 @@ export class PRCreateComponent implements OnInit {
     const response = this.prService.createPR(prInput);
     response.then((res: Response) => {
       if (res.code === 201) {
-        console.log('PR created');
+        this.snackBar.open('PR created successfully', 'Close', {
+          duration: 2000,
+        });
       } else {
-        console.log('Error creating PR: ', res.data);
+        this.snackBar.open(`Error creating PR ${res.data}`, 'Close', {
+          duration: 2000,
+        });
       }
     });
   }
