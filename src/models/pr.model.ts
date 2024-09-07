@@ -14,3 +14,14 @@ export class PRModel {
   hashKey!: string;
   songList!: SongModel[];
 }
+
+export class PRDetailModel extends PRModel {
+  numberVoters!: number;
+  voters!: {
+    discordId: string;
+    username: string;
+    name: string;
+    image: string;
+    hasFinished: boolean;
+  }[]
+}

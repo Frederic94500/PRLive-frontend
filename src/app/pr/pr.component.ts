@@ -60,7 +60,7 @@ export class PRComponent implements OnInit, AfterViewInit {
       this.isLoggedIn = true;
       this.displayedColumns.push('sheet');
       if (user.data.role === 'creator' || user.data.role === 'admin') {
-        this.displayedColumns.push('edit');
+        this.displayedColumns.push('detail');
         this.isCreator = true;
       }
       if (user.data.role === 'admin') {

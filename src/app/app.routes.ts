@@ -7,20 +7,13 @@ import { LoginRedirectComponent } from './login-redirect/login-redirect.componen
 import { PRComponent } from '@components/pr/pr.component';
 import { PRCreateComponent } from '@components/pr-create/pr-create.component';
 import { PRDetailComponent } from '@components/pr-detail/pr-detail.component';
+import { PROutputResolver } from '../resolvers/pr-output.resolver';
 import { PRResolver } from '../resolvers/pr.resolver';
 import { PRService } from '@services/pr.service';
 import { ProfileComponent } from '@components/profile/profile.component';
 import { SheetComponent } from '@components/sheet/sheet.component';
 import { SheetResolver } from '@resolvers/sheet.resolver';
 import { inject } from '@angular/core';
-
-// import { PRListComponent } from '@components/pr-list/pr-list.component';
-
-
-
-
-
-
 
 export const routes: Routes = [
   {
@@ -48,22 +41,12 @@ export const routes: Routes = [
       auth: () => inject(AuthService).getWhoAmI(),
     },
   },
-  // {
-  //   path: 'pr/:id',
-  //   component: PRListComponent,
-  //   resolve: {
-  //     auth: () => inject(AuthService).getWhoAmI(),
-  //     pr: () =>
-  //       inject(PRService).getPR(inject(ActivatedRoute).snapshot.params['id']),
-  //   },
-  // },
   {
-    path: 'pr/:id/detail',
+    path: 'pr/:id',
     component: PRDetailComponent,
     resolve: {
       auth: () => inject(AuthService).getWhoAmI(),
-      pr: () =>
-        inject(PRService).getPR(inject(ActivatedRoute).snapshot.params['id']),
+      pr: PROutputResolver
     },
   },
   {

@@ -72,17 +72,17 @@
 
   <!-- Sheet Column -->
   <ng-container matColumnDef="sheet" *ngIf="isLoggedIn">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Sheet</th>
+    <th mat-header-cell *matHeaderCellDef>Sheet</th>
     <td mat-cell *matCellDef="let element">
       <button mat-button target="_blank" [routerLink]="['/sheet', element._id]">Sheet</button>
     </td>
   </ng-container>
 
   <!-- Edit Column -->
-  <ng-container matColumnDef="edit" *ngIf="isCreator">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
+  <ng-container matColumnDef="detail" *ngIf="isCreator">
+    <th mat-header-cell *matHeaderCellDef>Detail</th>
     <td mat-cell *matCellDef="let element">
-      <button mat-button target="_blank" [routerLink]="['/pr', element._id]">Edit</button>
+      <button mat-button target="_blank" [routerLink]="['/pr/', element._id]">Detail</button>
     </td>
   </ng-container>
 
