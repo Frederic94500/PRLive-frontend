@@ -3,7 +3,6 @@ import {
   FormBuilder,
   FormGroup,
   FormsModule,
-  NgControl,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
@@ -12,11 +11,11 @@ import {
   MatFormFieldModule,
   MatLabel,
 } from '@angular/material/form-field';
-import { MatInput, MatInputModule } from '@angular/material/input';
 
 import { CommonModule } from '@angular/common';
 import { MatButton } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PRInput } from '@/src/interfaces/pr.interface';
 import { PRService } from '@/src/services/pr.service';
@@ -59,6 +58,51 @@ export class PRCreateComponent implements OnInit {
       songList: [null, Validators.required],
     });
   }
+
+  downloadTemplate(): void {
+    const template = [
+      {
+        nominatedId: 'Nominated ID (optional)(WIP)',
+        artist: 'Artist',
+        title: 'Song Title',
+        anime: 'Anime (optional)',
+        type: 'Type',
+        startSample: 0,
+        sampleLength: 30,
+        urlVideo: 'URL to video',
+        urlAudio: 'URL to audio (no audio? put URL to video)',
+      },
+      {
+        artist: "YOASOBI",
+        title: "Kaibutsu",
+        anime: "Beastars",
+        type: "Opening 1",
+        startSample: 34,
+        sampleLength: 30,
+        urlVideo: "https://ladist1.catbox.video/t3j0fc.webm",
+        urlAudio: "https://ladist1.catbox.video/w7mtjf.mp3"
+      },
+      {
+        nominatedId: '771428089024479263',
+        artist: "MAN WITH A MISSION",
+        title: "Dead End in Tokyo",
+        type: "Musique Originale",
+        startSample: 68,
+        sampleLength: 30,
+        urlVideo: "https://www.youtube.com/watch?v=JjIiK9VcIsA",
+        urlAudio: "https://files.catbox.moe/gmdrge.mp3"
+      },
+    ];
+    const blob = new Blob([JSON.stringify(template)], {
+      type: 'application/json',
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'standard-song-list-template.json';
+    a.click();
+  }
+
 
   onFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;

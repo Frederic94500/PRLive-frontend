@@ -13,3 +13,13 @@ body, html {
 .custom-checkbox .mat-checkbox-label {
   color: black;
 }
+
+.link-style {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.link-style:hover {
+  color: darkblue;
+}
