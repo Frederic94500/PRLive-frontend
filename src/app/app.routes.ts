@@ -55,7 +55,8 @@ export const routes: Routes = [
     canActivate: [() => inject(AuthGuard).canActivate()],
     resolve: {
       sheet: SheetResolver,
-      pr: PRResolver
+      pr: PRResolver,
+      auth: () => inject(AuthService).getWhoAmI(),
     },
   },
   {

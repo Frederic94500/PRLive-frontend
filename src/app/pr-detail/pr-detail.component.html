@@ -24,61 +24,103 @@
   </p>
 </div>
 
-<table mat-table [dataSource]="songList" matSort class="full-width-table">
-  <!-- Order ID Column -->
-  <ng-container matColumnDef="orderId">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Order ID</th>
-    <td mat-cell *matCellDef="let song">{{ song.orderId }}</td>
-  </ng-container>
+<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
+  <mat-tab label="Song List">
+    <table mat-table [dataSource]="songList" matSort class="full-width-table">
+      <!-- Order ID Column -->
+      <ng-container matColumnDef="orderId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Order ID</th>
+        <td mat-cell *matCellDef="let song">{{ song.orderId }}</td>
+      </ng-container>
+    
+      <!-- UUID Column -->
+      <ng-container matColumnDef="uuid" *ngIf="isAdmin">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>UUID</th>
+        <td mat-cell *matCellDef="let song">{{ song.uuid }}</td>
+      </ng-container>
+    
+      <!-- Artist Column -->
+      <ng-container matColumnDef="artist">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Artist</th>
+        <td mat-cell *matCellDef="let song">{{ song.artist }}</td>
+      </ng-container>
+    
+      <!-- Title Column -->
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+        <td mat-cell *matCellDef="let song">{{ song.title }}</td>
+      </ng-container>
+    
+      <!-- Type Column -->
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
+        <td mat-cell *matCellDef="let song">{{ song.type }}</td>
+      </ng-container>
+    
+      <!-- Start Sample Column -->
+      <ng-container matColumnDef="startSample">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Sample</th>
+        <td mat-cell *matCellDef="let song">{{ song.startSample }}</td>
+      </ng-container>
+    
+      <!-- Sample Length Column -->
+      <ng-container matColumnDef="sampleLength">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Sample Length</th>
+        <td mat-cell *matCellDef="let song">{{ song.sampleLength }}</td>
+      </ng-container>
+    
+      <!-- URL Video Column -->
+      <ng-container matColumnDef="urlVideo">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>URL Video</th>
+        <td mat-cell *matCellDef="let song">{{ song.urlVideo }}</td>
+      </ng-container>
+    
+      <!-- URL Audio Column -->
+      <ng-container matColumnDef="urlAudio">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>URL Audio</th>
+        <td mat-cell *matCellDef="let song">{{ song.urlAudio }}</td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsSongList"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumnsSongList"></tr>
+    </table>
+  </mat-tab>
+  <mat-tab label="Voters">
+    <table mat-table [dataSource]="userList" matSort class="full-width-table">
+      <!-- Username Column -->
+      <ng-container matColumnDef="username">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Username</th>
+        <td mat-cell *matCellDef="let voter">{{ voter.username }}</td>
+      </ng-container>
+    
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+        <td mat-cell *matCellDef="let voter">{{ voter.name }}</td>
+      </ng-container>
+    
+      <!-- Has Finished Column -->
+      <ng-container matColumnDef="hasFinished">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Has Finished</th>
+        <td mat-cell *matCellDef="let voter"><mat-icon>{{ voter.hasFinished ? "check_circle" : "cancel" }}</mat-icon></td>
+      </ng-container>
+    
+      <!-- Staller Column -->
+      <ng-container matColumnDef="staller">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Staller</th>
+        <td mat-cell *matCellDef="let voter"><mat-icon>{{ voter.staller ? "check_circle" : "cancel" }}</mat-icon></td>
+      </ng-container>
+    
+      <!-- Double Rank Column -->
+      <ng-container matColumnDef="doubleRank">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Double Rank</th>
+        <td mat-cell *matCellDef="let voter"><mat-icon>{{ voter.doubleRank ? "check_circle" : "cancel" }}</mat-icon></td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsUsers"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumnsUsers;" [ngClass]="getRowClass(row)"></tr>
+    </table>
+  </mat-tab>
+</mat-tab-group>
 
-  <!-- UUID Column -->
-  <ng-container matColumnDef="uuid">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>UUID</th>
-    <td mat-cell *matCellDef="let song">{{ song.uuid }}</td>
-  </ng-container>
 
-  <!-- Artist Column -->
-  <ng-container matColumnDef="artist">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Artist</th>
-    <td mat-cell *matCellDef="let song">{{ song.artist }}</td>
-  </ng-container>
-
-  <!-- Title Column -->
-  <ng-container matColumnDef="title">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
-    <td mat-cell *matCellDef="let song">{{ song.title }}</td>
-  </ng-container>
-
-  <!-- Type Column -->
-  <ng-container matColumnDef="type">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
-    <td mat-cell *matCellDef="let song">{{ song.type }}</td>
-  </ng-container>
-
-  <!-- Start Sample Column -->
-  <ng-container matColumnDef="startSample">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Sample</th>
-    <td mat-cell *matCellDef="let song">{{ song.startSample }}</td>
-  </ng-container>
-
-  <!-- Sample Length Column -->
-  <ng-container matColumnDef="sampleLength">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Sample Length</th>
-    <td mat-cell *matCellDef="let song">{{ song.sampleLength }}</td>
-  </ng-container>
-
-  <!-- URL Video Column -->
-  <ng-container matColumnDef="urlVideo">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>URL Video</th>
-    <td mat-cell *matCellDef="let song">{{ song.urlVideo }}</td>
-  </ng-container>
-
-  <!-- URL Audio Column -->
-  <ng-container matColumnDef="urlAudio">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>URL Audio</th>
-    <td mat-cell *matCellDef="let song">{{ song.urlAudio }}</td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-</table>

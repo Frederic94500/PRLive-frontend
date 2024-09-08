@@ -7,23 +7,28 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTabsModule } from '@angular/material/tabs';
 import { PRDetailModel } from '@models/pr.model';
 import { SongModel } from '@models/song.model';
 import { UserModel } from '@models/user.model';
+import { UserOutput } from '@/src/interfaces/user.interface';
 import { UserService } from '@services/user.service';
 
 @Component({
   selector: 'app-pr-detail',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatSortModule, MatButtonModule, MatIcon],
+  imports: [CommonModule, MatTableModule, MatSortModule, MatButtonModule, MatIcon, MatTabsModule],
   templateUrl: './pr-detail.component.html',
   styleUrl: './pr-detail.component.css'
 })
 export class PRDetailComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['orderId', 'uuid', 'artist', 'title', 'type', 'startSample', 'sampleLength', 'urlVideo', 'urlAudio'];
+  displayedColumnsSongList: string[] = ['orderId', 'uuid', 'artist', 'title', 'type', 'startSample', 'sampleLength', 'urlVideo', 'urlAudio'];
+  displayedColumnsUsers: string[] = ['username', 'name', 'hasFinished', 'staller', 'doubleRank'];
   pr!: PRDetailModel;
   songList!: MatTableDataSource<SongModel>;
   user!: UserModel;
+  userList!: MatTableDataSource<UserOutput>;
+  isAdmin!: boolean;
 
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -32,17 +37,32 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
   async ngOnInit(): Promise<void> {
     this.pr = this.route.snapshot.data['pr'].data;
     this.songList = new MatTableDataSource(this.pr.songList);
+    this.userList = new MatTableDataSource(this.pr.voters);
+
+    this.isAdmin = this.route.snapshot.data['auth'].data.role === 'admin';
 
     this.user = (await new UserService().getUser(this.pr.creator)).data;
   }
   
   ngAfterViewInit(): void {
     this.songList.sort = this.sort;
+    this.userList.sort = this.sort;
   }
 
   passedDeadline(): string {
     if (Date.parse(this.pr.deadline) < Date.now()) return 'red-value';
     return 'green-value';
+  }
+
+  getRowClass(voter: UserOutput): string {
+    if (voter.hasFinished) {
+      return 'finished';
+    } else if (voter.staller) {
+      return 'staller';
+    } else if (voter.doubleRank) {
+      return 'double-rank';
+    }
+    return '';
   }
 
   countFinished(): number {
@@ -57,7 +77,7 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
     };
 
     const msg = stallers.map(staller => `<@${staller.discordId}>`).join(' ');
-    navigator.clipboard.writeText(`${msg}\n\nDeadline: ${this.pr.deadline}`);
+    navigator.clipboard.writeText(`${msg}\n\nDeadline: <t:${new Date(this.pr.deadline).getTime() / 1000}:F>`);
     this.snackBar.open('Stallers copied to clipboard', 'Close', { duration: 2000 });
   }
 

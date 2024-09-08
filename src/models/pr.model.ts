@@ -23,5 +23,7 @@ export class PRDetailModel extends PRModel {
     name: string;
     image: string;
     hasFinished: boolean;
+    staller: boolean;
+    doubleRank: boolean;
   }[]
 }

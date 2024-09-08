@@ -12,3 +12,15 @@
 .red-value {
   color: red;
 }
+
+.finished {
+  background-color: green;
+}
+
+.staller {
+  background-color: red;
+}
+
+.double-rank {
+  background-color: darkorange;
+}
