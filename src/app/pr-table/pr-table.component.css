@@ -1,0 +1,11 @@
+.clickable {
+  cursor: pointer;
+}
+
+.green-value {
+  color: green;
+}
+
+.red-value {
+  color: red;
+}

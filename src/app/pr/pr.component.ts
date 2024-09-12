@@ -7,6 +7,7 @@ import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatSort } from '@angular/material/sort';
 import { MatSortModule } from '@angular/material/sort';
+import { MatTabsModule } from '@angular/material/tabs';
 import { PRModel } from '@models/pr.model';
 import { PRTableComponent } from '@components/pr-table/pr-table.component';
 
@@ -21,6 +22,7 @@ import { PRTableComponent } from '@components/pr-table/pr-table.component';
     MatButton,
     RouterLink,
     PRTableComponent,
+    MatTabsModule
   ],
   templateUrl: './pr.component.html',
   styleUrl: './pr.component.css',
@@ -34,7 +36,6 @@ export class PRComponent implements OnInit, AfterViewInit {
     'deadlineNomination',
     'deadline',
     'numberSongs',
-    'finished',
   ];
   prsUnfinished!: MatTableDataSource<PRModel>;
   prsFinished!: MatTableDataSource<PRModel>;
@@ -58,14 +59,13 @@ export class PRComponent implements OnInit, AfterViewInit {
     const user = this.route.snapshot.data['auth'];
     if (user.code === 200) {
       this.isLoggedIn = true;
-      this.displayedColumns.push('sheet');
-      if (user.data.role === 'creator' || user.data.role === 'admin') {
-        this.displayedColumns.push('detail');
-        this.isCreator = true;
-      }
       if (user.data.role === 'admin') {
-        this.displayedColumns.unshift('_id');
+        this.displayedColumns.push('_id');
         this.isAdmin = true;
+      }
+      if (user.data.role === 'creator' || user.data.role === 'admin') {
+        this.displayedColumns.push('options');
+        this.isCreator = true;
       }
     }
   }

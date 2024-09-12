@@ -1,31 +1,30 @@
+<div class="centered-content"><h3>Party Ranking List</h3></div>
+
 <div class="centered-content" *ngIf="isCreator">
-  <br />
-  <button mat-raised-button routerLink="/pr/create"><mat-icon>add</mat-icon>Create Party Ranking</button>
+  <button mat-raised-button routerLink="/pr/create">
+    <mat-icon>add</mat-icon>Create Party Ranking
+  </button>
 </div>
 
 <br />
 
-<div class="centered-content">
-  <h4>Ongoing Party Ranking</h4>
-</div>
-
-<app-table
-  [dataSource]="prsUnfinished"
-  [displayedColumns]="displayedColumns"
-  [isAdmin]="isAdmin"
-  [isLoggedIn]="isLoggedIn"
-  [isCreator]="isCreator"
-></app-table>
-
-<br />
-
-<div class="centered-content">
-  <h4>Finished Party Ranking</h4>
-</div>
-<app-table
-  [dataSource]="prsFinished"
-  [displayedColumns]="displayedColumns"
-  [isAdmin]="isAdmin"
-  [isLoggedIn]="isLoggedIn"
-  [isCreator]="isCreator"
-></app-table>
+<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
+  <mat-tab label="Ongoing">
+    <app-table
+      [dataSource]="prsUnfinished"
+      [displayedColumns]="displayedColumns"
+      [isAdmin]="isAdmin"
+      [isLoggedIn]="isLoggedIn"
+      [isCreator]="isCreator"
+    ></app-table>
+  </mat-tab>
+  <mat-tab label="Finished">
+    <app-table
+      [dataSource]="prsFinished"
+      [displayedColumns]="displayedColumns"
+      [isAdmin]="isAdmin"
+      [isLoggedIn]="isLoggedIn"
+      [isCreator]="isCreator"
+    ></app-table>
+  </mat-tab>
+</mat-tab-group>
