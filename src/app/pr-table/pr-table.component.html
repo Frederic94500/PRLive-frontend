@@ -7,34 +7,34 @@
   <!-- ID Column -->
   <ng-container matColumnDef="_id" *ngIf="isAdmin">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
-    <td mat-cell *matCellDef="let element">{{ element._id }}</td>
+    <td mat-cell *matCellDef="let pr">{{ pr._id }}</td>
   </ng-container>
 
   <!-- Name Column -->
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-    <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+    <td mat-cell *matCellDef="let pr">{{ pr.name }}</td>
   </ng-container>
 
   <!-- Creator Column -->
   <ng-container matColumnDef="creator">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Creator</th>
-    <td mat-cell *matCellDef="let element">{{ element.creator }}</td>
+    <td mat-cell *matCellDef="let pr">{{ pr.creator }}</td>
   </ng-container>
 
   <!-- Nomination Column -->
   <ng-container matColumnDef="nomination">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Nomination</th>
-    <td mat-cell *matCellDef="let element">
-      <mat-icon>{{ element.nomination ? "check" : "close" }}</mat-icon>
+    <td mat-cell *matCellDef="let pr">
+      <mat-icon>{{ pr.nomination ? "check" : "close" }}</mat-icon>
     </td>
   </ng-container>
 
   <!-- Blind Column -->
   <ng-container matColumnDef="blind">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Blind</th>
-    <td mat-cell *matCellDef="let element">
-      <mat-icon>{{ element.blind ? "check" : "close" }}</mat-icon>
+    <td mat-cell *matCellDef="let pr">
+      <mat-icon>{{ pr.blind ? "check" : "close" }}</mat-icon>
     </td>
   </ng-container>
 
@@ -45,14 +45,16 @@
     </th>
     <td
       mat-cell
-      *matCellDef="let element"
-      class="{{ passedDeadline(element.nomination, element.deadlineNomination) }}"
+      *matCellDef="let pr"
+      class="{{
+        passedDeadline(pr.nomination, pr.deadlineNomination)
+      }}"
     >
-      {{
-        element.nomination
-          ? (element.deadlineNomination | date : "dd/MM/yyyy HH:mm")
+      <b>{{
+        pr.nomination
+          ? (pr.deadlineNomination | date : "dd/MM/yyyy HH:mm")
           : ""
-      }}
+      }}</b>
     </td>
   </ng-container>
 
@@ -61,22 +63,22 @@
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Deadline</th>
     <td
       mat-cell
-      *matCellDef="let element"
-      class="{{ passedDeadline(true, element.deadline) }}"
+      *matCellDef="let pr"
+      class="{{ passedDeadline(true, pr.deadline) }}"
     >
-      {{ element.deadline | date : "dd/MM/yyyy HH:mm" }}
+      <b>{{ pr.deadline | date : "dd/MM/yyyy HH:mm" }}</b>
     </td>
   </ng-container>
 
   <!-- Number Songs Column -->
   <ng-container matColumnDef="numberSongs">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Songs</th>
-    <td mat-cell *matCellDef="let element">{{ element.numberSongs }}</td>
+    <td mat-cell *matCellDef="let pr">{{ pr.numberSongs }}</td>
   </ng-container>
 
   <ng-container matColumnDef="options" *ngIf="isCreator">
     <th mat-header-cell *matHeaderCellDef>Options</th>
-    <td mat-cell *matCellDef="let element">
+    <td mat-cell *matCellDef="let pr">
       <button
         mat-icon-button
         [matMenuTriggerFor]="menu"
@@ -89,7 +91,7 @@
         <button
           mat-menu-item
           target="_blank"
-          [routerLink]="['/pr/', element._id]"
+          [routerLink]="['/pr/', pr._id]"
         >
           <mat-icon>info</mat-icon>
           <span>Details</span>

@@ -52,6 +52,7 @@ export class SheetComponent implements OnInit, AfterViewInit {
   sheetTable!: MatTableDataSource<SheetSheetModel>;
   currentAudioSource: string | null = null;
   totalRank: number = 0;
+  meanScore: number = 0;
 
   constructor(private route: ActivatedRoute) {}
 
@@ -66,6 +67,7 @@ export class SheetComponent implements OnInit, AfterViewInit {
     this.user = (await new UserService().getUser(this.pr.creator)).data;
 
     this.computeTotalRank();
+    this.updateMeanScore();
   }
 
   ngAfterViewInit(): void {
@@ -78,10 +80,19 @@ export class SheetComponent implements OnInit, AfterViewInit {
     return (song as any)[field];
   }
 
+  updateMeanScore(): void {
+    this.meanScore = this.sheet.sheet.reduce(
+      (acc, val) => acc + val.score,
+      0
+    );
+    this.meanScore = this.meanScore / this.sheet.sheet.length;
+  }
+
   private updateSheet(): void {
     this.sheet.sheet.sort((a, b) => a.orderId - b.orderId);
     this.sheetService.putSheet(this.pr._id, this.sheet);
     this.computeTotalRank();
+    this.updateMeanScore();
   }
 
   updateRank(uuid: string): void {
@@ -100,6 +111,7 @@ export class SheetComponent implements OnInit, AfterViewInit {
     this.sheet.sheet[this.pr.songList.findIndex((x) => x.uuid === uuid)].score =
       Number(inputElement.value);
     this.updateSheet();
+    this.updateMeanScore();
   }
 
   openInNewTab(uuid: string): void {
@@ -113,6 +125,9 @@ export class SheetComponent implements OnInit, AfterViewInit {
     this.currentAudioSource =
       this.pr.songList.find((x) => x.uuid === uuid)?.urlAudio ?? null;
   }
+
+  playNextAudio(): void {}
+
 
   computeTotalRank(): void {
     this.totalRank = this.sheet.sheet.reduce(
@@ -132,7 +147,6 @@ export class SheetComponent implements OnInit, AfterViewInit {
   }
 
   autoFillRank(): void {
-    // sort by score
     const sortedSheet = this.sheet.sheet.sort((a, b) => b.score - a.score);
     sortedSheet.forEach((x, i) => (x.rank = i + 1));
     this.sheet.sheet = sortedSheet;

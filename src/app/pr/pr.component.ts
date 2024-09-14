@@ -1,5 +1,5 @@
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
 import { CommonModule } from '@angular/common';
@@ -27,7 +27,7 @@ import { PRTableComponent } from '@components/pr-table/pr-table.component';
   templateUrl: './pr.component.html',
   styleUrl: './pr.component.css',
 })
-export class PRComponent implements OnInit, AfterViewInit {
+export class PRComponent implements OnInit {
   displayedColumns: string[] = [
     'name',
     'creator',
@@ -44,8 +44,6 @@ export class PRComponent implements OnInit, AfterViewInit {
   isAdmin: boolean = false;
 
   constructor(private route: ActivatedRoute) {}
-
-  @ViewChild(MatSort) sort!: MatSort;
 
   ngOnInit(): void {
     const prs = this.route.snapshot.data['prs'].data;
@@ -68,10 +66,5 @@ export class PRComponent implements OnInit, AfterViewInit {
         this.isCreator = true;
       }
     }
-  }
-
-  ngAfterViewInit(): void {
-    this.prsUnfinished.sort = this.sort;
-    this.prsFinished.sort = this.sort;
   }
 }

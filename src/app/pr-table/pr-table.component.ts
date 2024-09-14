@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -25,7 +25,7 @@ import { RouterLink } from '@angular/router';
     MatButtonModule,
   ],
 })
-export class PRTableComponent implements OnInit {
+export class PRTableComponent implements OnInit, AfterViewInit {
   @Input() dataSource!: MatTableDataSource<PRModel>;
   @Input() displayedColumns!: string[];
   @Input() isAdmin: boolean = false;
@@ -34,7 +34,9 @@ export class PRTableComponent implements OnInit {
 
   @ViewChild(MatSort) sort!: MatSort;
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
   }
 
