@@ -136,6 +136,9 @@ export class PRCreateComponent implements OnInit {
         this.snackBar.open('PR created successfully', 'Close', {
           duration: 2000,
         });
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       } else {
         this.snackBar.open(`Error creating PR ${res.data}`, 'Close', {
           duration: 2000,

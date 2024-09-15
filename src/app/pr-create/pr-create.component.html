@@ -1,22 +1,18 @@
 <div class="centered-content">
   <h2>Create PR</h2>
-  <form [formGroup]="prForm" (ngSubmit)="onSubmit()">
-    <mat-form-field>
+  <form [formGroup]="prForm" (ngSubmit)="onSubmit()" class="centered-content">
+    <mat-form-field class="input-full-width">
       <mat-label>Name</mat-label>
       <input matInput formControlName="name" required />
     </mat-form-field>
 
-    <br />
-
     <mat-checkbox formControlName="nomination" class="custom-checkbox">Nomination</mat-checkbox>
-    
-    <br />
 
     <mat-checkbox formControlName="blind" class="custom-checkbox">Blind</mat-checkbox>
 
     <br />
 
-    <mat-form-field appearance="fill">
+    <mat-form-field class="input-full-width">
       <mat-label>Deadline</mat-label>
       <input
         matInput
@@ -28,7 +24,7 @@
 
     <br />
 
-    <mat-form-field appearance="fill">
+    <mat-form-field class="input-full-width">
       <mat-label>Deadline Nomination</mat-label>
       <input
         matInput
@@ -36,8 +32,6 @@
         formControlName="deadlineNomination"
       />
     </mat-form-field>
-
-    <br />
 
     <p><a (click)="downloadTemplate()" class="link-style">Template Standard Song List</a></p>
     <div>

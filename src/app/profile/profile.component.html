@@ -1,8 +1,8 @@
 <div class="centered-content">
-  <p>Hello {{ user.name }}!</p>
+  <h3>Hello <b class="rgb-animated">{{ user.name }}</b>!</h3>
   <p><img src="{{ user.image }}"/></p>
 
-  <form [formGroup]="profileForm" class="profile-form centered-content form">
+  <form [formGroup]="profileForm" class="centered-content form">
     <mat-form-field class="input-full-width">
       <mat-label>Name</mat-label>
       <input matInput formControlName="name" />

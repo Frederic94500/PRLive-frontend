@@ -10,6 +10,16 @@ body, html {
   justify-content: center;
 }
 
+.form {
+  min-width: 200px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.input-full-width {
+  width: 100%;
+}
+
 .custom-checkbox .mat-checkbox-label {
   color: black;
 }

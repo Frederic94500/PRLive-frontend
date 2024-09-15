@@ -1,0 +1,26 @@
+.centered-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.rgb-animated {
+  font-weight: bold;
+  animation: rgb-animation 3s infinite;
+}
+
+@keyframes rgb-animation {
+  0% {
+    color: rgb(255, 0, 0); /* Red */
+  }
+  33% {
+    color: rgb(0, 255, 0); /* Green */
+  }
+  66% {
+    color: rgb(0, 0, 255); /* Blue */
+  }
+  100% {
+    color: rgb(255, 0, 0); /* Red */
+  }
+}

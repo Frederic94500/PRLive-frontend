@@ -11,6 +11,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { PRModel } from '@models/pr.model';
 import { SheetService } from '@services/sheet.service';
 import { User } from '@interfaces/user.interface';
@@ -54,7 +55,7 @@ export class SheetComponent implements OnInit, AfterViewInit {
   totalRank: number = 0;
   meanScore: number = 0;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private snackBar: MatSnackBar) {}
 
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -88,9 +89,15 @@ export class SheetComponent implements OnInit, AfterViewInit {
     this.meanScore = this.meanScore / this.sheet.sheet.length;
   }
 
-  private updateSheet(): void {
+  private async updateSheet(): Promise<void> {
     this.sheet.sheet.sort((a, b) => a.orderId - b.orderId);
-    this.sheetService.putSheet(this.pr._id, this.sheet);
+    const response = (await this.sheetService.putSheet(this.pr._id, this.sheet));
+    if (response.code !== 200) {
+      this.snackBar.open(`Error updating sheet: ${response.data}`, 'Close', {
+        duration: 2000,
+      });
+      return;
+    }
     this.computeTotalRank();
     this.updateMeanScore();
   }
