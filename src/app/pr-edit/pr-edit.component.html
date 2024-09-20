@@ -1,0 +1,238 @@
+<div class="centered-content">
+  <h3>Edit {{ pr.name }}</h3>
+
+  <mat-form-field appearance="fill" class="full-width-form-field">
+    <mat-label>Title</mat-label>
+    <input
+      matInput
+      type="text"
+      [(ngModel)]="pr.name"
+      id="name"
+      (change)="simpleUpdatePRField()"
+      tabindex="0"
+    />
+  </mat-form-field>
+
+  <p>
+    Nomination:
+    <mat-icon>{{ pr.nomination ? "check_circle" : "cancel" }}</mat-icon> |
+    Blind: <mat-icon>{{ pr.blind ? "check_circle" : "cancel" }}</mat-icon> |
+    Finished:
+    <mat-slide-toggle
+      id="finished"
+      [(ngModel)]="pr.finished"
+      (change)="simpleUpdatePRField()"
+    >
+      {{ pr.finished }}
+    </mat-slide-toggle>
+  </p>
+
+  <p>
+    <span *ngIf="pr.nomination">
+      <mat-form-field appearance="fill" class="full-width-form-field">
+        <mat-label>Nomination Deadline</mat-label>
+        <input
+          matInput
+          type="datetime-local"
+          [value]="pr.deadlineNomination | date : 'yyyy-MM-ddTHH:mm'"
+          id="deadlineNomination"
+          (change)="updatePRField('deadlineNomination')"
+          tabindex="0"
+        />
+      </mat-form-field>
+    </span>
+
+    <mat-form-field appearance="fill" class="full-width-form-field">
+      <mat-label>Deadline</mat-label>
+      <input
+        matInput
+        type="datetime-local"
+        [value]="pr.deadline | date : 'yyyy-MM-ddTHH:mm'"
+        id="deadline"
+        (change)="updatePRField('deadline')"
+        tabindex="0"
+      />
+    </mat-form-field>
+  </p>
+
+  <p>
+    Creator:
+    <span *ngFor="let user of userList">
+      <span *ngIf="pr.creator === user.discordId">
+        <b>{{ user.name }}</b>
+      </span>
+    </span>
+  </p>
+
+  <!-- Uncomment and use this section if you want to use mat-select for creator selection -->
+  <!--
+  <mat-form-field appearance="fill" class="full-width-form-field">
+    <mat-label>Creator</mat-label>
+    <mat-select [(ngModel)]="pr.creator" id="creator" (selectionChange)="updatePRField('creator')">
+      <mat-option *ngFor="let user of userList" [value]="user">
+        {{ user.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  -->
+</div>
+
+<table
+  mat-table
+  [dataSource]="songList"
+  matSort
+  class="full-width-table compact-table"
+>
+  <!-- Order ID Column -->
+  <ng-container matColumnDef="orderId">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Order ID</th>
+    <td mat-cell *matCellDef="let song">{{ song.orderId }}</td>
+  </ng-container>
+
+  <!-- Artist Column -->
+  <ng-container matColumnDef="artist">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Artist</th>
+    <td mat-cell *matCellDef="let song">
+      <mat-form-field appearance="fill" class="compact-form-field">
+        <mat-label>Artist</mat-label>
+        <input
+          id="{{ song.uuid + '-artist' }}"
+          matInput
+          type="text"
+          [value]="song.artist"
+          (change)="updateSongListField(song.uuid, 'artist')"
+          tabindex="0"
+        />
+      </mat-form-field>
+    </td>
+  </ng-container>
+
+  <!-- Title Column -->
+  <ng-container matColumnDef="title">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+    <td mat-cell *matCellDef="let song">
+      <mat-form-field appearance="fill" class="compact-form-field">
+        <mat-label>Title</mat-label>
+        <input
+          id="{{ song.uuid + '-title' }}"
+          matInput
+          type="text"
+          [value]="song.title"
+          (change)="updateSongListField(song.uuid, 'title')"
+          tabindex="0"
+        />
+      </mat-form-field>
+    </td>
+  </ng-container>
+
+  <!-- Anime Column -->
+  <ng-container matColumnDef="anime">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Anime</th>
+    <td mat-cell *matCellDef="let song">
+      <mat-form-field appearance="fill" class="compact-form-field">
+        <mat-label>Anime</mat-label>
+        <input
+          id="{{ song.uuid + '-anime' }}"
+          matInput
+          type="text"
+          [value]="song.anime"
+          (change)="updateSongListField(song.uuid, 'anime')"
+          tabindex="0"
+        />
+      </mat-form-field>
+    </td>
+  </ng-container>
+
+  <!-- Type Column -->
+  <ng-container matColumnDef="type">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
+    <td mat-cell *matCellDef="let song">
+      <mat-form-field appearance="fill" class="compact-form-field">
+        <mat-label>Type</mat-label>
+        <input
+          id="{{ song.uuid + '-type' }}"
+          matInput
+          type="text"
+          [value]="song.type"
+          (change)="updateSongListField(song.uuid, 'type')"
+          tabindex="0"
+        />
+      </mat-form-field>
+    </td>
+  </ng-container>
+
+  <!-- Start Sample Column -->
+  <ng-container matColumnDef="startSample">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Sample</th>
+    <td mat-cell *matCellDef="let song">
+      <mat-form-field appearance="fill" class="compact-form-field">
+        <mat-label>Start Sample</mat-label>
+        <input
+          id="{{ song.uuid + '-startSample' }}"
+          matInput
+          type="number"
+          [value]="song.startSample"
+          (change)="updateSongListField(song.uuid, 'startSample')"
+          tabindex="0"
+        />
+      </mat-form-field>
+    </td>
+  </ng-container>
+
+  <!-- Sample Length Column -->
+  <ng-container matColumnDef="sampleLength">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Sample Length</th>
+    <td mat-cell *matCellDef="let song">
+      <mat-form-field appearance="fill" class="compact-form-field">
+        <mat-label>Sample Length</mat-label>
+        <input
+          id="{{ song.uuid + '-sampleLength' }}"
+          matInput
+          type="number"
+          [value]="song.sampleLength"
+          (change)="updateSongListField(song.uuid, 'sampleLength')"
+          tabindex="0"
+        />
+      </mat-form-field>
+    </td>
+  </ng-container>
+
+  <!-- URL Video Column -->
+  <ng-container matColumnDef="urlVideo">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>URL Video</th>
+    <td mat-cell *matCellDef="let song">
+      <mat-form-field appearance="fill" class="compact-form-field">
+        <mat-label>URL Video</mat-label>
+        <input
+          id="{{ song.uuid + '-urlVideo' }}"
+          matInput
+          type="text"
+          [value]="song.urlVideo"
+          (change)="updateSongListField(song.uuid, 'urlVideo')"
+          tabindex="0"
+        />
+      </mat-form-field>
+    </td>
+  </ng-container>
+
+  <!-- URL Audio Column -->
+  <ng-container matColumnDef="urlAudio">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>URL Audio</th>
+    <td mat-cell *matCellDef="let song">
+      <mat-form-field appearance="fill" class="compact-form-field">
+        <mat-label>URL Audio</mat-label>
+        <input
+          id="{{ song.uuid + '-urlAudio' }}"
+          matInput
+          type="text"
+          [value]="song.urlAudio"
+          (change)="updateSongListField(song.uuid, 'urlAudio')"
+          tabindex="0"
+        />
+      </mat-form-field>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumnsSongList"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumnsSongList"></tr>
+</table>

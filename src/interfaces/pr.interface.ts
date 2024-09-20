@@ -20,12 +20,14 @@ export interface PR {
   creator: string;
   nomination: boolean;
   blind: boolean;
-  deadlineNomination: number;
-  deadline: number;
+  deadlineNomination: string;
+  deadline: string;
   finished: boolean;
   numberSongs: number;
   hashKey: string;
+  mustBe: number;
   songList: Song[];
+  [key: string]: string | number | boolean | Song[];
 }
 
 export interface PRInput {

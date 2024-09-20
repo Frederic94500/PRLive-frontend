@@ -104,7 +104,7 @@ export class SheetComponent implements OnInit, AfterViewInit {
 
   updateRank(uuid: string): void {
     const inputElement = document.getElementById(
-      uuid + 'rank'
+      uuid + '-rank'
     ) as HTMLInputElement;
     this.sheet.sheet[this.pr.songList.findIndex((x) => x.uuid === uuid)].rank =
       Number(inputElement.value);
@@ -113,7 +113,7 @@ export class SheetComponent implements OnInit, AfterViewInit {
 
   updateScore(uuid: string): void {
     const inputElement = document.getElementById(
-      uuid + 'score'
+      uuid + '-score'
     ) as HTMLInputElement;
     this.sheet.sheet[this.pr.songList.findIndex((x) => x.uuid === uuid)].score =
       Number(inputElement.value);

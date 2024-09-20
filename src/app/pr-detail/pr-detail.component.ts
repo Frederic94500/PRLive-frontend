@@ -1,8 +1,8 @@
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
-import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
@@ -11,19 +11,43 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { PRDetailModel } from '@models/pr.model';
 import { SongModel } from '@models/song.model';
 import { UserModel } from '@models/user.model';
-import { UserOutput } from '@/src/interfaces/user.interface';
+import { UserOutput } from '@interfaces/user.interface';
 import { UserService } from '@services/user.service';
 
 @Component({
   selector: 'app-pr-detail',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatSortModule, MatButtonModule, MatIcon, MatTabsModule],
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatSortModule,
+    MatButtonModule,
+    MatIcon,
+    MatTabsModule,
+    RouterLink,
+  ],
   templateUrl: './pr-detail.component.html',
-  styleUrl: './pr-detail.component.css'
+  styleUrl: './pr-detail.component.css',
 })
 export class PRDetailComponent implements OnInit, AfterViewInit {
-  displayedColumnsSongList: string[] = ['orderId', 'uuid', 'artist', 'title', 'type', 'startSample', 'sampleLength', 'urlVideo', 'urlAudio'];
-  displayedColumnsUsers: string[] = ['username', 'name', 'hasFinished', 'staller', 'doubleRank'];
+  displayedColumnsSongList: string[] = [
+    'orderId',
+    'uuid',
+    'artist',
+    'title',
+    'type',
+    'startSample',
+    'sampleLength',
+    'urlVideo',
+    'urlAudio',
+  ];
+  displayedColumnsUsers: string[] = [
+    'username',
+    'name',
+    'hasFinished',
+    'staller',
+    'doubleRank',
+  ];
   pr!: PRDetailModel;
   songList!: MatTableDataSource<SongModel>;
   user!: UserModel;
@@ -33,7 +57,7 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private route: ActivatedRoute, private snackBar: MatSnackBar) {}
-  
+
   async ngOnInit(): Promise<void> {
     this.pr = this.route.snapshot.data['pr'].data;
     this.songList = new MatTableDataSource(this.pr.songList);
@@ -43,7 +67,7 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
 
     this.user = (await new UserService().getUser(this.pr.creator)).data;
   }
-  
+
   ngAfterViewInit(): void {
     this.songList.sort = this.sort;
     this.userList.sort = this.sort;
@@ -66,19 +90,23 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
   }
 
   countFinished(): number {
-    return this.pr.voters.filter(voter => voter.hasFinished).length;
+    return this.pr.voters.filter((voter) => voter.hasFinished).length;
   }
 
   generateStallerMsg(): void {
-    const stallers = this.pr.voters.filter(voter => !voter.hasFinished);
+    const stallers = this.pr.voters.filter((voter) => !voter.hasFinished);
     if (stallers.length === 0) {
       this.snackBar.open('No stallers found', 'Close', { duration: 2000 });
       return;
-    };
+    }
 
-    const msg = stallers.map(staller => `<@${staller.discordId}>`).join(' ');
-    navigator.clipboard.writeText(`${msg}\n\nDeadline: <t:${new Date(this.pr.deadline).getTime() / 1000}:F>`);
-    this.snackBar.open('Stallers copied to clipboard', 'Close', { duration: 2000 });
+    const msg = stallers.map((staller) => `<@${staller.discordId}>`).join(' ');
+    navigator.clipboard.writeText(
+      `${msg}\n\nDeadline: <t:${new Date(this.pr.deadline).getTime() / 1000}:F>`
+    );
+    this.snackBar.open('Stallers copied to clipboard', 'Close', {
+      duration: 2000,
+    });
   }
 
   downloadJson(): void {

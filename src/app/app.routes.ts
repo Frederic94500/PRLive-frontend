@@ -1,29 +1,34 @@
-import { ActivatedRoute, Routes } from '@angular/router';
-
 import { AuthGuard } from '@guards/auth.guard';
 import { AuthService } from '@services/auth.service';
+import { ErrorComponent } from '@components/error/error.component';
 import { IndexComponent } from '@components/index/index.component';
-import { LoginRedirectComponent } from './login-redirect/login-redirect.component';
+import { LoginRedirectComponent } from '@components/login-redirect/login-redirect.component';
 import { PRComponent } from '@components/pr/pr.component';
 import { PRCreateComponent } from '@components/pr-create/pr-create.component';
 import { PRDetailComponent } from '@components/pr-detail/pr-detail.component';
-import { PROutputResolver } from '../resolvers/pr-output.resolver';
-import { PRResolver } from '../resolvers/pr.resolver';
+import { PREditComponent } from '@components/pr-edit/pr-edit.component';
+import { PROutputResolver } from '@resolvers/pr-output.resolver';
+import { PRResolver } from '@resolvers/pr.resolver';
 import { PRService } from '@services/pr.service';
 import { ProfileComponent } from '@components/profile/profile.component';
+import { Routes } from '@angular/router';
 import { SheetComponent } from '@components/sheet/sheet.component';
 import { SheetResolver } from '@resolvers/sheet.resolver';
+import { UserResolver } from '@resolvers/user.resolver';
 import { inject } from '@angular/core';
 
 export const routes: Routes = [
   {
     path: '',
-    resolve: { data: () => inject(AuthService).getWhoAmI() },
     component: IndexComponent,
   },
   {
     path: 'login',
     component: LoginRedirectComponent,
+  },
+  {
+    path: 'error',
+    component: ErrorComponent,
   },
   {
     path: 'pr',
@@ -36,7 +41,7 @@ export const routes: Routes = [
   {
     path: 'pr/create',
     component: PRCreateComponent,
-    canActivate: [() => inject(AuthGuard).canActivate()],
+    canActivate: [() => inject(AuthGuard).protectedRoute()],
     resolve: {
       auth: () => inject(AuthService).getWhoAmI(),
     },
@@ -44,9 +49,20 @@ export const routes: Routes = [
   {
     path: 'pr/:id',
     component: PRDetailComponent,
+    canActivate: [() => inject(AuthGuard).protectedRoute()],
     resolve: {
       auth: () => inject(AuthService).getWhoAmI(),
-      pr: PROutputResolver
+      pr: PROutputResolver,
+    },
+  },
+  {
+    path: 'pr/:id/edit',
+    component: PREditComponent,
+    canActivate: [() => inject(AuthGuard).protectedRoute()],
+    resolve: {
+      auth: () => inject(AuthService).getWhoAmI(),
+      pr: PRResolver,
+      users: UserResolver,
     },
   },
   {
@@ -66,5 +82,10 @@ export const routes: Routes = [
     resolve: {
       auth: () => inject(AuthService).getWhoAmI(),
     },
+  },
+  {
+    path: '**',
+    redirectTo: '/error',
+    pathMatch: 'full',
   },
 ];

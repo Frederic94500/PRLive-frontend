@@ -2,23 +2,22 @@ import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@a
 
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PRService } from '@services/pr.service';
+import { UserService } from '@services/user.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PRResolver implements Resolve<any> {
-  constructor(private prService: PRService, private router: Router) {}
+export class UserResolver implements Resolve<any> {
+  constructor(private userService: UserService, private router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
-    const id = route.paramMap.get('id');
     return new Observable((observer) => {
-      this.prService.getPR(id!).then((pr) => {
-        if (pr.code !== 200) {
-          observer.error(pr);
-          this.router.navigate(['/error'], { queryParams: { code: pr.code, message: pr.data } });
+      this.userService.getUsers().then((users) => {
+        if (users.code !== 200) {
+          observer.error(users);
+          this.router.navigate(['/error'], { queryParams: { code: users.code, message: users.data } });
         }
-        observer.next(pr);
+        observer.next(users);
         observer.complete();
       }).catch((error) => {
         observer.error(error);
@@ -26,3 +25,4 @@ export class PRResolver implements Resolve<any> {
     });
   }
 }
+

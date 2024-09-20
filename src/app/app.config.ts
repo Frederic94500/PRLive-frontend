@@ -5,6 +5,8 @@ import { AuthGuard } from '@guards/auth.guard';
 import { AuthService } from '@services/auth.service';
 import { PRService } from '@services/pr.service';
 import { SheetService } from '@services/sheet.service';
+import { UserResolver } from '../resolvers/user.resolver';
+import { UserService } from '../services/user.service';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
@@ -20,6 +22,8 @@ export const appConfig: ApplicationConfig = {
     AuthService,
     PRService,
     SheetService,
-    AuthGuard
+    AuthGuard,
+    UserResolver,
+    UserService
   ],
 };

@@ -76,6 +76,7 @@ export interface Song {
   sampleLength: number;
   urlVideo: string;
   urlAudio: string;
+  [key: string]: string | number | undefined;
 }
 
 export interface SongOutput {

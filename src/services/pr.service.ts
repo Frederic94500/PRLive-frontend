@@ -41,7 +41,7 @@ export class PRService {
   public async updatePR(pr: PR): Promise<Response> {
     return await this.apiService.postPutData(
       pr,
-      `${this.apiEndpoint}/update`,
+      `${this.apiEndpoint}/update/${pr._id}`,
       'PUT'
     );
   }

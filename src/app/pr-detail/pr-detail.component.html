@@ -21,6 +21,7 @@
   <p>
     <button mat-raised-button (click)="generateStallerMsg()"><mat-icon>content_copy</mat-icon>Copy Staller Message</button>
     <button mat-raised-button (click)="downloadJson()"><mat-icon>file_download</mat-icon>Download output JSON</button>
+    <button mat-raised-button [routerLink]="['/pr', pr._id, 'edit']"><mat-icon>edit</mat-icon>Edit</button>
   </p>
 </div>
 

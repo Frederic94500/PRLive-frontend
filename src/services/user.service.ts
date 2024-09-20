@@ -11,6 +11,10 @@ export class UserService {
   public async getUser(id: string): Promise<Response> {
     return await this.apiService.getNoCred(`${this.apiEndpoint}/get/${id}`);
   }
+
+  public async getUsers(): Promise<Response> {
+    return await this.apiService.getWithCred(`${this.apiEndpoint}/gets`);
+  }
   
   public async editUser(userData: User): Promise<Response> {
     return await this.apiService.postPutData(userData, `${this.apiEndpoint}/edit`, "PUT");

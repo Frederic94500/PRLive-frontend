@@ -62,7 +62,7 @@
       <mat-form-field appearance="fill">
         <mat-label>Rank</mat-label>
         <input
-          id="{{ song.uuid + 'rank' }}"
+          id="{{ song.uuid + '-rank' }}"
           matInput
           type="number"
           [value]="song.rank"
@@ -80,7 +80,7 @@
       <mat-form-field appearance="fill">
         <mat-label>Score</mat-label>
         <input
-          id="{{ song.uuid + 'score' }}"
+          id="{{ song.uuid + '-score' }}"
           matInput
           type="number"
           [value]="song.score"

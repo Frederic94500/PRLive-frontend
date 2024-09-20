@@ -44,7 +44,6 @@ export class ToolbarComponent implements OnInit {
       .catch((err) => {
         this.loginButton = 'Login';
         this.linkLog = environment.apiUrl + '/api/auth/discord/login';
-        console.error(err);
       });
   }
 }

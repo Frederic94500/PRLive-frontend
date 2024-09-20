@@ -89,6 +89,10 @@
           <mat-icon>info</mat-icon>
           <span>Details</span>
         </button>
+        <button mat-menu-item [routerLink]="['/pr/', pr._id, 'edit']">
+          <mat-icon>edit</mat-icon>
+          <span>Edit</span>
+        </button>
         <button mat-menu-item (click)="downloadJson(pr._id)">
           <mat-icon>file_download</mat-icon>
           <span>Download output JSON</span>
