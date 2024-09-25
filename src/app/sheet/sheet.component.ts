@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { MatSlideToggle, MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { SheetModel, SheetSheetModel } from '@models/sheet.model';
@@ -30,6 +31,7 @@ import { UserService } from '@services/user.service';
     MatIconModule,
     MatCardModule,
     FormsModule,
+    MatSlideToggleModule
   ],
   templateUrl: './sheet.component.html',
   styleUrl: './sheet.component.css',
@@ -51,13 +53,16 @@ export class SheetComponent implements OnInit, AfterViewInit {
   sheet!: SheetModel;
   user!: User;
   sheetTable!: MatTableDataSource<SheetSheetModel>;
-  currentAudioSource: string | null = null;
   totalRank: number = 0;
   meanScore: number = 0;
+  currentAudioSource: string | null = null;
+  isPlaylistMode: boolean = false;
+  currentTrackIndex: number = 0;
 
   constructor(private route: ActivatedRoute, private snackBar: MatSnackBar) {}
 
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild('player') audioPlayer!: ElementRef<HTMLAudioElement>;
 
   async ngOnInit(): Promise<void> {
     this.pr = this.route.snapshot.data['pr'].data;
@@ -82,16 +87,13 @@ export class SheetComponent implements OnInit, AfterViewInit {
   }
 
   updateMeanScore(): void {
-    this.meanScore = this.sheet.sheet.reduce(
-      (acc, val) => acc + val.score,
-      0
-    );
+    this.meanScore = this.sheet.sheet.reduce((acc, val) => acc + val.score, 0);
     this.meanScore = this.meanScore / this.sheet.sheet.length;
   }
 
   private async updateSheet(): Promise<void> {
     this.sheet.sheet.sort((a, b) => a.orderId - b.orderId);
-    const response = (await this.sheetService.putSheet(this.pr._id, this.sheet));
+    const response = await this.sheetService.putSheet(this.pr._id, this.sheet);
     if (response.code !== 200) {
       this.snackBar.open(`Error updating sheet: ${response.data}`, 'Close', {
         duration: 2000,
@@ -131,16 +133,43 @@ export class SheetComponent implements OnInit, AfterViewInit {
   playAudio(uuid: string): void {
     this.currentAudioSource =
       this.pr.songList.find((x) => x.uuid === uuid)?.urlAudio ?? null;
+    this.currentTrackIndex = this.pr.songList.findIndex((x) => x.uuid === uuid);
+    
+    if (this.currentAudioSource) {
+      const audioPlayer = this.audioPlayer.nativeElement;
+      audioPlayer.src = this.currentAudioSource;
+      
+      audioPlayer.addEventListener('canplay', () => {
+        audioPlayer.play().catch(error => {
+          console.error('Error playing audio:', error);
+        });
+      }, { once: true });
+    }
   }
 
-  playNextAudio(): void {}
+  playNextTrack(): void {
+    if (this.isPlaylistMode) {
+      this.currentTrackIndex = (this.currentTrackIndex + 1) % this.pr.songList.length;
+      if (this.currentTrackIndex === 0) {
+        const audioPlayer = this.audioPlayer.nativeElement;
+        audioPlayer.pause();
+      } else {
+        this.playAudio(this.pr.songList[this.currentTrackIndex].uuid);
+      }
+    }
+  }
+
+
+  getNowPlaying(url: string): { artist: string; title: string } {
+    return {
+      artist: this.pr.songList.find((x) => x.urlAudio === url)?.artist ?? '',
+      title: this.pr.songList.find((x) => x.urlAudio === url)?.title ?? '',
+    };
+  }
 
 
   computeTotalRank(): void {
-    this.totalRank = this.sheet.sheet.reduce(
-      (acc, val) => acc + val.rank,
-      0
-    );
+    this.totalRank = this.sheet.sheet.reduce((acc, val) => acc + val.rank, 0);
   }
 
   passedDeadline(): string {

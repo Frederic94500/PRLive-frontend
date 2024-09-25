@@ -9,7 +9,15 @@
   </p>
   <p>
     <button mat-raised-button color="primary" (click)="autoFillRank()">Auto Fill Rank</button>
-      <audio controls [src]="currentAudioSource" *ngIf="currentAudioSource" autoplay></audio>
+    <mat-slide-toggle [(ngModel)]="isPlaylistMode">
+      {{ isPlaylistMode ? 'Playlist Mode: ON' : 'Playlist Mode: OFF' }}
+    </mat-slide-toggle>
+  </p>
+  <p *ngIf="currentAudioSource">
+    Now playing: <b>{{ getNowPlaying(currentAudioSource).artist }}</b> - <b>{{ getNowPlaying(currentAudioSource).title }}</b>
+  </p>
+  <p >
+    <audio #player id="player" controls (ended)="playNextTrack()" [src]="currentAudioSource" *ngIf="currentAudioSource" autoplay></audio>
   </p>
 </div>
 
