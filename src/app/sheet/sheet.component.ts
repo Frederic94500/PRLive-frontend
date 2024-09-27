@@ -41,6 +41,7 @@ export class SheetComponent implements OnInit, AfterViewInit {
     'orderId',
     'title',
     'artist',
+    'anime',
     'type',
     'video',
     'audio',

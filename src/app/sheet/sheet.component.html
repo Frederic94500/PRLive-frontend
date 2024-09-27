@@ -42,6 +42,12 @@
     <td mat-cell *matCellDef="let song">{{ getEntry(song.uuid, "artist") }}</td>
   </ng-container>
 
+  <!-- Anime Column -->
+  <ng-container matColumnDef="anime">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Anime</th>
+    <td mat-cell *matCellDef="let song">{{ getEntry(song.uuid, "anime") }}</td>
+  </ng-container>
+
   <ng-container matColumnDef="type">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
     <td mat-cell *matCellDef="let song">{{ getEntry(song.uuid, "type") }}</td>
