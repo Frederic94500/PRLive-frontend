@@ -97,7 +97,7 @@
           <mat-icon>file_download</mat-icon>
           <span>Download output JSON</span>
         </button>
-        <button mat-menu-item (click)="openDeleteDialog(pr._id)">
+        <button mat-menu-item (click)="openDeleteDialog(pr._id)" *ngIf="isAdmin">
           <mat-icon>delete</mat-icon>
           <span>Delete</span>
         </button>

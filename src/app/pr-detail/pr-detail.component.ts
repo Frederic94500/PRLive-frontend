@@ -32,7 +32,6 @@ import { UserService } from '@services/user.service';
 export class PRDetailComponent implements OnInit, AfterViewInit {
   displayedColumnsSongList: string[] = [
     'orderId',
-    'uuid',
     'artist',
     'title',
     'type',
@@ -66,6 +65,10 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
     this.isAdmin = this.route.snapshot.data['auth'].data.role === 'admin';
 
     this.user = (await new UserService().getUser(this.pr.creator)).data;
+
+    if (this.isAdmin) {
+      this.displayedColumnsSongList.unshift('uuid');
+    }
   }
 
   ngAfterViewInit(): void {
