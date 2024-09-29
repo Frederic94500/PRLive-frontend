@@ -34,6 +34,7 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
     'orderId',
     'artist',
     'title',
+    'anime',
     'type',
     'startSample',
     'sampleLength',

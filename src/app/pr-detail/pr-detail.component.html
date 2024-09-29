@@ -52,6 +52,12 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
         <td mat-cell *matCellDef="let song">{{ song.title }}</td>
       </ng-container>
+
+      <!-- Anime Column -->
+      <ng-container matColumnDef="anime">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Anime</th>
+        <td mat-cell *matCellDef="let song">{{ song.anime }}</td>
+      </ng-container>
     
       <!-- Type Column -->
       <ng-container matColumnDef="type">
