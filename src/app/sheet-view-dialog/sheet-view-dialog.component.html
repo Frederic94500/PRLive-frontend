@@ -1,0 +1,57 @@
+<h3 mat-dialog-title>Sheet {{ voter.name }}</h3>
+<mat-dialog-content class="">
+  <div class="centered-content">
+    <p>
+      Total rank: <b class="{{ mustBeChecker() }}">{{ totalRank }}</b> | Mean
+      score: <b>{{ meanScore }}</b>
+    </p>
+  </div>
+  <table mat-table [dataSource]="sheetTable" matSort>
+    <!-- OrderId Column
+    <ng-container matColumnDef="orderId">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Order</th>
+      <td mat-cell *matCellDef="let song">
+        {{ getEntry(song.uuid, "orderId") }}
+      </td>
+    </ng-container> -->
+
+    <!-- Title Column -->
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+      <td mat-cell *matCellDef="let song">
+        {{ getEntry(song.uuid, "title") }}
+      </td>
+    </ng-container>
+
+    <!-- Artist Column -->
+    <ng-container matColumnDef="artist">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Artist</th>
+      <td mat-cell *matCellDef="let song">
+        {{ getEntry(song.uuid, "artist") }}
+      </td>
+    </ng-container>
+
+    <!-- Anime Column -->
+    <ng-container matColumnDef="anime">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Anime</th>
+      <td mat-cell *matCellDef="let song">
+        {{ getEntry(song.uuid, "anime") }}
+      </td>
+    </ng-container>
+
+    <!-- Rank Column -->
+    <ng-container matColumnDef="rank">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Rank</th>
+      <td mat-cell *matCellDef="let song">{{ song.rank }}</td>
+    </ng-container>
+
+    <!-- Score Column -->
+    <ng-container matColumnDef="score">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Score</th>
+      <td mat-cell *matCellDef="let song">{{ song.score }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</mat-dialog-content>

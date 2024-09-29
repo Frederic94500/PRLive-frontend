@@ -1,4 +1,5 @@
 import { SongModel } from '@models/song.model';
+import { UserOutputModel } from './user.model';
 
 export class PRModel {
   _id!: string;
@@ -28,13 +29,5 @@ export class Tie {
 export class PRDetailModel extends PRModel {
   numberVoters!: number;
   tie!: Tie;
-  voters!: {
-    discordId: string;
-    username: string;
-    name: string;
-    image: string;
-    hasFinished: boolean;
-    staller: boolean;
-    doubleRank: boolean;
-  }[];
+  voters!: UserOutputModel[];
 }

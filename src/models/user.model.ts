@@ -5,3 +5,12 @@ export class UserModel {
   image!: string;
   role!: string;
 }
+
+export class UserOutputModel {
+  discordId!: string;
+  username!: string;
+  name!: string;
+  hasFinished!: boolean;
+  staller!: boolean;
+  doubleRank!: boolean;
+}

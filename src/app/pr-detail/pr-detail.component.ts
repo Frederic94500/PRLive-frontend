@@ -2,15 +2,19 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { UserModel, UserOutputModel } from '@models/user.model';
 
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { PRDetailModel } from '@models/pr.model';
+import { SheetService } from '@/src/services/sheet.service';
+import { SheetViewDialogComponent } from '../sheet-view-dialog/sheet-view-dialog.component';
 import { SongModel } from '@models/song.model';
-import { UserModel } from '@models/user.model';
 import { UserOutput } from '@interfaces/user.interface';
 import { UserService } from '@services/user.service';
 
@@ -25,6 +29,7 @@ import { UserService } from '@services/user.service';
     MatIcon,
     MatTabsModule,
     RouterLink,
+    MatMenuModule,
   ],
   templateUrl: './pr-detail.component.html',
   styleUrl: './pr-detail.component.css',
@@ -47,16 +52,21 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
     'hasFinished',
     'staller',
     'doubleRank',
+    'options',
   ];
   pr!: PRDetailModel;
   songList!: MatTableDataSource<SongModel>;
   user!: UserModel;
-  userList!: MatTableDataSource<UserOutput>;
+  userList!: MatTableDataSource<UserOutputModel>;
   isAdmin!: boolean;
 
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private route: ActivatedRoute, private snackBar: MatSnackBar) {}
+  constructor(
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar,
+    public dialog: MatDialog
+  ) {}
 
   async ngOnInit(): Promise<void> {
     this.pr = this.route.snapshot.data['pr'].data;
@@ -122,5 +132,40 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
     a.download = `${this.pr.name}_output_PR.json`;
     a.click();
     window.URL.revokeObjectURL(url);
+  }
+
+  async openSheetViewDialog(prId: string, discordId: string): Promise<void> {
+    const voter = this.pr.voters.find((voter) => voter.discordId === discordId);
+    if (!voter) {
+      this.snackBar.open('User not found', 'Close', { duration: 2000 });
+      return;
+    }
+    const sheet = await new SheetService().getUserSheet(prId, discordId);
+    if (sheet.code !== 200) {
+      this.snackBar.open('Error fetching sheet', 'Close', { duration: 2000 });
+      return;
+    }
+    
+    this.dialog.open(SheetViewDialogComponent, {
+      data: {
+        voter,
+        mustBe: this.pr.mustBe,
+        songList: this.pr.songList,
+        sheet: sheet.data,
+      },
+    });
+  }
+
+  openDeleteUserDialog(prId: string, discordId: string): void {
+    confirm('Are you sure you want to delete this User?') ? this.removeUser(prId, discordId) : null;
+  }
+
+  async removeUser(prId: string, discordId: string): Promise<void> {
+    await new SheetService().deleteSheetUser(prId, discordId);
+
+    this.snackBar.open('User removed', 'Close', { duration: 2000 });
+    this.userList.data = this.userList.data.filter(
+      (user) => user.discordId !== discordId
+    );
   }
 }

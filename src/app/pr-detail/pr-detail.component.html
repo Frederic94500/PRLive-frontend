@@ -124,6 +124,31 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Double Rank</th>
         <td mat-cell *matCellDef="let voter"><mat-icon>{{ voter.doubleRank ? "check_circle" : "cancel" }}</mat-icon></td>
       </ng-container>
+
+      <!-- More Options Column -->
+      <ng-container matColumnDef="options">
+        <th mat-header-cell *matHeaderCellDef>Options</th>
+        <td mat-cell *matCellDef="let voter">
+          <button
+            mat-icon-button
+            [matMenuTriggerFor]="menu"
+            aria-label="Options"
+            (click)="$event.stopPropagation()"
+          >
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="openSheetViewDialog(pr._id, voter.discordId)">
+              <mat-icon>visibility</mat-icon>
+              <span>View Sheet</span>
+            </button>
+            <button mat-menu-item (click)="openDeleteUserDialog(pr._id, voter.discordId)">
+              <mat-icon>logout</mat-icon>
+              <span>Remove</span>
+            </button> 
+          </mat-menu>
+        </td>
+      </ng-container>
     
       <tr mat-header-row *matHeaderRowDef="displayedColumnsUsers"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumnsUsers;" [ngClass]="getRowClass(row)"></tr>
