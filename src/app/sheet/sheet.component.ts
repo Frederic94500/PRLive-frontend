@@ -81,7 +81,7 @@ export class SheetComponent implements OnInit, AfterViewInit {
     this.pr = this.route.snapshot.data['pr'].data;
 
     const response = this.route.snapshot.data['sheet'];
-    if (!this.sheet) {
+    if (response.code !== 200) {
       this.router.navigate(['/error'], {
         queryParams: { code: 403, message: response.data },
       });
