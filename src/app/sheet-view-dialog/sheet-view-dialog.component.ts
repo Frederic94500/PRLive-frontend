@@ -18,15 +18,15 @@ import { CommonModule } from '@angular/common';
 export class SheetViewDialogComponent implements AfterViewInit {
   displayedColumns: string[] = [
     // 'orderId',
-    'title',
     'artist',
+    'title',
     'anime',
     'rank',
     'score',
   ];
-  voter!: UserOutputModel;
-  songList!: SongModel[];
-  sheet!: SheetModel;
+  voter: UserOutputModel;
+  songList: SongModel[];
+  sheet: SheetModel;
   sheetTable: MatTableDataSource<SheetSheetModel>;
   mustBe: number = 0;
   totalRank: number = 0;

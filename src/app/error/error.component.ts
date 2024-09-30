@@ -20,7 +20,7 @@ export class ErrorComponent implements OnInit {
         this.errorMessage = params['message'];
 
         if (this.errorCode == 403) {
-          this.errorMessage = 'Forbidden';
+          this.errorMessage = params['message'] || 'Forbidden';
         } else if (this.errorCode == 404) {
           this.errorMessage = params['message'] || 'Page not found';
         } else if (this.errorCode == 500) {

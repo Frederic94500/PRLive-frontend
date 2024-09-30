@@ -69,7 +69,18 @@
   <!-- Number Songs Column -->
   <ng-container matColumnDef="numberSongs">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Songs</th>
-    <td mat-cell *matCellDef="let pr">{{ pr.numberSongs }}</td>
+    <td mat-cell *matCellDef="let pr">
+      <button 
+        mat-button
+        *ngIf="isLoggedIn"
+        (click)="openSongListDialog($event, pr._id)"
+      >
+        {{ pr.numberSongs }}
+      </button>
+      <span *ngIf="!isLoggedIn">
+        {{ pr.numberSongs }}
+      </span>
+    </td>
   </ng-container>
 
   <!-- More Options Column-->

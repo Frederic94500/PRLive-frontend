@@ -4,6 +4,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
 import { CommonModule } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -11,6 +12,7 @@ import { PRModel } from '@models/pr.model';
 import { PROutput } from '@/src/interfaces/pr.interface';
 import { PRService } from '@/src/services/pr.service';
 import { RouterLink } from '@angular/router';
+import { SongListDialogComponent } from '../song-list-dialog/song-list-dialog.component';
 
 @Component({
   selector: 'app-table',
@@ -37,7 +39,7 @@ export class PRTableComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private snackBar: MatSnackBar) {}
+  constructor(private snackBar: MatSnackBar, public dialog: MatDialog) {}
 
   ngOnInit(): void {}
 
@@ -53,6 +55,19 @@ export class PRTableComponent implements OnInit, AfterViewInit {
       return 'red-value';
     }
     return '';
+  }
+
+  async openSongListDialog(event: Event, prId: string): Promise<void> {
+    event.stopPropagation();
+    
+    const pr = await new PRService().getPR(prId);
+    
+    this.dialog.open(SongListDialogComponent, {
+      data: {
+        pr: pr.data,
+        songList: pr.data.songList,
+      },
+    });
   }
 
   async downloadJson(prId: string): Promise<void> {

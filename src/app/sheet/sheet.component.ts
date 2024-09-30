@@ -1,10 +1,15 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { MatSlideToggle, MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { ActivatedRoute, Router } from '@angular/router';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { SheetModel, SheetSheetModel } from '@models/sheet.model';
 
-import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,6 +17,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import {
+  MatSlideToggleModule,
+} from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PRModel } from '@models/pr.model';
 import { SheetService } from '@services/sheet.service';
@@ -31,7 +39,7 @@ import { UserService } from '@services/user.service';
     MatIconModule,
     MatCardModule,
     FormsModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
   ],
   templateUrl: './sheet.component.html',
   styleUrl: './sheet.component.css',
@@ -60,13 +68,24 @@ export class SheetComponent implements OnInit, AfterViewInit {
   isPlaylistMode: boolean = false;
   currentTrackIndex: number = 0;
 
-  constructor(private route: ActivatedRoute, private snackBar: MatSnackBar) {}
+  constructor(
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar,
+    private router: Router
+  ) {}
 
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('player') audioPlayer!: ElementRef<HTMLAudioElement>;
 
   async ngOnInit(): Promise<void> {
     this.pr = this.route.snapshot.data['pr'].data;
+
+    const response = this.route.snapshot.data['sheet'];
+    if (!this.sheet) {
+      this.router.navigate(['/error'], {
+        queryParams: { code: 403, message: response.data },
+      });
+    }
 
     this.sheet = this.route.snapshot.data['sheet'].data;
     this.sheetTable = new MatTableDataSource(this.sheet.sheet);
@@ -135,22 +154,27 @@ export class SheetComponent implements OnInit, AfterViewInit {
     this.currentAudioSource =
       this.pr.songList.find((x) => x.uuid === uuid)?.urlAudio ?? null;
     this.currentTrackIndex = this.pr.songList.findIndex((x) => x.uuid === uuid);
-    
+
     if (this.currentAudioSource) {
       const audioPlayer = this.audioPlayer.nativeElement;
       audioPlayer.src = this.currentAudioSource;
-      
-      audioPlayer.addEventListener('canplay', () => {
-        audioPlayer.play().catch(error => {
-          console.error('Error playing audio:', error);
-        });
-      }, { once: true });
+
+      audioPlayer.addEventListener(
+        'canplay',
+        () => {
+          audioPlayer.play().catch((error) => {
+            console.error('Error playing audio:', error);
+          });
+        },
+        { once: true }
+      );
     }
   }
 
   playNextTrack(): void {
     if (this.isPlaylistMode) {
-      this.currentTrackIndex = (this.currentTrackIndex + 1) % this.pr.songList.length;
+      this.currentTrackIndex =
+        (this.currentTrackIndex + 1) % this.pr.songList.length;
       if (this.currentTrackIndex === 0) {
         const audioPlayer = this.audioPlayer.nativeElement;
         audioPlayer.pause();
@@ -160,14 +184,12 @@ export class SheetComponent implements OnInit, AfterViewInit {
     }
   }
 
-
   getNowPlaying(url: string): { artist: string; title: string } {
     return {
       artist: this.pr.songList.find((x) => x.urlAudio === url)?.artist ?? '',
       title: this.pr.songList.find((x) => x.urlAudio === url)?.title ?? '',
     };
   }
-
 
   computeTotalRank(): void {
     this.totalRank = this.sheet.sheet.reduce((acc, val) => acc + val.rank, 0);
