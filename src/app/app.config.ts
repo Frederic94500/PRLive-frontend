@@ -7,7 +7,6 @@ import { PRService } from '@services/pr.service';
 import { SheetService } from '@services/sheet.service';
 import { UserResolver } from '../resolvers/user.resolver';
 import { UserService } from '../services/user.service';
-import { authResolver } from '../resolvers/auth.resolver';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
