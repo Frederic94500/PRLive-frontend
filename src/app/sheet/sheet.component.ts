@@ -10,8 +10,7 @@ import {
 } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { SheetModel, SheetSheetModel } from '@models/sheet.model';
-import { getServerURL, modifyPRURL } from '@/src/toolbox/toolbox';
+import { SheetModel, SheetSheetFrontModel } from '@models/sheet.model';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -26,6 +25,7 @@ import { PRModel } from '@models/pr.model';
 import { SheetService } from '@services/sheet.service';
 import { User } from '@interfaces/user.interface';
 import { UserService } from '@services/user.service';
+import { modifyPRURL } from '@/src/toolbox/toolbox';
 
 @Component({
   selector: 'app-sheet',
@@ -62,7 +62,7 @@ export class SheetComponent implements OnInit, AfterViewInit {
   pr!: PRModel;
   sheet!: SheetModel;
   userCreator!: User;
-  sheetTable!: MatTableDataSource<SheetSheetModel>;
+  sheetTable!: MatTableDataSource<SheetSheetFrontModel>;
   totalRank: number = 0;
   meanScore: number = 0;
   currentAudioSource: string | null = null;
@@ -94,7 +94,19 @@ export class SheetComponent implements OnInit, AfterViewInit {
     }
 
     this.sheet = this.route.snapshot.data['sheet'].data;
-    this.sheetTable = new MatTableDataSource(this.sheet.sheet);
+    const sheetTableData: SheetSheetFrontModel[] = this.sheet.sheet.map((songTable) => {
+      const song = this.pr.songList.find((song) => song.uuid === songTable.uuid);
+      return {
+        ...songTable,
+        artist: song?.artist ?? '',
+        title: song?.title ?? '',
+        anime: song?.anime ?? '',
+        type: song?.type ?? '',
+        urlVideo: song?.urlVideo ?? '',
+        urlAudio: song?.urlAudio ?? '',
+      };
+    });
+    this.sheetTable = new MatTableDataSource(sheetTableData);
 
     this.userCreator = (await new UserService().getUser(this.pr.creator)).data;
 
@@ -106,15 +118,16 @@ export class SheetComponent implements OnInit, AfterViewInit {
     this.sheetTable.sort = this.sort;
   }
 
-  getEntry(uuid: string, field: string): string {
-    const song = this.pr.songList.find((x) => x.uuid === uuid);
-    if (!song) return '';
-    return (song as any)[field];
-  }
-
-  updateMeanScore(): void {
+  private updateMeanScore(): void {
     this.meanScore = this.sheet.sheet.reduce((acc, val) => acc + val.score, 0);
     this.meanScore = this.meanScore / this.sheet.sheet.length;
+  }
+
+  private updateTable(): void {
+    this.sheetTable.data.forEach((x) => {
+      x.rank = this.sheet.sheet.find((y) => y.uuid === x.uuid)?.rank ?? 0;
+      x.score = this.sheet.sheet.find((y) => y.uuid === x.uuid)?.score ?? 0;
+    });
   }
 
   private async updateSheet(): Promise<void> {
@@ -128,6 +141,7 @@ export class SheetComponent implements OnInit, AfterViewInit {
     }
     this.computeTotalRank();
     this.updateMeanScore();
+    this.updateTable();
   }
 
   updateRank(uuid: string): void {
@@ -146,7 +160,6 @@ export class SheetComponent implements OnInit, AfterViewInit {
     this.sheet.sheet[this.pr.songList.findIndex((x) => x.uuid === uuid)].score =
       Number(inputElement.value);
     this.updateSheet();
-    this.updateMeanScore();
   }
 
   openInNewTab(uuid: string): void {

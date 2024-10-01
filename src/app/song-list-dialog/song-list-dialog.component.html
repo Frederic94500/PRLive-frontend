@@ -16,7 +16,7 @@
       ></audio>
     </p>
   </div>
-  <table mat-table [dataSource]="songList" matSort>
+  <table mat-table [dataSource]="songTable" matSort>
     <!-- OrderId Column -->
     <ng-container matColumnDef="orderId">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Order</th>
@@ -49,7 +49,7 @@
 
     <!-- Open Video Column -->
     <ng-container matColumnDef="urlVideo">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Open Video</th>
+      <th mat-header-cell *matHeaderCellDef>Open Video</th>
       <td mat-cell *matCellDef="let song">
         <button mat-button (click)="openInNewTab(song.uuid)">
           <mat-icon>play_arrow</mat-icon>
@@ -59,7 +59,7 @@
 
     <!-- Open Audio Column -->
     <ng-container matColumnDef="urlAudio">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Open Audio</th>
+      <th mat-header-cell *matHeaderCellDef>Open Audio</th>
       <td mat-cell *matCellDef="let song">
         <button mat-button (click)="playAudio(song.uuid)">
           <mat-icon>music_note</mat-icon>

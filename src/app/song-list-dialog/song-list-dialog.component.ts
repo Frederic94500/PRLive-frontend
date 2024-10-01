@@ -40,10 +40,10 @@ export class SongListDialogComponent implements AfterViewInit {
   ) {
     this.user = data.user;
     this.pr = data.pr;
-    this.songList = data.songList;
-    this.songTable = new MatTableDataSource<SongModel>(this.songList);
-
     this.pr = modifyPRURL(this.pr, this.user);
+
+    this.songList = data.songList;
+    this.songTable = new MatTableDataSource(this.songList);
   }
 
   ngAfterViewInit(): void {

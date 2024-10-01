@@ -10,3 +10,17 @@ export class SheetSheetModel {
   rank!: number;
   score!: number;
 }
+
+export class SheetSheetFrontModel {
+  uuid!: string;
+  orderId!: number;
+  nominatedId?: string;
+  artist!: string;
+  title!: string;
+  anime?: string;
+  type!: string;
+  urlVideo!: string;
+  urlAudio!: string;
+  rank!: number;
+  score!: number;
+}
