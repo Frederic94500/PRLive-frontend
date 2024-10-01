@@ -4,7 +4,9 @@ import {
   Component,
   ElementRef,
   OnInit,
+  QueryList,
   ViewChild,
+  ViewChildren,
 } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -66,6 +68,9 @@ export class SheetComponent implements OnInit, AfterViewInit {
   currentAudioSource: string | null = null;
   isPlaylistMode: boolean = false;
   currentTrackIndex: number = 0;
+
+  @ViewChildren('rankInput') rankInputs!: QueryList<ElementRef>;
+  @ViewChildren('scoreInput') scoreInputs!: QueryList<ElementRef>;
 
   constructor(
     private route: ActivatedRoute,
@@ -204,6 +209,20 @@ export class SheetComponent implements OnInit, AfterViewInit {
   mustBeChecker(): string {
     if (this.pr.mustBe === this.totalRank) return 'green-value';
     return 'red-value';
+  }
+
+  focusNextInput(index: number, type: string): void {
+    if (type === 'rank') {
+      const nextRankInput = this.rankInputs.toArray()[index + 1];
+      if (nextRankInput) {
+        nextRankInput.nativeElement.focus();
+      }
+    } else if (type === 'score') {
+      const nextScoreInput = this.scoreInputs.toArray()[index + 1];
+      if (nextScoreInput) {
+        nextScoreInput.nativeElement.focus();
+      }
+    }
   }
 
   autoFillRank(): void {
