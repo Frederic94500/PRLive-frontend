@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Server } from '@/src/enums/server.enum';
 import { UserModel } from '@models/user.model';
 import { UserService } from '@/src/services/user.service';
 
@@ -41,14 +42,16 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.user = this.route.snapshot.data['auth'].data;
     this.profileForm = this.formBuilder.group({
-      name: [this.user.name],
-      image: [this.user.image],
+      name: [this.user.name, Validators.required],
+      image: [this.user.image, Validators.required],
+      server: [this.user.server, Validators.required],
     });
   }
 
   onSaveButtonClick() {
     this.user.name = this.profileForm.value.name;
     this.user.image = this.profileForm.value.image;
+    this.user.server = this.profileForm.value.server || Server.EU;
     this.userService.editUser(this.user).then((response) => {
       if (response.code === 200) {
         this.snackBar.open('Profile updated', 'Close', {

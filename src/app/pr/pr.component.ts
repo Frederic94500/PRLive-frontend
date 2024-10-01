@@ -9,6 +9,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTabsModule } from '@angular/material/tabs';
 import { PRModel } from '@models/pr.model';
 import { PRTableComponent } from '@components/pr-table/pr-table.component';
+import { User } from '@/src/interfaces/user.interface';
 
 @Component({
   selector: 'app-pr',
@@ -27,6 +28,7 @@ import { PRTableComponent } from '@components/pr-table/pr-table.component';
   styleUrl: './pr.component.css',
 })
 export class PRComponent implements OnInit {
+  user!: User;
   displayedColumns: string[] = [
     'name',
     'creator',
@@ -54,6 +56,7 @@ export class PRComponent implements OnInit {
     );
 
     const user = this.route.snapshot.data['auth'];
+    this.user = user.data;
     if (user.code === 200) {
       this.isLoggedIn = true;
       if (user.data.role === 'admin') {

@@ -11,6 +11,7 @@
 <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
   <mat-tab label="Ongoing">
     <app-table
+      [user]="user"
       [dataSource]="prsUnfinished"
       [displayedColumns]="displayedColumns"
       [isAdmin]="isAdmin"
@@ -20,6 +21,7 @@
   </mat-tab>
   <mat-tab label="Finished">
     <app-table
+      [user]="user"
       [dataSource]="prsFinished"
       [displayedColumns]="displayedColumns"
       [isAdmin]="isAdmin"

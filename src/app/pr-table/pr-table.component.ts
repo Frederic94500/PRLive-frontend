@@ -13,6 +13,7 @@ import { PROutput } from '@/src/interfaces/pr.interface';
 import { PRService } from '@/src/services/pr.service';
 import { RouterLink } from '@angular/router';
 import { SongListDialogComponent } from '../song-list-dialog/song-list-dialog.component';
+import { User } from '@/src/interfaces/user.interface';
 
 @Component({
   selector: 'app-table',
@@ -31,6 +32,7 @@ import { SongListDialogComponent } from '../song-list-dialog/song-list-dialog.co
   ],
 })
 export class PRTableComponent implements OnInit, AfterViewInit {
+  @Input() user!: User;
   @Input() dataSource!: MatTableDataSource<PRModel>;
   @Input() displayedColumns!: string[];
   @Input() isAdmin: boolean = false;
@@ -64,6 +66,7 @@ export class PRTableComponent implements OnInit, AfterViewInit {
     
     this.dialog.open(SongListDialogComponent, {
       data: {
+        user: this.user,
         pr: pr.data,
         songList: pr.data.songList,
       },

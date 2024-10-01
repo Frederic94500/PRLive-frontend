@@ -1,7 +1,7 @@
 <div class="centered-content">
   <h3>Sheet {{ pr.name }}</h3>
   <p>
-    Creator : <b>{{ user.name }}</b> | 
+    Creator : <b>{{ userCreator.name }}</b> | 
     Deadline: <b class="{{ passedDeadline() }}">{{ pr.deadline | date : "dd/MM/yyyy HH:mm" }}</b> | 
     Must be: <b>{{ pr.mustBe }}</b> | 
     Total rank: <b class="{{ mustBeChecker() }}">{{ totalRank }}</b> | 

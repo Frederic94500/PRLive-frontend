@@ -7,6 +7,8 @@ import { CommonModule } from '@angular/common';
 import { PRModel } from '@/src/models/pr.model';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { User } from '@/src/interfaces/user.interface';
+import { modifyPRURL } from '@/src/toolbox/toolbox';
 
 @Component({
   selector: 'app-song-list-dialog',
@@ -16,6 +18,7 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './song-list-dialog.component.css',
 })
 export class SongListDialogComponent implements AfterViewInit {
+  user!: User;
   displayedColumns: string[] = [
     'artist',
     'title',
@@ -35,9 +38,12 @@ export class SongListDialogComponent implements AfterViewInit {
     public dialogSongList: MatDialogRef<SongListDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
+    this.user = data.user;
     this.pr = data.pr;
     this.songList = data.songList;
     this.songTable = new MatTableDataSource<SongModel>(this.songList);
+
+    this.pr = modifyPRURL(this.pr, this.user);
   }
 
   ngAfterViewInit(): void {

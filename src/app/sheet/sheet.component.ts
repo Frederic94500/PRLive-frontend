@@ -9,6 +9,7 @@ import {
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { SheetModel, SheetSheetModel } from '@models/sheet.model';
+import { getServerURL, modifyPRURL } from '@/src/toolbox/toolbox';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -17,9 +18,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import {
-  MatSlideToggleModule,
-} from '@angular/material/slide-toggle';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PRModel } from '@models/pr.model';
 import { SheetService } from '@services/sheet.service';
@@ -60,7 +59,7 @@ export class SheetComponent implements OnInit, AfterViewInit {
   sheetService: SheetService = new SheetService();
   pr!: PRModel;
   sheet!: SheetModel;
-  user!: User;
+  userCreator!: User;
   sheetTable!: MatTableDataSource<SheetSheetModel>;
   totalRank: number = 0;
   meanScore: number = 0;
@@ -78,7 +77,9 @@ export class SheetComponent implements OnInit, AfterViewInit {
   @ViewChild('player') audioPlayer!: ElementRef<HTMLAudioElement>;
 
   async ngOnInit(): Promise<void> {
+    const user: User = this.route.snapshot.data['auth'].data;
     this.pr = this.route.snapshot.data['pr'].data;
+    this.pr = modifyPRURL(this.pr, user);
 
     const response = this.route.snapshot.data['sheet'];
     if (response.code !== 200) {
@@ -90,7 +91,7 @@ export class SheetComponent implements OnInit, AfterViewInit {
     this.sheet = this.route.snapshot.data['sheet'].data;
     this.sheetTable = new MatTableDataSource(this.sheet.sheet);
 
-    this.user = (await new UserService().getUser(this.pr.creator)).data;
+    this.userCreator = (await new UserService().getUser(this.pr.creator)).data;
 
     this.computeTotalRank();
     this.updateMeanScore();
