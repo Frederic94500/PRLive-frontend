@@ -9,6 +9,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTabsModule } from '@angular/material/tabs';
 import { PRModel } from '@models/pr.model';
 import { PRTableComponent } from '@components/pr-table/pr-table.component';
+import { SheetSimple } from '@/src/interfaces/sheet.interface';
 import { User } from '@/src/interfaces/user.interface';
 
 @Component({
@@ -40,6 +41,7 @@ export class PRComponent implements OnInit {
   ];
   prsUnfinished!: MatTableDataSource<PRModel>;
   prsFinished!: MatTableDataSource<PRModel>;
+  sheets!: SheetSimple[];
   isLoggedIn: boolean = false;
   isCreator: boolean = false;
   isAdmin: boolean = false;
@@ -59,6 +61,7 @@ export class PRComponent implements OnInit {
     this.user = user.data;
     if (user.code === 200) {
       this.isLoggedIn = true;
+      this.sheets = this.route.snapshot.data['sheets'].data;
       if (user.data.role === 'admin') {
         this.displayedColumns.push('_id');
         this.isAdmin = true;

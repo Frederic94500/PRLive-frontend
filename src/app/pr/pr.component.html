@@ -12,6 +12,7 @@
   <mat-tab label="Ongoing">
     <app-table
       [user]="user"
+      [sheetSimple]="sheets"
       [dataSource]="prsUnfinished"
       [displayedColumns]="displayedColumns"
       [isAdmin]="isAdmin"
@@ -22,6 +23,7 @@
   <mat-tab label="Finished">
     <app-table
       [user]="user"
+      [sheetSimple]="sheets"
       [dataSource]="prsFinished"
       [displayedColumns]="displayedColumns"
       [isAdmin]="isAdmin"

@@ -120,7 +120,8 @@
   <tr
     mat-row
     *matRowDef="let row; columns: displayedColumns"
-    [ngClass]="{ clickable: isLoggedIn }"
+    [ngClass]="{ 'clickable': isLoggedIn }"
+    [class]="getRowClass(row)"
     [routerLink]="isLoggedIn ? ['/sheet', row._id] : null"
   ></tr>
 </table>

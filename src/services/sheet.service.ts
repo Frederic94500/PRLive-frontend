@@ -8,6 +8,10 @@ export class SheetService {
   private apiService = new ApiService();
   private apiEndpoint = 'sheet';
 
+  public async getSheetSimple(): Promise<Response> {
+    return await this.apiService.getWithCred(`${this.apiEndpoint}/gets`);
+  }
+
   public async getSheet(prId: string): Promise<Response> {
     return await this.apiService.getWithCred(`${this.apiEndpoint}/${prId}`);
   }
