@@ -19,6 +19,7 @@ import { PRService } from '@services/pr.service';
 import { PrEditAddSongDialogComponent } from '../pr-edit-add-song-dialog/pr-edit-add-song-dialog.component';
 import { Song } from '@interfaces/song.interface';
 import { User } from '@interfaces/user.interface';
+import { getServerURL } from '@/src/toolbox/toolbox';
 
 @Component({
   selector: 'app-pr-edit',
@@ -55,6 +56,8 @@ export class PREditComponent implements OnInit {
   songList!: MatTableDataSource<Song>;
   userList!: User[];
   prService = new PRService();
+  currentAudioSource: string | null = null;
+  user!: User;
 
   constructor(private route: ActivatedRoute, private snackBar: MatSnackBar, private dialog: MatDialog) {}
 
@@ -62,6 +65,7 @@ export class PREditComponent implements OnInit {
     this.pr = this.route.snapshot.data['pr'].data;
     this.songList = new MatTableDataSource(this.pr.songList);
     this.userList = this.route.snapshot.data['users'].data;
+    this.user = this.route.snapshot.data['auth'].data;
   }
 
   formatDate(date: string): string {
@@ -136,5 +140,27 @@ export class PREditComponent implements OnInit {
     
     this.pr = (await this.prService.getPR(this.pr._id)).data;
     this.songList = new MatTableDataSource(this.pr.songList);
+  }
+
+  openInNewTab(uuid: string): void {
+    window.open(
+      `${getServerURL(this.user)}/${this.pr.songList.find((x) => x.uuid === uuid)?.urlVideo}`,
+      '_blank'
+    );
+  }
+
+  getNowPlaying(url: string): { artist: string; title: string } {
+    return {
+      artist: this.pr.songList.find((x) => url.includes(x.urlAudio))?.artist ?? '',
+      title: this.pr.songList.find((x) => url.includes(x.urlAudio))?.title ?? '',
+    };
+  }
+
+  playAudio(url: string): void {
+    if (this.currentAudioSource === url) {
+      this.currentAudioSource = null;
+      return;
+    }
+    this.currentAudioSource = `${getServerURL(this.user)}/${url}`;
   }
 }

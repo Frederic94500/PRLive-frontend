@@ -1,33 +1,18 @@
 <div class="centered-content">
   <h3>Edit {{ pr.name }}</h3>
 
-  <mat-form-field appearance="fill" class="full-width-form-field">
-    <mat-label>Title</mat-label>
-    <input
-      matInput
-      type="text"
-      [(ngModel)]="pr.name"
-      id="name"
-      (change)="simpleUpdatePRField()"
-      tabindex="0"
-    />
-  </mat-form-field>
-
   <p>
-    Nomination:
-    <mat-icon>{{ pr.nomination ? "check_circle" : "cancel" }}</mat-icon> |
-    Blind: <mat-icon>{{ pr.blind ? "check_circle" : "cancel" }}</mat-icon> |
-    Finished:
-    <mat-slide-toggle
-      id="finished"
-      [(ngModel)]="pr.finished"
-      (change)="simpleUpdatePRField()"
-    >
-      {{ pr.finished }}
-    </mat-slide-toggle>
-  </p>
-
-  <p>
+    <mat-form-field appearance="fill" class="full-width-form-field">
+      <mat-label>Title</mat-label>
+      <input
+        matInput
+        type="text"
+        [(ngModel)]="pr.name"
+        id="name"
+        (change)="simpleUpdatePRField()"
+        tabindex="0"
+      />
+    </mat-form-field>
     <span *ngIf="pr.nomination">
       <mat-form-field appearance="fill" class="full-width-form-field">
         <mat-label>Nomination Deadline</mat-label>
@@ -53,7 +38,37 @@
         tabindex="0"
       />
     </mat-form-field>
-    <button mat-raised-button color="primary" (click)="addSong()">Add song</button>
+    <button mat-raised-button color="primary" (click)="addSong()">
+      Add song
+    </button>
+  </p>
+
+  <p>
+    Nomination:
+    <mat-icon>{{ pr.nomination ? "check_circle" : "cancel" }}</mat-icon> |
+    Blind: <mat-icon>{{ pr.blind ? "check_circle" : "cancel" }}</mat-icon> |
+    Finished:
+    <mat-slide-toggle
+      id="finished"
+      [(ngModel)]="pr.finished"
+      (change)="simpleUpdatePRField()"
+    >
+      {{ pr.finished }}
+    </mat-slide-toggle>
+  </p>
+
+  <p *ngIf="currentAudioSource">
+    Now playing: <b>{{ getNowPlaying(currentAudioSource).artist }}</b> - <b>{{ getNowPlaying(currentAudioSource).title }}</b>
+  </p>
+  <p>
+    <audio
+      #player
+      id="player"
+      controls
+      [src]="currentAudioSource"
+      *ngIf="currentAudioSource"
+      autoplay
+    ></audio>
   </p>
 
   <p>
@@ -202,6 +217,13 @@
   <ng-container matColumnDef="urlVideo">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>URL Video</th>
     <td mat-cell *matCellDef="let song">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="openInNewTab(song.uuid)"
+      > 
+        <mat-icon>play_arrow</mat-icon>
+      </button>
       <mat-form-field appearance="fill" class="compact-form-field">
         <mat-label>URL Video</mat-label>
         <input
@@ -220,6 +242,13 @@
   <ng-container matColumnDef="urlAudio">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>URL Audio</th>
     <td mat-cell *matCellDef="let song">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="playAudio(song.urlAudio)"
+      >
+        <mat-icon>music_note</mat-icon>
+      </button>
       <mat-form-field appearance="fill" class="compact-form-field">
         <mat-label>URL Audio</mat-label>
         <input

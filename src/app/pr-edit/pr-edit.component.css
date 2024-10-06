@@ -11,6 +11,7 @@
 
 .compact-form-field {
   margin: 0; /* Supprimer les marges des champs de formulaire */
+  width: 200px;
 }
 
 .mat-form-field-wrapper {
