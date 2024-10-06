@@ -49,6 +49,7 @@ export class PREditComponent implements OnInit {
     'sampleLength',
     'urlVideo',
     'urlAudio',
+    'delete',
   ];
   pr!: PR;
   songList!: MatTableDataSource<Song>;
@@ -119,5 +120,18 @@ export class PREditComponent implements OnInit {
       this.pr = (await this.prService.getPR(this.pr._id)).data;
       this.songList = new MatTableDataSource(this.pr.songList);
     });
+  }
+
+  async deleteSong(songUuid: string): Promise<void> {
+    const response = await this.prService.deleteSongPR(this.pr._id, songUuid);
+    if (response.code != 200) {
+      this.snackBar.open('Failed to delete song', 'Close', {
+        duration: 2000,
+      });
+      return;
+    }
+    
+    this.pr = (await this.prService.getPR(this.pr._id)).data;
+    this.songList = new MatTableDataSource(this.pr.songList);
   }
 }
