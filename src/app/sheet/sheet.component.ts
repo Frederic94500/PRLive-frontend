@@ -48,8 +48,8 @@ import { modifyPRURL } from '@/src/toolbox/toolbox';
 export class SheetComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = [
     'orderId',
-    'title',
     'artist',
+    'title',
     'anime',
     'type',
     'video',

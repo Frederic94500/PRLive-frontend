@@ -130,6 +130,9 @@ export class PREditComponent implements OnInit {
       });
       return;
     }
+    this.snackBar.open('Song deleted', 'Close', {
+      duration: 2000,
+    });
     
     this.pr = (await this.prService.getPR(this.pr._id)).data;
     this.songList = new MatTableDataSource(this.pr.songList);

@@ -70,7 +70,7 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
 
   async ngOnInit(): Promise<void> {
     this.pr = this.route.snapshot.data['pr'].data;
-    this.songList = new MatTableDataSource(this.pr.songList);
+    this.songList = new MatTableDataSource(this.pr.songList.sort((a, b) => a.orderId - b.orderId));
     this.userList = new MatTableDataSource(this.pr.voters);
 
     this.isAdmin = this.route.snapshot.data['auth'].data.role === 'admin';
