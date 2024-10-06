@@ -4,7 +4,9 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -14,6 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { PR } from '@interfaces/pr.interface';
 import { PRService } from '@services/pr.service';
+import { PrEditAddSongDialogComponent } from '../pr-edit-add-song-dialog/pr-edit-add-song-dialog.component';
 import { Song } from '@interfaces/song.interface';
 import { User } from '@interfaces/user.interface';
 
@@ -31,6 +34,7 @@ import { User } from '@interfaces/user.interface';
     MatSelectModule,
     MatIconModule,
     MatSlideToggleModule,
+    MatButtonModule
   ],
   templateUrl: './pr-edit.component.html',
   styleUrl: './pr-edit.component.css',
@@ -51,7 +55,7 @@ export class PREditComponent implements OnInit {
   userList!: User[];
   prService = new PRService();
 
-  constructor(private route: ActivatedRoute, private snackBar: MatSnackBar) {}
+  constructor(private route: ActivatedRoute, private snackBar: MatSnackBar, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.pr = this.route.snapshot.data['pr'].data;
@@ -102,5 +106,18 @@ export class PREditComponent implements OnInit {
       field
     ] = value;
     this.updatePR();
+  }
+
+  async addSong(): Promise<void> {
+    this.dialog.open(PrEditAddSongDialogComponent, {
+      data: {
+        prId: this.pr._id,
+      },
+    });
+
+    this.dialog.afterAllClosed.subscribe(async () => {
+      this.pr = (await this.prService.getPR(this.pr._id)).data;
+      this.songList = new MatTableDataSource(this.pr.songList);
+    });
   }
 }
