@@ -171,7 +171,7 @@ export class PREditComponent implements OnInit {
       return;
     }
     const isURL = URL.includes('https://');
-    window.open(isURL ? URL : `${getServerURL(this.user)}/${URL}`, '_blank');
+    window.open(isURL ? URL : `${getServerURL(this.user)}${URL}`, '_blank');
   }
 
   getNowPlaying(url: string): { artist: string; title: string } {
