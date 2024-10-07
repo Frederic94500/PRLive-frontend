@@ -126,6 +126,20 @@ export class PREditComponent implements OnInit {
     });
   }
 
+  confirmDeleteSong(songUuid: string): void {
+    const song = this.pr.songList.find((x) => x.uuid === songUuid);
+    if (!song) {
+      this.snackBar.open('Song not found', 'Close', {
+        duration: 2000,
+      });
+      return;
+    }
+    const confirmDelete = confirm(`Are you sure you want to delete ${song.artist} - ${song.title}?`);
+    if (confirmDelete) {
+      this.deleteSong(songUuid);
+    }
+  }
+
   async deleteSong(songUuid: string): Promise<void> {
     const response = await this.prService.deleteSongPR(this.pr._id, songUuid);
     if (response.code != 200) {

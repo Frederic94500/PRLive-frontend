@@ -267,7 +267,7 @@
   <ng-container matColumnDef="delete">
     <th mat-header-cell *matHeaderCellDef>Delete</th>
     <td mat-cell *matCellDef="let song">
-      <button mat-raised-button color="warn" (click)="deleteSong(song.uuid)">
+      <button mat-raised-button color="warn" (click)="confirmDeleteSong(song.uuid)">
         <mat-icon>delete</mat-icon>
       </button>
     </td>
