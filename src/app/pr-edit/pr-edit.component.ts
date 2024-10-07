@@ -35,7 +35,7 @@ import { getServerURL } from '@/src/toolbox/toolbox';
     MatSelectModule,
     MatIconModule,
     MatSlideToggleModule,
-    MatButtonModule
+    MatButtonModule,
   ],
   templateUrl: './pr-edit.component.html',
   styleUrl: './pr-edit.component.css',
@@ -59,7 +59,11 @@ export class PREditComponent implements OnInit {
   currentAudioSource: string | null = null;
   user!: User;
 
-  constructor(private route: ActivatedRoute, private snackBar: MatSnackBar, private dialog: MatDialog) {}
+  constructor(
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.pr = this.route.snapshot.data['pr'].data;
@@ -134,7 +138,9 @@ export class PREditComponent implements OnInit {
       });
       return;
     }
-    const confirmDelete = confirm(`Are you sure you want to delete ${song.artist} - ${song.title}?`);
+    const confirmDelete = confirm(
+      `Are you sure you want to delete ${song.artist} - ${song.title}?`
+    );
     if (confirmDelete) {
       this.deleteSong(songUuid);
     }
@@ -151,22 +157,29 @@ export class PREditComponent implements OnInit {
     this.snackBar.open('Song deleted', 'Close', {
       duration: 2000,
     });
-    
+
     this.pr = (await this.prService.getPR(this.pr._id)).data;
     this.songList = new MatTableDataSource(this.pr.songList);
   }
 
   openInNewTab(uuid: string): void {
-    window.open(
-      `${getServerURL(this.user)}/${this.pr.songList.find((x) => x.uuid === uuid)?.urlVideo}`,
-      '_blank'
-    );
+    const URL = this.pr.songList.find((x) => x.uuid === uuid)?.urlVideo;
+    if (!URL) {
+      this.snackBar.open('URL not found', 'Close', {
+        duration: 2000,
+      });
+      return;
+    }
+    const isURL = URL.includes('https://');
+    window.open(isURL ? URL : `${getServerURL(this.user)}/${URL}`, '_blank');
   }
 
   getNowPlaying(url: string): { artist: string; title: string } {
     return {
-      artist: this.pr.songList.find((x) => url.includes(x.urlAudio))?.artist ?? '',
-      title: this.pr.songList.find((x) => url.includes(x.urlAudio))?.title ?? '',
+      artist:
+        this.pr.songList.find((x) => url.includes(x.urlAudio))?.artist ?? '',
+      title:
+        this.pr.songList.find((x) => url.includes(x.urlAudio))?.title ?? '',
     };
   }
 
@@ -175,6 +188,8 @@ export class PREditComponent implements OnInit {
       this.currentAudioSource = null;
       return;
     }
-    this.currentAudioSource = `${getServerURL(this.user)}/${url}`;
+    this.currentAudioSource = url.includes('https://')
+      ? url
+      : `${getServerURL(this.user)}${url}`;
   }
 }
