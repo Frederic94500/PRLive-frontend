@@ -16,12 +16,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PRModel } from '@models/pr.model';
+import { SheetProfileDialogComponent } from '../sheet-profile-dialog/sheet-profile-dialog.component';
 import { SheetService } from '@services/sheet.service';
 import { User } from '@interfaces/user.interface';
 import { UserService } from '@services/user.service';
@@ -75,7 +77,8 @@ export class SheetComponent implements OnInit, AfterViewInit {
   constructor(
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {}
 
   @ViewChild(MatSort) sort!: MatSort;
@@ -243,5 +246,16 @@ export class SheetComponent implements OnInit, AfterViewInit {
     sortedSheet.forEach((x, i) => (x.rank = i + 1));
     this.sheet.sheet = sortedSheet;
     this.updateSheet();
+  }
+
+  openSheetProfileDialog(): void {
+    this.dialog.open(SheetProfileDialogComponent, {
+      data: { prId: this.pr._id, sheet: this.sheet },
+    });
+
+    this.dialog.afterAllClosed.subscribe(async () => {
+      this.sheet = (await this.sheetService.getSheet(this.pr._id)).data;
+      this.updateSheet();
+    });
   }
 }

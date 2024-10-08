@@ -1,6 +1,8 @@
 export class SheetModel {
   prId!: string;
   voterId!: string;
+  name!: string;
+  image!: string;
   sheet!: SheetSheetModel[];
 }
 

@@ -6,6 +6,8 @@ export interface SheetSimple {
 export interface Sheet {
   prId: string;
   voterId: string;
+  name: string;
+  image: string;
   sheet: {
     uuid: string;
     orderId: number;

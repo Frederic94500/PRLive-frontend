@@ -15,6 +15,10 @@ export class UserService {
   public async getUsers(): Promise<Response> {
     return await this.apiService.getWithCred(`${this.apiEndpoint}/gets`);
   }
+
+  public async imageUpload(file: File): Promise<Response> {
+    return await this.apiService.postImage(`${this.apiEndpoint}/imageupload`, file);
+  }
   
   public async editUser(userData: User): Promise<Response> {
     return await this.apiService.postPutData(userData, `${this.apiEndpoint}/edit`, "PUT");

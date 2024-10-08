@@ -35,6 +35,17 @@ export class ApiService {
     return response.json();
   }
 
+  public async postImage(endpoint: string, file: File): Promise<Response> {
+    const formData = new FormData();
+    formData.append('image', file);
+    const response = await fetch(`${this.apiUrl}/${this.apiEndpoint}/${endpoint}`, {
+      method: 'POST',
+      credentials: 'include',
+      body: formData,
+    });
+    return response.json();
+  }
+
   public async deleteData(endpoint: string): Promise<Response> {
     const response = await fetch(`${this.apiUrl}/${this.apiEndpoint}/${endpoint}`, {
       method: 'DELETE',

@@ -1,0 +1,28 @@
+<h3 mat-dialog-title>Profile for this PR</h3>
+<mat-dialog-content>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput [(ngModel)]="sheet.name" (change)="updateSheet()" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Image URL</mat-label>
+      <input matInput [(ngModel)]="sheet.image" (change)="updateSheet()" />
+    </mat-form-field>
+    <br />
+    <label>Image from computer: </label>
+    <input
+      mat-raised-button
+      type="file"
+      (change)="onFileSelected($event)"
+      accept="image/png, image/jpeg, image/gif, image/webp"
+    />
+  </p>
+
+  <br />
+  Actual name: <b>{{ sheet.name }}</b>
+  <br />
+  Actual image:
+  <br />
+  <img src="{{ sheet.image }}" class="centered-image"/>
+</mat-dialog-content>

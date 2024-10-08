@@ -2,17 +2,19 @@
   <h3>Hello <b class="rgb-animated">{{ user.name }}</b>!</h3>
   <p><img src="{{ user.image }}"/></p>
 
+  <h5>Default profile for PR</h5>
+
   <form [formGroup]="profileForm" class="centered-content form">
     <mat-form-field class="input-full-width">
       <mat-label>Name</mat-label>
       <input matInput formControlName="name" />
     </mat-form-field>
-    <p></p>
+    <br />
     <mat-form-field class="input-full-width">
       <mat-label>Image URL</mat-label>
       <input matInput formControlName="image" />
     </mat-form-field>
-    <p></p>
+    <br />
     <mat-form-field class="input-full-width">
       <mat-label>Server</mat-label>
       <mat-select formControlName="server">
