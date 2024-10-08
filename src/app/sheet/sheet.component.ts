@@ -22,6 +22,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { PRModel } from '@models/pr.model';
 import { SheetProfileDialogComponent } from '../sheet-profile-dialog/sheet-profile-dialog.component';
 import { SheetService } from '@services/sheet.service';
@@ -43,6 +44,7 @@ import { modifyPRURL } from '@/src/toolbox/toolbox';
     MatCardModule,
     FormsModule,
     MatSlideToggleModule,
+    MatTooltipModule
   ],
   templateUrl: './sheet.component.html',
   styleUrl: './sheet.component.css',

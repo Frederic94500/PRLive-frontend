@@ -26,9 +26,9 @@
 <table mat-table [dataSource]="sheetTable" matSort class="mat-elevation-z8">
   <!-- OrderId Column -->
   <ng-container matColumnDef="orderId">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Order</th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="Order was added by 1" matTooltipPosition="above">Order</th>
     <td mat-cell *matCellDef="let song">
-      {{ song.orderId }}
+      {{ song.orderId + 1}}
     </td>
   </ng-container>
 
