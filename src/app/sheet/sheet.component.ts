@@ -258,4 +258,28 @@ export class SheetComponent implements OnInit, AfterViewInit {
       this.updateSheet();
     });
   }
+
+  confirmSheetQuit(): void {
+    const confirmQuit = confirm('Are you sure you want to quit this PR?');
+    if (confirmQuit) {
+      this.quitSheet();
+    }
+  }
+
+  async quitSheet(): Promise<void> {
+    const response = await this.sheetService.deleteSheet(this.pr._id);
+    if (response.code !== 200) {
+      this.snackBar.open('Failed to quit PR', 'Close', {
+        duration: 2000,
+      });
+      return;
+    }
+    this.snackBar.open('PR quit', 'Close', {
+      duration: 2000,
+    });
+    setTimeout(() => {
+      this.router.navigate(['/pr']);
+    }, 1000);
+    this.router.navigate(['/pr']);
+  }
 }

@@ -33,6 +33,10 @@ export class SheetService {
     );
   }
 
+  public async deleteSheet(prId: string): Promise<Response> {
+    return await this.apiService.deleteData(`${this.apiEndpoint}/delete/${prId}`);
+  }
+
   public async deleteSheetUser(
     prId: string,
     userId: string
