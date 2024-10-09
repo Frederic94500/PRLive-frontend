@@ -89,7 +89,7 @@ export class SheetComponent implements OnInit, AfterViewInit {
   async ngOnInit(): Promise<void> {
     const user: User = this.route.snapshot.data['auth'].data;
     this.pr = this.route.snapshot.data['pr'].data;
-    this.pr = modifyPRURL(this.pr, user);
+    this.pr = modifyPRURL(this.pr, user) as PRModel;
 
     const response = this.route.snapshot.data['sheet'];
     if (response.code !== 200) {

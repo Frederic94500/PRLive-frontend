@@ -17,6 +17,7 @@ import { SheetViewDialogComponent } from '../sheet-view-dialog/sheet-view-dialog
 import { SongModel } from '@models/song.model';
 import { UserOutput } from '@interfaces/user.interface';
 import { UserService } from '@services/user.service';
+import { modifyPRURL } from '@/src/toolbox/toolbox';
 
 @Component({
   selector: 'app-pr-detail',
@@ -124,7 +125,8 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
   }
 
   downloadJson(): void {
-    const json = JSON.stringify(this.pr, null, 2);
+    const pr = modifyPRURL({...this.pr}, this.user);
+    const json = JSON.stringify(pr, null, 2);
     const blob = new Blob([json], { type: 'application/json' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');

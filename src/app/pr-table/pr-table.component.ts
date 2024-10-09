@@ -21,6 +21,7 @@ import { RouterLink } from '@angular/router';
 import { SheetSimple } from '@/src/interfaces/sheet.interface';
 import { SongListDialogComponent } from '../song-list-dialog/song-list-dialog.component';
 import { User } from '@/src/interfaces/user.interface';
+import { modifyPRURL } from '@/src/toolbox/toolbox';
 
 @Component({
   selector: 'app-table',
@@ -83,7 +84,8 @@ export class PRTableComponent implements OnInit, AfterViewInit {
 
   async downloadJson(prId: string): Promise<void> {
     const prOutput: PROutput = (await new PRService().outputPR(prId)).data;
-    const json = JSON.stringify(prOutput, null, 2);
+    const pr = modifyPRURL(prOutput, this.user);
+    const json = JSON.stringify(pr, null, 2);
     const blob = new Blob([json], { type: 'application/json' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');

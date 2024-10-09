@@ -40,7 +40,7 @@ export class SongListDialogComponent implements AfterViewInit {
   ) {
     this.user = data.user;
     this.pr = data.pr;
-    this.pr = modifyPRURL(this.pr, this.user);
+    this.pr = modifyPRURL(this.pr, this.user) as PRModel;
 
     this.songList = data.songList;
     this.songTable = new MatTableDataSource(this.songList);
