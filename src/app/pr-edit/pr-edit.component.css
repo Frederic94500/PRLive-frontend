@@ -36,3 +36,12 @@ input[type="number"] {
   -moz-appearance: textfield;
   appearance: textfield;
 }
+
+.red-mini-fab {
+  background-color: darkred;
+  color: white;
+}
+
+.red-mini-fab:hover {
+  background-color: red;
+}

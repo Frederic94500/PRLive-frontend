@@ -1,6 +1,7 @@
 <div class="centered-content">
   <b><h1 class="rgb-animated">Party Ranking</h1></b>
   <h3>Welcome to Party Ranking!</h3>
-  <p>To fill your sheet, please connect with Discord.</p>
-  <p>Then modify your <a [routerLink]="['/profile']">Profile</a> as you want.</p>
+  <h4 *ngIf="isLogged">Hello <span class="rgb-animated"><b>{{user.name}}</b></span>!</h4>
+  <p *ngIf="!isLogged">To fill your sheet, please connect with Discord.</p>
+  <p *ngIf="isLogged">You can modify your default <a [routerLink]="['/profile']">Profile</a> as you want.</p>
 </div>

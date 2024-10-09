@@ -218,8 +218,7 @@
     <th mat-header-cell *matHeaderCellDef mat-sort-header>URL Video</th>
     <td mat-cell *matCellDef="let song">
       <button
-        mat-raised-button
-        color="primary"
+        mat-icon-button
         (click)="openInNewTab(song.uuid)"
       > 
         <mat-icon>play_arrow</mat-icon>
@@ -243,8 +242,7 @@
     <th mat-header-cell *matHeaderCellDef mat-sort-header>URL Audio</th>
     <td mat-cell *matCellDef="let song">
       <button
-        mat-raised-button
-        color="primary"
+        mat-icon-button
         (click)="playAudio(song.urlAudio)"
       >
         <mat-icon>music_note</mat-icon>
@@ -267,7 +265,7 @@
   <ng-container matColumnDef="delete">
     <th mat-header-cell *matHeaderCellDef>Delete</th>
     <td mat-cell *matCellDef="let song">
-      <button mat-raised-button color="warn" (click)="confirmDeleteSong(song.uuid)">
+      <button mat-mini-fab class="red-mini-fab" (click)="confirmDeleteSong(song.uuid)">
         <mat-icon>delete</mat-icon>
       </button>
     </td>

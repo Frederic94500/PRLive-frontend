@@ -22,6 +22,9 @@ export const routes: Routes = [
   {
     path: '',
     component: IndexComponent,
+    resolve: {
+      auth: () => inject(AuthService).getWhoAmI(),
+    },
   },
   {
     path: 'login',

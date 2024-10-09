@@ -19,3 +19,16 @@
 .unfinished {
   background-color: orangered;
 }
+
+.custom-fab {
+  background-color: darkslategray;
+  color: white;
+}
+
+.custom-fab:hover {
+  background-color: slategray;
+}
+
+.warn-button {
+  color: #f44336;
+}
