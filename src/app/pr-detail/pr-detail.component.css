@@ -6,19 +6,19 @@
 }
 
 .green-value {
-  color: green;
+  color: darkgreen;
 }
 
 .red-value {
-  color: red;
+  color: darkred;
 }
 
 .finished {
-  background-color: green;
+  background-color: darkgreen;
 }
 
 .staller {
-  background-color: red;
+  background-color: darkred;
 }
 
 .double-rank {

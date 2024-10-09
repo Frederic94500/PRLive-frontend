@@ -6,11 +6,11 @@
 }
 
 .green-value {
-  color: green;
+  color: darkgreen;
 }
 
 .red-value {
-  color: red;
+  color: darkred;
 }
 
 input[type="number"]::-webkit-outer-spin-button,

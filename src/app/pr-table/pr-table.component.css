@@ -3,21 +3,21 @@
 }
 
 .green-value {
-  color: green;
-  text-shadow: 1px 1px 2px black;
+  color: darkgreen;
+  text-shadow: 1px 1px 1px #000;
 }
 
 .red-value {
-  color: red;
-  text-shadow: 1px 1px 2px black;
+  color: darkred;
+  text-shadow: 1px 1px 1px #000;
 }
 
 .finished {
-  background-color: green;
+  background-color: darkgreen;
 }
 
 .unfinished {
-  background-color: orangered;
+  background-color: darkred;
 }
 
 .custom-fab {
