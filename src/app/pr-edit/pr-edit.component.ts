@@ -162,16 +162,16 @@ export class PREditComponent implements OnInit {
     this.songList = new MatTableDataSource(this.pr.songList);
   }
 
-  openInNewTab(uuid: string): void {
+  videoLink(uuid: string): string {
     const URL = this.pr.songList.find((x) => x.uuid === uuid)?.urlVideo;
     if (!URL) {
       this.snackBar.open('URL not found', 'Close', {
         duration: 2000,
       });
-      return;
+      return '';
     }
     const isURL = URL.includes('https://');
-    window.open(isURL ? URL : `${getServerURL(this.user)}${URL}`, '_blank');
+    return isURL ? URL : `${getServerURL(this.user)}${URL}`;
   }
 
   getNowPlaying(url: string): { artist: string; title: string } {

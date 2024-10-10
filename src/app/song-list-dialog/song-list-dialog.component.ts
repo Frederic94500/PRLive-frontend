@@ -50,11 +50,8 @@ export class SongListDialogComponent implements AfterViewInit {
     this.songTable.sort = this.sort;
   }
 
-  openInNewTab(uuid: string): void {
-    window.open(
-      this.pr.songList.find((x) => x.uuid === uuid)?.urlVideo,
-      '_blank'
-    );
+  videoLink(uuid: string): string {
+    return this.pr.songList.find((x) => x.uuid === uuid)?.urlVideo ?? '';
   }
 
   playAudio(uuid: string): void {

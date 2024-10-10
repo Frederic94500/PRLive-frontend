@@ -167,13 +167,10 @@ export class SheetComponent implements OnInit, AfterViewInit {
     this.updateSheet();
   }
 
-  openInNewTab(uuid: string): void {
-    window.open(
-      this.pr.songList.find((x) => x.uuid === uuid)?.urlVideo,
-      '_blank'
-    );
+  videoLink(uuid: string): string {
+    return this.pr.songList.find((x) => x.uuid === uuid)?.urlVideo ?? '';
   }
-
+  
   playAudio(uuid: string): void {
     this.currentAudioSource =
       this.pr.songList.find((x) => x.uuid === uuid)?.urlAudio ?? null;
