@@ -1,30 +1,37 @@
 <div class="centered-content">
-  <h3>Hello <b class="rgb-animated">{{ user.name }}</b>!</h3>
-  <p><img src="{{ user.image }}"/></p>
-
   <h5>Default profile for PR</h5>
 
-  <form [formGroup]="profileForm" class="centered-content form">
+  <div class="form">
     <mat-form-field class="input-full-width">
       <mat-label>Name</mat-label>
-      <input matInput formControlName="name" />
+      <input matInput [(ngModel)]="user.name" (change)="onChange()"/>
     </mat-form-field>
     <br />
     <mat-form-field class="input-full-width">
       <mat-label>Image URL</mat-label>
-      <input matInput formControlName="image" />
+      <input matInput [(ngModel)]="user.image" (change)="onChange()"/>
+      <label>Image from computer: </label>
+      <input
+        mat-raised-button
+        type="file"
+        (change)="onFileSelected($event)"
+        accept="image/png, image/jpeg, image/gif, image/webp"
+      />
     </mat-form-field>
     <br />
     <mat-form-field class="input-full-width">
       <mat-label>Server</mat-label>
-      <mat-select formControlName="server">
+      <mat-select [(ngModel)]="user.server" (selectionChange)="onChange()">
         <mat-option value="EU">EU (eudist)</mat-option>
         <mat-option value="NA1">NA1 (nawdist)</mat-option>
         <mat-option value="NA2">NA2 (naedist)</mat-option>
       </mat-select>
     </mat-form-field>
-    <button mat-raised-button color="primary" (click)="onSaveButtonClick()">
-      Save
-    </button>
-  </form>
+  </div>
+
+  <h3>
+    Hello <b class="rgb-animated">{{ user.name }}</b
+    >!
+  </h3>
+  <p><img src="{{ user.image }}" /></p>
 </div>

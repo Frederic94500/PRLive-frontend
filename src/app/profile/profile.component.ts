@@ -24,6 +24,7 @@ import { UserService } from '@/src/services/user.service';
     ReactiveFormsModule,
     MatButtonModule,
     CommonModule,
+    
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
@@ -31,27 +32,68 @@ import { UserService } from '@/src/services/user.service';
 export class ProfileComponent implements OnInit {
   userService = new UserService();
   user!: UserModel;
-  profileForm!: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder,
     private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
     this.user = this.route.snapshot.data['auth'].data;
-    this.profileForm = this.formBuilder.group({
-      name: [this.user.name, Validators.required],
-      image: [this.user.image, Validators.required],
-      server: [this.user.server, Validators.required],
-    });
   }
 
-  onSaveButtonClick() {
-    this.user.name = this.profileForm.value.name;
-    this.user.image = this.profileForm.value.image;
-    this.user.server = this.profileForm.value.server || Server.EU;
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = async (e: any) => {
+          const response = await this.userService.imageUpload(file);
+          if (response.code !== 200) {
+            this.snackBar.open(
+              `Error uploading image: ${response.data}`,
+              'Close',
+              {
+                duration: 2000,
+              }
+            );
+            return;
+          }
+          this.user.image = response.data;
+          input.value = '';
+          this.onChange();
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+  }
+
+  isValidImageUrl(url: string): boolean {
+    const pattern = /\.(png|jpe?g|gif|webp)$/i;
+    return pattern.test(url);
+  }
+
+  onChange() {
+    if (!this.user.name) {
+      this.snackBar.open('Cannot save without a name', 'Close', {
+        duration: 2000,
+      });
+      return;
+    }
+    if (!this.user.image) {
+      this.snackBar.open('Cannot save without an image', 'Close', {
+        duration: 2000,
+      });
+      return;
+    }
+    if (!this.isValidImageUrl(this.user.image)) {
+      this.snackBar.open('Invalid image URL', 'Close', {
+        duration: 2000,
+      });
+      return;
+    }
+    this.user.server = this.user.server || Server.EU;
     this.userService.editUser(this.user).then((response) => {
       if (response.code === 200) {
         this.snackBar.open('Profile updated', 'Close', {
