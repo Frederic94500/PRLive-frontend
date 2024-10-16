@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
 import { ActivatedRoute } from '@angular/router';
@@ -13,7 +14,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatSortModule } from '@angular/material/sort';
 import { PR } from '@interfaces/pr.interface';
 import { PRService } from '@services/pr.service';
 import { PrEditAddSongDialogComponent } from '../pr-edit-add-song-dialog/pr-edit-add-song-dialog.component';
@@ -40,7 +40,7 @@ import { getServerURL } from '@/src/toolbox/toolbox';
   templateUrl: './pr-edit.component.html',
   styleUrl: './pr-edit.component.css',
 })
-export class PREditComponent implements OnInit {
+export class PREditComponent implements OnInit, AfterViewInit {
   displayedColumnsSongList: string[] = [
     'artist',
     'title',
@@ -59,17 +59,23 @@ export class PREditComponent implements OnInit {
   currentAudioSource: string | null = null;
   user!: User;
 
+  @ViewChild(MatSort) sort!: MatSort;
+
   constructor(
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
     private dialog: MatDialog
   ) {}
-
+  
   ngOnInit(): void {
     this.pr = this.route.snapshot.data['pr'].data;
     this.songList = new MatTableDataSource(this.pr.songList);
     this.userList = this.route.snapshot.data['users'].data;
     this.user = this.route.snapshot.data['auth'].data;
+  }
+
+  ngAfterViewInit(): void {
+    this.songList.sort = this.sort;
   }
 
   formatDate(date: string): string {

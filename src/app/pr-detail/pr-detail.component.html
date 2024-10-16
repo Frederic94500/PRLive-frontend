@@ -1,28 +1,41 @@
 <div class="centered-content">
   <h3>PR {{ pr.name }}</h3>
   <p>
-    Creator : <b>{{ user.name }}</b> | 
+    Creator : <b>{{ user.name }}</b> |
     <span *ngIf="pr.nomination">
-      Nomination deadline: <b class="{{ passedDeadline() }}">{{ pr.deadline | date : "dd/MM/yyyy HH:mm" }}</b> | 
+      Nomination deadline:
+      <b class="{{ passedDeadline() }}">{{
+        pr.deadline | date : "dd/MM/yyyy HH:mm"
+      }}</b>
+      |
     </span>
-    Deadline: <b class="{{ passedDeadline() }}">{{ pr.deadline | date : "dd/MM/yyyy HH:mm" }}</b>
+    Deadline:
+    <b class="{{ passedDeadline() }}">{{
+      pr.deadline | date : "dd/MM/yyyy HH:mm"
+    }}</b>
   </p>
   <p>
-    Nomination: <mat-icon>{{ pr.nomination ? "check_circle" : "cancel" }}</mat-icon> | 
-    Blind: <mat-icon>{{ pr.blind ? "check_circle" : "cancel" }}</mat-icon> | 
-    Tie: <mat-icon>{{ pr.tie.status ? "check_circle" : "cancel" }}</mat-icon> | 
+    Nomination:
+    <mat-icon>{{ pr.nomination ? "check_circle" : "cancel" }}</mat-icon> |
+    Blind: <mat-icon>{{ pr.blind ? "check_circle" : "cancel" }}</mat-icon> |
+    Tie: <mat-icon>{{ pr.tie.status ? "check_circle" : "cancel" }}</mat-icon> |
     Finished: <mat-icon>{{ pr.finished ? "check_circle" : "cancel" }}</mat-icon>
   </p>
   <p>
-    Must be: <b>{{ pr.mustBe }}</b> | 
-    Number of songs: <b>{{ pr.numberSongs }}</b> | 
-    Number of voters: <b>{{ pr.numberVoters }}</b> |
-    Finished count: <b>{{ countFinished() }}</b>
+    Must be: <b>{{ pr.mustBe }}</b> | Number of songs:
+    <b>{{ pr.numberSongs }}</b> | Number of voters:
+    <b>{{ pr.numberVoters }}</b> | Finished count: <b>{{ countFinished() }}</b>
   </p>
   <p>
-    <button mat-raised-button (click)="generateStallerMsg()"><mat-icon>content_copy</mat-icon>Copy Staller Message</button>
-    <button mat-raised-button (click)="downloadJson()"><mat-icon>file_download</mat-icon>Download output JSON</button>
-    <button mat-raised-button [routerLink]="['/pr', pr._id, 'edit']"><mat-icon>edit</mat-icon>Edit</button>
+    <button mat-raised-button (click)="generateStallerMsg()">
+      <mat-icon>content_copy</mat-icon>Copy Staller Message
+    </button>
+    <button mat-raised-button (click)="downloadJson()">
+      <mat-icon>file_download</mat-icon>Download output JSON
+    </button>
+    <button mat-raised-button [routerLink]="['/pr', pr._id, 'edit']">
+      <mat-icon>edit</mat-icon>Edit
+    </button>
   </p>
 </div>
 
@@ -31,64 +44,76 @@
     <table mat-table [dataSource]="songList" matSort class="full-width-table">
       <!-- Order ID Column -->
       <ng-container matColumnDef="orderId">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Order ID</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Order ID<mat-icon>sort</mat-icon>
+        </th>
         <td mat-cell *matCellDef="let song">{{ song.orderId }}</td>
       </ng-container>
-    
+
       <!-- UUID Column -->
       <ng-container matColumnDef="uuid" *ngIf="isAdmin">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>UUID</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          UUID<mat-icon>sort</mat-icon>
+        </th>
         <td mat-cell *matCellDef="let song">{{ song.uuid }}</td>
       </ng-container>
-    
+
       <!-- Artist Column -->
       <ng-container matColumnDef="artist">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Artist</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Artist<mat-icon>sort</mat-icon>
+        </th>
         <td mat-cell *matCellDef="let song">{{ song.artist }}</td>
       </ng-container>
-    
+
       <!-- Title Column -->
       <ng-container matColumnDef="title">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Title<mat-icon>sort</mat-icon>
+        </th>
         <td mat-cell *matCellDef="let song">{{ song.title }}</td>
       </ng-container>
 
       <!-- Anime Column -->
       <ng-container matColumnDef="anime">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Anime</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Anime<mat-icon>sort</mat-icon>
+        </th>
         <td mat-cell *matCellDef="let song">{{ song.anime }}</td>
       </ng-container>
-    
+
       <!-- Type Column -->
       <ng-container matColumnDef="type">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Type<mat-icon>sort</mat-icon>
+        </th>
         <td mat-cell *matCellDef="let song">{{ song.type }}</td>
       </ng-container>
-    
+
       <!-- Start Sample Column -->
       <ng-container matColumnDef="startSample">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Sample</th>
+        <th mat-header-cell *matHeaderCellDef>Start Sample</th>
         <td mat-cell *matCellDef="let song">{{ song.startSample }}</td>
       </ng-container>
-    
+
       <!-- Sample Length Column -->
       <ng-container matColumnDef="sampleLength">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Sample Length</th>
+        <th mat-header-cell *matHeaderCellDef>Sample Length</th>
         <td mat-cell *matCellDef="let song">{{ song.sampleLength }}</td>
       </ng-container>
-    
+
       <!-- URL Video Column -->
       <ng-container matColumnDef="urlVideo">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>URL Video</th>
+        <th mat-header-cell *matHeaderCellDef>URL Video</th>
         <td mat-cell *matCellDef="let song">{{ song.urlVideo }}</td>
       </ng-container>
-    
+
       <!-- URL Audio Column -->
       <ng-container matColumnDef="urlAudio">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>URL Audio</th>
+        <th mat-header-cell *matHeaderCellDef>URL Audio</th>
         <td mat-cell *matCellDef="let song">{{ song.urlAudio }}</td>
       </ng-container>
-    
+
       <tr mat-header-row *matHeaderRowDef="displayedColumnsSongList"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumnsSongList"></tr>
     </table>
@@ -97,32 +122,52 @@
     <table mat-table [dataSource]="userList" matSort class="full-width-table">
       <!-- Username Column -->
       <ng-container matColumnDef="username">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Username</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Username<mat-icon>sort</mat-icon>
+        </th>
         <td mat-cell *matCellDef="let voter">{{ voter.username }}</td>
       </ng-container>
-    
+
       <!-- Name Column -->
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Name<mat-icon>sort</mat-icon>
+        </th>
         <td mat-cell *matCellDef="let voter">{{ voter.name }}</td>
       </ng-container>
-    
+
       <!-- Has Finished Column -->
       <ng-container matColumnDef="hasFinished">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Has Finished</th>
-        <td mat-cell *matCellDef="let voter"><mat-icon>{{ voter.hasFinished ? "check_circle" : "cancel" }}</mat-icon></td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Has Finished<mat-icon>sort</mat-icon>
+        </th>
+        <td mat-cell *matCellDef="let voter">
+          <mat-icon>{{
+            voter.hasFinished ? "check_circle" : "cancel"
+          }}</mat-icon>
+        </td>
       </ng-container>
-    
+
       <!-- Staller Column -->
       <ng-container matColumnDef="staller">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Staller</th>
-        <td mat-cell *matCellDef="let voter"><mat-icon>{{ voter.staller ? "check_circle" : "cancel" }}</mat-icon></td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Staller<mat-icon>sort</mat-icon>
+        </th>
+        <td mat-cell *matCellDef="let voter">
+          <mat-icon>{{ voter.staller ? "check_circle" : "cancel" }}</mat-icon>
+        </td>
       </ng-container>
-    
+
       <!-- Double Rank Column -->
       <ng-container matColumnDef="doubleRank">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Double Rank</th>
-        <td mat-cell *matCellDef="let voter"><mat-icon>{{ voter.doubleRank ? "check_circle" : "cancel" }}</mat-icon></td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Double Rank<mat-icon>sort</mat-icon>
+        </th>
+        <td mat-cell *matCellDef="let voter">
+          <mat-icon>{{
+            voter.doubleRank ? "check_circle" : "cancel"
+          }}</mat-icon>
+        </td>
       </ng-container>
 
       <!-- More Options Column -->
@@ -138,22 +183,31 @@
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="openSheetViewDialog(pr._id, voter.discordId)">
+            <button
+              mat-menu-item
+              (click)="openSheetViewDialog(pr._id, voter.discordId)"
+            >
               <mat-icon>visibility</mat-icon>
               <span>View Sheet</span>
             </button>
-            <button mat-menu-item class="warn-button" (click)="openDeleteUserDialog(pr._id, voter.discordId)">
+            <button
+              mat-menu-item
+              class="warn-button"
+              (click)="openDeleteUserDialog(pr._id, voter.discordId)"
+            >
               <mat-icon>logout</mat-icon>
               <span>Remove</span>
-            </button> 
+            </button>
           </mat-menu>
         </td>
       </ng-container>
-    
+
       <tr mat-header-row *matHeaderRowDef="displayedColumnsUsers"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumnsUsers;" [ngClass]="getRowClass(row)"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumnsUsers"
+        [ngClass]="getRowClass(row)"
+      ></tr>
     </table>
   </mat-tab>
 </mat-tab-group>
-
-
