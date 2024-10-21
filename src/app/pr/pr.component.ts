@@ -10,6 +10,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { PRModel } from '@models/pr.model';
 import { PRTableComponent } from '@components/pr-table/pr-table.component';
 import { SheetSimple } from '@/src/interfaces/sheet.interface';
+import { SheetStatus } from '@/src/enums/sheetStatus.enum';
 import { User } from '@/src/interfaces/user.interface';
 
 @Component({
@@ -30,7 +31,16 @@ import { User } from '@/src/interfaces/user.interface';
 })
 export class PRComponent implements OnInit {
   user!: User;
-  displayedColumns: string[] = [
+  unfinishedDisplayedColumns: string[] = [
+    'name',
+    'creator',
+    'nomination',
+    'blind',
+    'deadlineNomination',
+    'deadline',
+    'numberSongs',
+  ];
+  finishedDisplayedColumns: string[] = [
     'name',
     'creator',
     'nomination',
@@ -62,14 +72,26 @@ export class PRComponent implements OnInit {
     if (user.code === 200) {
       this.isLoggedIn = true;
       this.sheets = this.route.snapshot.data['sheets'].data;
+      if (!this.isAllJoined(this.prsUnfinished)) {
+        this.unfinishedDisplayedColumns.push('join');
+      }
       if (user.data.role === 'admin') {
-        this.displayedColumns.push('_id');
+        this.unfinishedDisplayedColumns.push('_id');
+        this.finishedDisplayedColumns.push('_id');
         this.isAdmin = true;
       }
       if (user.data.role === 'creator' || user.data.role === 'admin') {
-        this.displayedColumns.push('options');
+        this.unfinishedDisplayedColumns.push('options');
+        this.finishedDisplayedColumns.push('options');
         this.isCreator = true;
       }
     }
   }
+
+  isAllJoined(prsData: MatTableDataSource<PRModel>): boolean {
+    const sheets = this.sheets.filter((sheet: SheetSimple) =>
+      prsData.data.some((pr: PRModel) => pr._id === sheet.prId)
+    );
+    return sheets.filter((sheet: SheetSimple) => sheet.status === SheetStatus.NOTJOINED).length === 0;
+  };
 }

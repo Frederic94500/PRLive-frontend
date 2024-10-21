@@ -19,6 +19,7 @@ import { PRModel } from '@models/pr.model';
 import { PRService } from '@/src/services/pr.service';
 import { RouterLink } from '@angular/router';
 import { SheetSimple } from '@/src/interfaces/sheet.interface';
+import { SheetStatus } from '@/src/enums/sheetStatus.enum';
 import { SongListDialogComponent } from '../song-list-dialog/song-list-dialog.component';
 import { User } from '@/src/interfaces/user.interface';
 import { modifyPRURL } from '@/src/toolbox/toolbox';
@@ -112,16 +113,39 @@ export class PRTableComponent implements OnInit, AfterViewInit {
     window.location.reload();
   }
 
+  isJoined(prId: string): boolean {
+    if (!this.isLoggedIn) {
+      return false;
+    }
+
+    const sheet = this.sheetSimple.find((sheet) => sheet.prId === prId);
+    switch (sheet?.status) {
+      case SheetStatus.FILLED:
+        return true;
+      case SheetStatus.UNFILLED:
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  joinPartyRanking(prId: string): void {
+    window.location.href = `/sheet/${prId}`;
+  }
+
   getRowClass(pr: PRSimple): string {
     if (!this.isLoggedIn) {
       return '';
     }
   
     const sheet = this.sheetSimple.find((sheet) => sheet.prId === pr._id);
-    if (!sheet) {
-      return '';
+    switch (sheet?.status) {
+      case SheetStatus.FILLED:
+        return 'finished';
+      case SheetStatus.UNFILLED:
+        return 'unfinished';
+      default:
+        return '';
     }
-  
-    return sheet.finished ? 'finished' : 'unfinished';
   }
 }
