@@ -4,6 +4,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
 import { CommonModule } from '@angular/common';
 import { MatButton } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIcon } from '@angular/material/icon';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -24,13 +25,15 @@ import { User } from '@/src/interfaces/user.interface';
     MatButton,
     RouterLink,
     PRTableComponent,
-    MatTabsModule
+    MatTabsModule,
+    MatButtonToggleModule,
   ],
   templateUrl: './pr.component.html',
   styleUrl: './pr.component.css',
 })
 export class PRComponent implements OnInit {
   user!: User;
+  prs!: PRModel[];
   unfinishedDisplayedColumns: string[] = [
     'name',
     'creator',
@@ -55,16 +58,28 @@ export class PRComponent implements OnInit {
   isLoggedIn: boolean = false;
   isCreator: boolean = false;
   isAdmin: boolean = false;
+  filter: string = SheetStatus.ALL;
 
   constructor(private route: ActivatedRoute) {}
 
+  isAllJoined(prsData: MatTableDataSource<PRModel>): boolean {
+    const sheets = this.sheets.filter((sheet: SheetSimple) =>
+      prsData.data.some((pr: PRModel) => pr._id === sheet.prId)
+    );
+    return (
+      sheets.filter(
+        (sheet: SheetSimple) => sheet.status === SheetStatus.NOTJOINED
+      ).length === 0
+    );
+  }
+
   ngOnInit(): void {
-    const prs = this.route.snapshot.data['prs'].data;
+    this.prs = this.route.snapshot.data['prs'].data;
     this.prsUnfinished = new MatTableDataSource(
-      prs.filter((pr: PRModel) => !pr.finished)
+      this.prs.filter((pr: PRModel) => !pr.finished)
     );
     this.prsFinished = new MatTableDataSource(
-      prs.filter((pr: PRModel) => pr.finished)
+      this.prs.filter((pr: PRModel) => pr.finished)
     );
 
     const user = this.route.snapshot.data['auth'];
@@ -88,10 +103,53 @@ export class PRComponent implements OnInit {
     }
   }
 
-  isAllJoined(prsData: MatTableDataSource<PRModel>): boolean {
-    const sheets = this.sheets.filter((sheet: SheetSimple) =>
-      prsData.data.some((pr: PRModel) => pr._id === sheet.prId)
+  filterSheet(event: any): void {
+    switch (event.value) {
+      case SheetStatus.ALL:
+        this.filter = SheetStatus.ALL;
+        break;
+      case SheetStatus.NOTJOINED:
+        this.filter = SheetStatus.NOTJOINED;
+        break;
+      case SheetStatus.UNFILLED:
+        this.filter = SheetStatus.UNFILLED;
+        break;
+      case SheetStatus.FILLED:
+        this.filter = SheetStatus.FILLED;
+        break;
+      default:
+        this.filter = SheetStatus.ALL;
+    }
+
+    if (this.filter === SheetStatus.ALL) {
+      this.prsUnfinished = new MatTableDataSource(
+        this.prs.filter((pr: PRModel) => !pr.finished)
+      );
+      this.prsFinished = new MatTableDataSource(
+        this.prs.filter((pr: PRModel) => pr.finished)
+      );
+      return;
+    }
+
+    this.prsUnfinished = new MatTableDataSource(
+      this.prs.filter((pr: PRModel) =>
+        this.sheets.some(
+          (sheet: SheetSimple) =>
+            sheet.prId === pr._id &&
+            sheet.status === this.filter &&
+            pr.finished === false
+        )
+      )
     );
-    return sheets.filter((sheet: SheetSimple) => sheet.status === SheetStatus.NOTJOINED).length === 0;
-  };
+    this.prsFinished = new MatTableDataSource(
+      this.prs.filter((pr: PRModel) =>
+        this.sheets.some(
+          (sheet: SheetSimple) =>
+            sheet.prId === pr._id &&
+            sheet.status === this.filter &&
+            pr.finished === true
+        )
+      )
+    );
+  }
 }

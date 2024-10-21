@@ -4,3 +4,37 @@
   align-items: center;
   justify-content: center;
 }
+
+.custom-button-toggle-all {
+  background-color: darkslategray;
+  color: white;
+}
+.custom-button-toggle-notjoined {
+  background-color: #1e1a1d;
+  color: white;
+}
+.custom-button-toggle-unfilled {
+  background-color: darkred;
+  color: white;
+}
+.custom-button-toggle-filled {
+  background-color: darkgreen;
+  color: white;
+}
+
+.custom-button-toggle-all.mat-button-toggle-checked {
+  background-color: gray;
+  color: white;
+}
+.custom-button-toggle-notjoined.mat-button-toggle-checked {
+  background-color: darkgrey;
+  color: white;
+}
+.custom-button-toggle-unfilled.mat-button-toggle-checked {
+  background-color: red;
+  color: white;
+}
+.custom-button-toggle-filled.mat-button-toggle-checked {
+  background-color: green;
+  color: white;
+}

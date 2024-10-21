@@ -48,6 +48,7 @@ export class PRTableComponent implements OnInit, AfterViewInit {
   @Input() isAdmin: boolean = false;
   @Input() isLoggedIn: boolean = false;
   @Input() isCreator: boolean = false;
+  @Input() filter: string = 'all';
 
   @ViewChild(MatSort) sort!: MatSort;
 
