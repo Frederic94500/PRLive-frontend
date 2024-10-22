@@ -20,7 +20,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { PRModel } from '@models/pr.model';
@@ -43,7 +42,6 @@ import { modifyPRURL } from '@/src/toolbox/toolbox';
     MatIconModule,
     MatCardModule,
     FormsModule,
-    MatSlideToggleModule,
     MatTooltipModule
   ],
   templateUrl: './sheet.component.html',
@@ -169,6 +167,10 @@ export class SheetComponent implements OnInit, AfterViewInit {
 
   videoLink(uuid: string): string {
     return this.pr.songList.find((x) => x.uuid === uuid)?.urlVideo ?? '';
+  }
+
+  togglePlaylistMode(): void {
+    this.isPlaylistMode = !this.isPlaylistMode;
   }
   
   playAudio(uuid: string): void {

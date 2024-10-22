@@ -23,9 +23,9 @@
     <button mat-raised-button color="primary" (click)="autoFillRank()">
       Auto Fill Rank
     </button>
-    <mat-slide-toggle [(ngModel)]="isPlaylistMode">
+    <button mat-raised-button (click)="togglePlaylistMode()">
       {{ isPlaylistMode ? "Playlist Mode: ON" : "Playlist Mode: OFF" }}
-    </mat-slide-toggle>
+    </button>
   </p>
   <p *ngIf="currentAudioSource">
     Now playing: <b>{{ getNowPlaying(currentAudioSource).artist }}</b> -
