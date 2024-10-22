@@ -58,6 +58,7 @@ export class SheetComponent implements OnInit, AfterViewInit {
     'audio',
     'rank',
     'score',
+    'comment'
   ];
 
   sheetService: SheetService = new SheetService();
@@ -130,6 +131,7 @@ export class SheetComponent implements OnInit, AfterViewInit {
     this.sheetTable.data.forEach((x) => {
       x.rank = this.sheet.sheet.find((y) => y.uuid === x.uuid)?.rank ?? 0;
       x.score = this.sheet.sheet.find((y) => y.uuid === x.uuid)?.score ?? 0;
+      x.comment = this.sheet.sheet.find((y) => y.uuid === x.uuid)?.comment ?? '';
     });
   }
 
@@ -162,6 +164,14 @@ export class SheetComponent implements OnInit, AfterViewInit {
     ) as HTMLInputElement;
     this.sheet.sheet[this.pr.songList.findIndex((x) => x.uuid === uuid)].score =
       Number(inputElement.value);
+    this.updateSheet();
+  }
+
+  updateComment(uuid: string): void {
+    const inputElement = document.getElementById(
+      uuid + '-comment'
+    ) as HTMLInputElement;
+    this.sheet.sheet[this.pr.songList.findIndex((x) => x.uuid === uuid)].comment = inputElement.value;
     this.updateSheet();
   }
 

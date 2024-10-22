@@ -11,6 +11,7 @@ export class SheetSheetModel {
   orderId!: number;
   rank!: number;
   score!: number;
+  comment!: string;
 }
 
 export class SheetSheetFrontModel {
@@ -25,4 +26,5 @@ export class SheetSheetFrontModel {
   urlAudio!: string;
   rank!: number;
   score!: number;
+  comment!: string;
 }
