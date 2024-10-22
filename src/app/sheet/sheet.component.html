@@ -10,20 +10,23 @@
     <b>{{ meanScore }}</b>
   </p>
   <p>
+    <button mat-raised-button color="primary" (click)="confirmSheetQuit()">
+      <mat-icon>logout</mat-icon>Quit PR
+    </button>
     <button
       mat-raised-button
       color="primary"
       (click)="openSheetProfileDialog()"
     >
-      Edit Profile PR
-    </button>
-    <button mat-raised-button color="primary" (click)="confirmSheetQuit()">
-      Quit PR
+    <mat-icon>edit</mat-icon>Edit Profile PR
     </button>
     <button mat-raised-button color="primary" (click)="autoFillRank()">
-      Auto Fill Rank
+      <mat-icon>format_color_fill</mat-icon>Auto Fill Rank
     </button>
     <button mat-raised-button (click)="togglePlaylistMode()">
+      <mat-icon>{{
+        isPlaylistMode ? "playlist_play" : "playlist_remove"
+      }}</mat-icon>
       {{ isPlaylistMode ? "Playlist Mode: ON" : "Playlist Mode: OFF" }}
     </button>
   </p>
@@ -170,7 +173,9 @@
 
   <!-- Comment Column -->
   <ng-container matColumnDef="comment">
-    <th mat-header-cell *matHeaderCellDef>Comment</th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      Comment<mat-icon>sort</mat-icon>
+    </th>
     <td mat-cell *matCellDef="let song; let i = index">
       <mat-form-field appearance="fill">
         <mat-label>Comment</mat-label>
