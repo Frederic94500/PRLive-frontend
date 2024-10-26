@@ -1,3 +1,4 @@
+import { FileType } from '../enums/fileType.enum';
 import { Injectable } from '@angular/core';
 import { Response } from '@interfaces/api.interface';
 import { environment } from '@environments/environment';
@@ -31,6 +32,18 @@ export class ApiService {
       },
       credentials: 'include',
       body: JSON.stringify(data),
+    });
+    return response.json();
+  }
+
+  public async postFile(endpoint: string, type: FileType, file: File): Promise<Response> {
+    const formData = new FormData();
+    formData.append('type', type);
+    formData.append('file', file);
+    const response = await fetch(`${this.apiUrl}/${this.apiEndpoint}/${endpoint}`, {
+      method: 'POST',
+      credentials: 'include',
+      body: formData,
     });
     return response.json();
   }

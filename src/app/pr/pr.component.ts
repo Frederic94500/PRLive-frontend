@@ -51,6 +51,7 @@ export class PRComponent implements OnInit {
     'deadlineNomination',
     'deadline',
     'numberSongs',
+    'finished',
   ];
   prsUnfinished!: MatTableDataSource<PRModel>;
   prsFinished!: MatTableDataSource<PRModel>;

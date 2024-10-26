@@ -13,6 +13,9 @@ export class PRModel {
   numberSongs!: number;
   mustBe!: number;
   hashKey!: string;
+  video!: string;
+  affinityImage!: string;
+  prStats!: string;
   songList!: SongModel[];
 }
 

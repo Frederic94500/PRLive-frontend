@@ -7,6 +7,8 @@ import { PRComponent } from '@components/pr/pr.component';
 import { PRCreateComponent } from '@components/pr-create/pr-create.component';
 import { PRDetailComponent } from '@components/pr-detail/pr-detail.component';
 import { PREditComponent } from '@components/pr-edit/pr-edit.component';
+import { PRFinishedComponent } from './pr-finished/pr-finished.component';
+import { PRFinishedResolver } from '../resolvers/pr-finished.resolver';
 import { PROutputResolver } from '@resolvers/pr-output.resolver';
 import { PRResolver } from '@resolvers/pr.resolver';
 import { PRService } from '@services/pr.service';
@@ -68,6 +70,14 @@ export const routes: Routes = [
       auth: () => inject(AuthService).getWhoAmI(),
       pr: PRResolver,
       users: UserResolver,
+    },
+  },
+  {
+    path: 'pr/:id/finished',
+    component: PRFinishedComponent,
+    resolve: {
+      auth: () => inject(AuthService).getWhoAmI(),
+      prFinished: PRFinishedResolver,
     },
   },
   {

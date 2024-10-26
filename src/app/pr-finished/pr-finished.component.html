@@ -1,0 +1,14 @@
+<div class="centered-content">
+  <h3>Result {{ prFinished.name }}</h3>
+  <a mat-raised-button color="primary" [routerLink]="['/sheet', prFinished._id]" *ngIf="prFinished.hasSheet">
+    Show Sheet
+  </a>
+  <video width="720" controls *ngIf="prFinished.video">
+    <source [src]="prFinished.video" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+  <h4 *ngIf="!prFinished.video">No video yet!</h4>
+  <h4 *ngIf="!prFinished.affinityImage">No affinity image yet!</h4>
+  <img width="720" [src]="prFinished.affinityImage" *ngIf="prFinished.affinityImage" />
+  <p [innerText]="prFinished.prStats || 'No stats yet!'"></p>
+</div>

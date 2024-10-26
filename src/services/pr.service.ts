@@ -1,6 +1,7 @@
 import { PR, PRInput } from '@interfaces/pr.interface';
 
 import { ApiService } from '@services/api.service';
+import { FileType } from '../enums/fileType.enum';
 import { Injectable } from '@angular/core';
 import { Response } from '@interfaces/api.interface';
 import { SongInput } from '@interfaces/song.interface';
@@ -44,6 +45,14 @@ export class PRService {
     );
   }
 
+  public async uploadFilePR(prId: string, type: FileType, file: File): Promise<Response> {
+    return await this.apiService.postFile(
+      `${this.apiEndpoint}/uploadfile/${prId}`,
+      type,
+      file
+    );
+  }
+
   public async updatePR(pr: PR): Promise<Response> {
     return await this.apiService.postPutData(
       pr,
@@ -55,6 +64,12 @@ export class PRService {
   public async outputPR(prId: string): Promise<Response> {
     return await this.apiService.getWithCred(
       `${this.apiEndpoint}/output/${prId}`
+    );
+  }
+
+  public async finishedPR(prId: string): Promise<Response> {
+    return await this.apiService.getWithCred(
+      `${this.apiEndpoint}/finished/${prId}`
     );
   }
 

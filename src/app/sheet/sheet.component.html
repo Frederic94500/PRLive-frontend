@@ -10,17 +10,18 @@
     <b>{{ meanScore }}</b>
   </p>
   <p>
-    <button mat-raised-button color="primary" (click)="confirmSheetQuit()">
+    <button mat-raised-button color="primary" (click)="confirmSheetQuit()" [disabled]="pr.finished">
       <mat-icon>logout</mat-icon>Quit PR
     </button>
     <button
       mat-raised-button
       color="primary"
       (click)="openSheetProfileDialog()"
+      [disabled]="pr.finished"
     >
     <mat-icon>edit</mat-icon>Edit Profile PR
     </button>
-    <button mat-raised-button color="primary" (click)="autoFillRank()">
+    <button mat-raised-button color="primary" (click)="autoFillRank()" [disabled]="pr.finished">
       <mat-icon>format_color_fill</mat-icon>Auto Fill Rank
     </button>
     <button mat-raised-button (click)="togglePlaylistMode()">
@@ -144,6 +145,7 @@
           (change)="updateRank(song.uuid)"
           (keydown.enter)="focusNextInput(i, 'rank')"
           tabindex="0"
+          [disabled]="pr.finished"
         />
       </mat-form-field>
     </td>
@@ -166,6 +168,7 @@
           (change)="updateScore(song.uuid)"
           (keydown.enter)="focusNextInput(i, 'score')"
           tabindex="1"
+          [disabled]="pr.finished"
         />
       </mat-form-field>
     </td>
@@ -188,6 +191,7 @@
           (change)="updateComment(song.uuid)"
           (keydown.enter)="focusNextInput(i, 'comment')"
           tabindex="2"
+          [disabled]="pr.finished"
         />
       </mat-form-field>
     </td>

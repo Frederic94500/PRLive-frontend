@@ -136,10 +136,16 @@ export class SheetComponent implements OnInit, AfterViewInit {
   }
 
   private async updateSheet(): Promise<void> {
+    if (this.pr.finished) {
+      this.snackBar.open('PR is finished, you cannot update the sheet', 'Close', {
+        duration: 2000,
+      });
+      return;
+    }
     this.sheet.sheet.sort((a, b) => a.orderId - b.orderId);
     const response = await this.sheetService.putSheet(this.pr._id, this.sheet);
     if (response.code !== 200) {
-      this.snackBar.open(`Error updating sheet: ${response.data}`, 'Close', {
+      this.snackBar.open(`Error updating sheet: ${response.data || response.message}`, 'Close', {
         duration: 2000,
       });
       return;

@@ -41,6 +41,57 @@
     <button mat-raised-button color="primary" (click)="addSong()">
       Add song
     </button>
+    <br />
+    <mat-form-field appearance="fill" class="full-width-form-field">
+      <mat-label>Video URL</mat-label>
+      <input
+        matInput
+        type="text"
+        [(ngModel)]="pr.video"
+        id="video"
+        (change)="simpleUpdatePRField()"
+        tabindex="0"
+      />
+      <input
+        mat-raised-button
+        type="file"
+        (change)="onFileSelected($event, 'video')"
+        accept="video/mp4"
+      />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="full-width-form-field">
+      <mat-label>Image Affinity</mat-label>
+      <input
+        matInput
+        type="text"
+        [(ngModel)]="pr.affinityImage"
+        id="affinityImage"
+        (change)="simpleUpdatePRField()"
+        tabindex="0"
+      />
+      <input
+        mat-raised-button
+        type="file"
+        (change)="onFileSelected($event, 'affinity_image')"
+        accept="image/png, image/jpeg, image/gif, image/webp"
+      />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="full-width-form-field">
+      <mat-label>PR Stats</mat-label>
+      <textarea
+        matInput
+        [(ngModel)]="pr.prStats"
+        id="prStats"
+        (change)="simpleUpdatePRField()"
+        tabindex="0"
+      ></textarea>
+      <input
+        mat-raised-button
+        type="file"
+        (change)="onPRStatsSelected($event)"
+        accept="text/plain"
+      />
+    </mat-form-field>
   </p>
 
   <p>

@@ -138,6 +138,10 @@ export class PRTableComponent implements OnInit, AfterViewInit {
     if (!this.isLoggedIn) {
       return '';
     }
+
+    if (pr.finished) {
+      return '';
+    }
   
     const sheet = this.sheetSimple.find((sheet) => sheet.prId === pr._id);
     switch (sheet?.status) {

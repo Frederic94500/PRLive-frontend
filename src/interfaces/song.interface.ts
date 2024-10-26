@@ -91,9 +91,12 @@ export interface SongOutput {
   sampleLength: number;
   urlVideo: string;
   urlAudio: string;
+  tiebreak: number;
   totalRank: number;
+  rankPosition: number;
   voters: {
     name: string;
+    discordId: string;
     rank: number;
   }[];
 }

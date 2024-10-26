@@ -4,6 +4,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { FileType } from '@/src/enums/fileType.enum';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -83,6 +84,11 @@ export class PREditComponent implements OnInit, AfterViewInit {
     return parsedDate.toLocaleDateString();
   }
 
+  async refreshPR(): Promise<void> {
+    this.pr = (await this.prService.getPR(this.pr._id)).data;
+    this.songList = new MatTableDataSource(this.pr.songList);
+  }
+
   async updatePR(): Promise<void> {
     const response = await this.prService.updatePR(this.pr);
     if (response.code != 200) {
@@ -93,17 +99,13 @@ export class PREditComponent implements OnInit, AfterViewInit {
   }
 
   async simpleUpdatePRField(): Promise<void> {
-    console.log(this.pr);
     this.updatePR();
   }
 
   async updatePRField(field: string): Promise<void> {
     const inputElement = document.getElementById(field) as HTMLInputElement;
-    console.log(inputElement);
     const value = inputElement.value;
-    console.log(value);
     this.pr[field] = value;
-    console.log(this.pr);
     this.updatePR();
   }
 
@@ -166,6 +168,55 @@ export class PREditComponent implements OnInit, AfterViewInit {
 
     this.pr = (await this.prService.getPR(this.pr._id)).data;
     this.songList = new MatTableDataSource(this.pr.songList);
+  }
+
+  onFileSelected(event: Event, type: string): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      if (file) {
+        this.prService.uploadFilePR(this.pr._id, type as FileType, file).then(
+          async (response) => {
+            if (response.code !== 200) {
+              this.snackBar.open(
+                `Error uploading file: ${response.data}`,
+                'Close',
+                {
+                  duration: 2000,
+                }
+              );
+              return;
+            }
+            this.snackBar.open('File uploaded', 'Close', {
+              duration: 2000,
+            });
+            this.refreshPR();
+            input.value = '';
+          }
+        );
+      }
+    }
+  }
+
+  onPRStatsSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.readAsText(file);
+        reader.onload = () => {
+          this.pr.prStats = reader.result as string;
+          this.updatePR();
+
+          this.snackBar.open('PR stats updated', 'Close', {
+            duration: 2000,
+          });
+
+          input.value = '';
+        }
+      }
+    }
   }
 
   videoLink(uuid: string): string {

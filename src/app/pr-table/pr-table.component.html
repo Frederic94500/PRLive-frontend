@@ -113,6 +113,20 @@
     </td>
   </ng-container>
 
+  <!-- Result button Column -->
+  <ng-container matColumnDef="finished">
+    <th mat-header-cell *matHeaderCellDef>Result</th>
+    <td mat-cell *matCellDef="let pr">
+      <a
+        mat-raised-button
+        color="primary"
+        [routerLink]="['/pr/', pr._id, 'finished']"
+      >
+        Result
+    </a>
+    </td>
+  </ng-container>
+
   <!-- More Options Column-->
   <ng-container matColumnDef="options" *ngIf="isCreator">
     <th mat-header-cell *matHeaderCellDef>Options</th>
@@ -155,8 +169,8 @@
   <tr
     mat-row
     *matRowDef="let row; columns: displayedColumns"
-    [ngClass]="{ clickable: isLoggedIn ? isJoined(row._id) ? true : false : false }"
+    [ngClass]="{ clickable: isLoggedIn ? isJoined(row._id) ? !row.finished : false : false }"
     [class]="getRowClass(row)"
-    [routerLink]="isLoggedIn ? isJoined(row._id) ? ['/sheet', row._id] : null : null"
+    [routerLink]="isLoggedIn ? isJoined(row._id) ? row.finished ? null : ['/sheet', row._id] : null : null"
   ></tr>
 </table>

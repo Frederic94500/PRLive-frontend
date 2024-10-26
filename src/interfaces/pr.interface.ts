@@ -26,6 +26,9 @@ export interface PR {
   numberSongs: number;
   hashKey: string;
   mustBe: number;
+  video: string;
+  affinityImage: string;
+  prStats: string;
   songList: Song[];
   [key: string]: string | number | boolean | Song[];
 }
@@ -52,4 +55,24 @@ export interface PROutput {
   mustBe: number;
   songList: SongOutput[];
   voters: UserOutput[];
+}
+
+export interface PRFinished {
+  _id: string;
+  name: string;
+  video: string;
+  affinityImage: string;
+  prStats: string;
+  hasSheet: boolean;
+  resultTable: SongOutput[];
+}
+
+export interface ResultTable {
+  rankPosition: number;
+  song: string;
+  anime: string;
+  type: string;
+  urlVideo: string;
+  totalRank: number;
+  voters: number[];
 }
