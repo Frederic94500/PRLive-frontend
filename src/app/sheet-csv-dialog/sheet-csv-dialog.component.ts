@@ -89,7 +89,7 @@ export class SheetCSVDialogComponent {
   
   processCSV(csv: string): SheetSheetFrontModel[] {
     const rows = csv.split('\n');
-    const typeOfSeparator = this.countSpecificChar(rows[0], ',') > 0 ? ',' : ';';
+    const typeOfSeparator = this.countSpecificChar(rows[0], ',') > this.countSpecificChar(rows[0], ';') ? ',' : ';';
     const header = rows[0].split(typeOfSeparator).map(key => key.trim().replace(/^"|"$/g, ''));
     const data = rows.slice(1).map((row) => {
       const values = row.split(typeOfSeparator).map(value => value.trim().replace(/\r$/, ''));
