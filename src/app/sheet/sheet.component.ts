@@ -305,7 +305,7 @@ export class SheetComponent implements OnInit, AfterViewInit {
     this.dialog.open(SheetCSVDialogComponent, {
       data: {
         prName: this.pr.name,
-        username: this.userCreator.username,
+        username: this.sheet.name,
         sheet: this.sheet,
         sheetSheetFrontModel: this.sheetTable.data,
       },
