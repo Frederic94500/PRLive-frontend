@@ -24,6 +24,9 @@
     <button mat-raised-button color="primary" (click)="autoFillRank()" [disabled]="pr.finished">
       <mat-icon>format_color_fill</mat-icon>Auto Fill Rank
     </button>
+    <button mat-raised-button (click)="openSheetCSVDialog()" [disabled]="pr.finished">
+      <mat-icon>border_all</mat-icon>Import/Export CSV
+    </button>
     <button mat-raised-button (click)="togglePlaylistMode()">
       <mat-icon>{{
         isPlaylistMode ? "playlist_play" : "playlist_remove"

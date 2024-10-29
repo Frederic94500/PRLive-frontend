@@ -1,0 +1,13 @@
+<h3 mat-dialog-title>Import - Export CSV</h3>
+<mat-dialog-content>
+  <div class="centered-content">
+    <h6><b class="red">WARNING!</b></h6>
+    <p class="justify-center">
+      Importing a CSV file will overwrite the current sheet!
+      <br />
+      Do not touch uuid and orderId columns!
+    </p>
+    <button mat-raised-button color="primary" (click)="importSheet()"><mat-icon>publish</mat-icon>Import</button>
+    <button mat-raised-button color="primary" (click)="exportSheet()"><mat-icon>download</mat-icon>Export</button>
+  </div>
+</mat-dialog-content>

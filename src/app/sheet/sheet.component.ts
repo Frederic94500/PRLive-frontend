@@ -23,6 +23,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { PRModel } from '@models/pr.model';
+import { SheetCSVDialogComponent } from '../sheet-csv-dialog/sheet-csv-dialog.component';
 import { SheetProfileDialogComponent } from '../sheet-profile-dialog/sheet-profile-dialog.component';
 import { SheetService } from '@services/sheet.service';
 import { User } from '@interfaces/user.interface';
@@ -298,5 +299,21 @@ export class SheetComponent implements OnInit, AfterViewInit {
       this.router.navigate(['/pr']);
     }, 1000);
     this.router.navigate(['/pr']);
+  }
+
+  openSheetCSVDialog(): void {
+    this.dialog.open(SheetCSVDialogComponent, {
+      data: {
+        prName: this.pr.name,
+        username: this.userCreator.username,
+        sheet: this.sheet,
+        sheetSheetFrontModel: this.sheetTable.data,
+      },
+    });
+
+    this.dialog.afterAllClosed.subscribe(async () => {
+      this.sheet = (await this.sheetService.getSheet(this.pr._id)).data;
+      this.updateSheet();
+    });
   }
 }
