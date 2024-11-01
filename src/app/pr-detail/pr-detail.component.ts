@@ -3,6 +3,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { UserModel, UserOutputModel } from '@models/user.model';
+import { getServerURL, modifyPRURL } from '@/src/toolbox/toolbox';
 
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -17,7 +18,6 @@ import { SheetViewDialogComponent } from '../sheet-view-dialog/sheet-view-dialog
 import { SongModel } from '@models/song.model';
 import { UserOutput } from '@interfaces/user.interface';
 import { UserService } from '@services/user.service';
-import { modifyPRURL } from '@/src/toolbox/toolbox';
 
 @Component({
   selector: 'app-pr-detail',
@@ -60,6 +60,7 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
   user!: UserModel;
   userList!: MatTableDataSource<UserOutputModel>;
   isAdmin!: boolean;
+  currentAudioSource: string | null = null;
 
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -169,5 +170,36 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
     this.userList.data = this.userList.data.filter(
       (user) => user.discordId !== discordId
     );
+  }
+
+  videoLink(uuid: string): string {
+    const URL = this.pr.songList.find((x) => x.uuid === uuid)?.urlVideo;
+    if (!URL) {
+      this.snackBar.open('URL not found', 'Close', {
+        duration: 2000,
+      });
+      return '';
+    }
+    const isURL = URL.includes('https://');
+    return isURL ? URL : `${getServerURL(this.user)}${URL}`;
+  }
+
+  getNowPlaying(url: string): { artist: string; title: string } {
+    return {
+      artist:
+        this.pr.songList.find((x) => url.includes(x.urlAudio))?.artist ?? '',
+      title:
+        this.pr.songList.find((x) => url.includes(x.urlAudio))?.title ?? '',
+    };
+  }
+
+  playAudio(url: string): void {
+    if (this.currentAudioSource === url) {
+      this.currentAudioSource = null;
+      return;
+    }
+    this.currentAudioSource = url.includes('https://')
+      ? url
+      : `${getServerURL(this.user)}${url}`;
   }
 }
