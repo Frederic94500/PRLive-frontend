@@ -1,13 +1,18 @@
-import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from "@angular/router";
+import {
+  ActivatedRouteSnapshot,
+  Resolve,
+  Router,
+  RouterStateSnapshot,
+} from '@angular/router';
 
-import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { UserService } from "../services/user.service";
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { UserService } from '@services/user.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UserResolver implements Resolve<any> {
+export class UsersResolver implements Resolve<any> {
   constructor(private userService: UserService, private router: Router) {}
 
   resolve(
@@ -15,8 +20,6 @@ export class UserResolver implements Resolve<any> {
     state: RouterStateSnapshot
   ): Observable<any> {
     return new Observable((observer) => {
-      const id = route.paramMap.get('id');
-      
       this.userService
         .getUsers()
         .then((users) => {

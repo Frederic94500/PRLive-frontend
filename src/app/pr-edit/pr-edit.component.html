@@ -108,25 +108,8 @@
     </mat-slide-toggle>
   </p>
   <p>
-    Creator:
-    <span *ngFor="let user of userList">
-      <span *ngIf="pr.creator === user.discordId">
-        <b>{{ user.name }}</b>
-      </span>
-    </span>
+    Creator: <b>{{ creator.name }}</b>
   </p>
-
-  <!-- Uncomment and use this section if you want to use mat-select for creator selection -->
-  <!--
-  <mat-form-field appearance="fill" class="full-width-form-field">
-    <mat-label>Creator</mat-label>
-    <mat-select [(ngModel)]="pr.creator" id="creator" (selectionChange)="updatePRField('creator')">
-      <mat-option *ngFor="let user of userList" [value]="user">
-        {{ user.name }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-  -->
 </div>
 
 <div *ngIf="currentAudioSource" class="center floating-player">

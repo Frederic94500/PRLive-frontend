@@ -17,7 +17,6 @@ import { Routes } from '@angular/router';
 import { SheetComponent } from '@components/sheet/sheet.component';
 import { SheetResolver } from '@resolvers/sheet.resolver';
 import { SheetService } from '../services/sheet.service';
-import { UserResolver } from '@resolvers/user.resolver';
 import { inject } from '@angular/core';
 
 export const routes: Routes = [
@@ -69,7 +68,6 @@ export const routes: Routes = [
     resolve: {
       auth: () => inject(AuthService).getWhoAmI(),
       pr: PRResolver,
-      users: UserResolver,
     },
   },
   {

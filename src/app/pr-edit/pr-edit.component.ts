@@ -20,6 +20,7 @@ import { PRService } from '@services/pr.service';
 import { PrEditAddSongDialogComponent } from '../pr-edit-add-song-dialog/pr-edit-add-song-dialog.component';
 import { Song } from '@interfaces/song.interface';
 import { User } from '@interfaces/user.interface';
+import { UserService } from '@/src/services/user.service';
 import { getServerURL } from '@/src/toolbox/toolbox';
 
 @Component({
@@ -55,7 +56,7 @@ export class PREditComponent implements OnInit, AfterViewInit {
   ];
   pr!: PR;
   songList!: MatTableDataSource<Song>;
-  userList!: User[];
+  creator!: User;
   prService = new PRService();
   currentAudioSource: string | null = null;
   user!: User;
@@ -68,10 +69,10 @@ export class PREditComponent implements OnInit, AfterViewInit {
     private dialog: MatDialog
   ) {}
   
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.pr = this.route.snapshot.data['pr'].data;
     this.songList = new MatTableDataSource(this.pr.songList);
-    this.userList = this.route.snapshot.data['users'].data;
+    this.creator = (await new UserService().getUser(this.pr.creator)).data;
     this.user = this.route.snapshot.data['auth'].data;
   }
 
