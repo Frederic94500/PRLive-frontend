@@ -107,22 +107,6 @@
       {{ pr.finished }}
     </mat-slide-toggle>
   </p>
-
-  <p *ngIf="currentAudioSource">
-    Now playing: <b>{{ getNowPlaying(currentAudioSource).artist }}</b> -
-    <b>{{ getNowPlaying(currentAudioSource).title }}</b>
-  </p>
-  <p>
-    <audio
-      #player
-      id="player"
-      controls
-      [src]="currentAudioSource"
-      *ngIf="currentAudioSource"
-      autoplay
-    ></audio>
-  </p>
-
   <p>
     Creator:
     <span *ngFor="let user of userList">
@@ -143,6 +127,21 @@
     </mat-select>
   </mat-form-field>
   -->
+</div>
+
+<div *ngIf="currentAudioSource" class="center floating-player">
+  <u>Now playing</u>
+  <br />
+  <b>{{ getNowPlaying(currentAudioSource).artist }}</b> - <b>{{ getNowPlaying(currentAudioSource).title }}</b>
+  <br />
+  <audio
+    #player
+    id="player"
+    controls
+    [src]="currentAudioSource"
+    *ngIf="currentAudioSource"
+    autoplay
+  ></audio>
 </div>
 
 <table
