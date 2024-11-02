@@ -13,6 +13,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { SheetModel, SheetSheetFrontModel } from '@models/sheet.model';
 
 import { CommonModule } from '@angular/common';
+import { DomSanitizer } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -72,6 +73,8 @@ export class SheetComponent implements OnInit, AfterViewInit {
   currentAudioSource: string | null = null;
   isPlaylistMode: boolean = false;
   currentTrackIndex: number = 0;
+  currentVideoSource: string | null = null;
+  tabVideoMode: boolean = false;
 
   @ViewChildren('rankInput') rankInputs!: QueryList<ElementRef>;
   @ViewChildren('scoreInput') scoreInputs!: QueryList<ElementRef>;
@@ -80,7 +83,8 @@ export class SheetComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private sanitizer: DomSanitizer
   ) {}
 
   @ViewChild(MatSort) sort!: MatSort;
@@ -189,8 +193,43 @@ export class SheetComponent implements OnInit, AfterViewInit {
   togglePlaylistMode(): void {
     this.isPlaylistMode = !this.isPlaylistMode;
   }
+
+  isYouTubeLink(url: string): boolean {
+    return url.includes('youtu');
+  }
+
+  getYoutubeId(url: string): string {
+    const shortUrlPattern = /youtu\.be\/([a-zA-Z0-9_-]{11})/;
+    const longUrlPattern = /youtube\.com\/.*[?&]v=([a-zA-Z0-9_-]{11})/;
+    
+    let match = url.match(shortUrlPattern);
+    if (match && match[1]) {
+      return match[1];
+    }
   
+    match = url.match(longUrlPattern);
+    if (match && match[1]) {
+      return match[1];
+    }
+  
+    return '';
+  }
+
+  getYouTubeEmbedUrl(url: string): string {
+    return `https://www.youtube.com/embed/${this.getYoutubeId(url)}?autoplay=1&cc_load_policy=1`;
+  }
+
+  sanitizeUrl(url: string): string {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(this.getYouTubeEmbedUrl(url)) as string
+  }
+
+  playVideo(url: string): void {
+    this.currentVideoSource = url;
+    this.currentAudioSource = null;
+  }
+
   playAudio(uuid: string): void {
+    this.currentVideoSource = null;
     this.currentAudioSource =
       this.pr.songList.find((x) => x.uuid === uuid)?.urlAudio ?? null;
     this.currentTrackIndex = this.pr.songList.findIndex((x) => x.uuid === uuid);
@@ -224,10 +263,12 @@ export class SheetComponent implements OnInit, AfterViewInit {
     }
   }
 
-  getNowPlaying(url: string): { artist: string; title: string } {
+  getNowPlaying(url: string, field: string): { artist: string; title: string } {
     return {
-      artist: this.pr.songList.find((x) => x.urlAudio === url)?.artist ?? '',
-      title: this.pr.songList.find((x) => x.urlAudio === url)?.title ?? '',
+      artist:
+        this.pr.songList.find((x) => url.includes(x[field] as string))?.artist ?? '',
+      title:
+        this.pr.songList.find((x) => url.includes(x[field] as string))?.title ?? '',
     };
   }
 
@@ -315,6 +356,18 @@ export class SheetComponent implements OnInit, AfterViewInit {
       this.sheet = (await this.sheetService.getSheet(this.pr._id)).data;
       this.updateSheet();
     });
+  }
+
+  toggleTabVideoMode(): void {
+    this.tabVideoMode = !this.tabVideoMode;
+  }
+
+  closeVideoPlayer(): void {
+    this.currentVideoSource = null;
+  }
+
+  closeAudioPlayer(): void {
+    this.currentAudioSource = null;
   }
 
   onWheel(event: WheelEvent): void {

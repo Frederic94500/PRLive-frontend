@@ -10,4 +10,5 @@ export class SongModel {
   sampleLength!: number;
   urlVideo!: string;
   urlAudio!: string;
+  [key: string]: string | number | undefined;
 }

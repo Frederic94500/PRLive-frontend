@@ -4,6 +4,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { DomSanitizer } from '@angular/platform-browser';
 import { FileType } from '@/src/enums/fileType.enum';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -60,13 +61,16 @@ export class PREditComponent implements OnInit, AfterViewInit {
   prService = new PRService();
   currentAudioSource: string | null = null;
   user!: User;
+  currentVideoSource: string | null = null;
+  tabVideoMode: boolean = false;
 
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private sanitizer: DomSanitizer
   ) {}
   
   async ngOnInit(): Promise<void> {
@@ -232,23 +236,68 @@ export class PREditComponent implements OnInit, AfterViewInit {
     return isURL ? URL : `${getServerURL(this.user)}${URL}`;
   }
 
-  getNowPlaying(url: string): { artist: string; title: string } {
+  getNowPlaying(url: string, field: string): { artist: string; title: string } {
     return {
       artist:
-        this.pr.songList.find((x) => url.includes(x.urlAudio))?.artist ?? '',
+        this.pr.songList.find((x) => url.includes(x[field] as string))?.artist ?? '',
       title:
-        this.pr.songList.find((x) => url.includes(x.urlAudio))?.title ?? '',
+        this.pr.songList.find((x) => url.includes(x[field] as string))?.title ?? '',
     };
   }
 
-  playAudio(url: string): void {
-    if (this.currentAudioSource === url) {
-      this.currentAudioSource = null;
-      return;
+  isYouTubeLink(url: string): boolean {
+    return url.includes('youtu');
+  }
+
+  getYoutubeId(url: string): string {
+    const shortUrlPattern = /youtu\.be\/([a-zA-Z0-9_-]{11})/;
+    const longUrlPattern = /youtube\.com\/.*[?&]v=([a-zA-Z0-9_-]{11})/;
+    
+    let match = url.match(shortUrlPattern);
+    if (match && match[1]) {
+      return match[1];
     }
+  
+    match = url.match(longUrlPattern);
+    if (match && match[1]) {
+      return match[1];
+    }
+  
+    return '';
+  }
+
+  getYouTubeEmbedUrl(url: string): string {
+    return `https://www.youtube.com/embed/${this.getYoutubeId(url)}?autoplay=1&cc_load_policy=1`;
+  }
+
+  sanitizeUrl(url: string): string {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(this.getYouTubeEmbedUrl(url)) as string
+  }
+
+  playVideo(url: string): void {
+    this.currentVideoSource = url.includes('youtu')
+      ? url
+      : `${getServerURL(this.user)}${url}`;
+    this.currentAudioSource = null;
+  }
+
+  playAudio(url: string): void {
+    this.currentVideoSource = null;
     this.currentAudioSource = url.includes('https://')
       ? url
       : `${getServerURL(this.user)}${url}`;
+  }
+
+  toggleTabVideoMode(): void {
+    this.tabVideoMode = !this.tabVideoMode;
+  }
+
+  closeVideoPlayer(): void {
+    this.currentVideoSource = null;
+  }
+
+  closeAudioPlayer(): void {
+    this.currentAudioSource = null;
   }
 
   onWheel(event: WheelEvent): void {

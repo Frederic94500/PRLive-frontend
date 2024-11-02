@@ -17,10 +17,15 @@ export function getServerURL(user: User): string {
   }
 }
 
-export function modifyPRURL(pr: PRModel | PROutput, user: User): PRModel | PROutput {
+export function modifyPRURL(
+  pr: PRModel | PROutput,
+  user: User
+): PRModel | PROutput {
   const server = getServerURL(user);
   pr.songList.forEach((song) => {
     song.urlVideo = song.urlVideo.includes('https://')
+      ? song.urlVideo
+      : song.urlVideo.includes('youtu')
       ? song.urlVideo
       : server + song.urlVideo;
     song.urlAudio = song.urlAudio.includes('https://')
