@@ -316,4 +316,8 @@ export class SheetComponent implements OnInit, AfterViewInit {
       this.updateSheet();
     });
   }
+
+  onWheel(event: WheelEvent): void {
+    event.preventDefault();
+  }
 }

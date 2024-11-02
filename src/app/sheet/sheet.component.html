@@ -148,6 +148,7 @@
           [value]="song.rank"
           (change)="updateRank(song.uuid)"
           (keydown.enter)="focusNextInput(i, 'rank')"
+          (wheel)="onWheel($event)"
           tabindex="0"
           [disabled]="pr.finished"
         />
@@ -171,6 +172,7 @@
           [value]="song.score"
           (change)="updateScore(song.uuid)"
           (keydown.enter)="focusNextInput(i, 'score')"
+          (wheel)="onWheel($event)"
           tabindex="1"
           [disabled]="pr.finished"
         />

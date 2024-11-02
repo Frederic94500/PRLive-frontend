@@ -250,4 +250,8 @@ export class PREditComponent implements OnInit, AfterViewInit {
       ? url
       : `${getServerURL(this.user)}${url}`;
   }
+
+  onWheel(event: WheelEvent): void {
+    event.preventDefault();
+  }
 }

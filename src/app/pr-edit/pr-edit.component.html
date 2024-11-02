@@ -225,6 +225,7 @@
           type="number"
           [value]="song.startSample"
           (change)="updateSongListField(song.uuid, 'startSample')"
+          (wheel)="onWheel($event)"
           tabindex="0"
         />
       </mat-form-field>
@@ -243,6 +244,7 @@
           type="number"
           [value]="song.sampleLength"
           (change)="updateSongListField(song.uuid, 'sampleLength')"
+          (wheel)="onWheel($event)"
           tabindex="0"
         />
       </mat-form-field>
