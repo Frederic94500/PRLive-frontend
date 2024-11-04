@@ -6,6 +6,7 @@ import { UserModel, UserOutputModel } from '@models/user.model';
 import { getServerURL, modifyPRURL } from '@/src/toolbox/toolbox';
 
 import { CommonModule } from '@angular/common';
+import { DomSanitizer } from '@angular/platform-browser';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
@@ -61,13 +62,16 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
   userList!: MatTableDataSource<UserOutputModel>;
   isAdmin!: boolean;
   currentAudioSource: string | null = null;
+  currentVideoSource: string | null = null;
+  tabVideoMode: boolean = false;
 
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private sanitizer: DomSanitizer
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -184,16 +188,53 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
     return isURL ? URL : `${getServerURL(this.user)}${URL}`;
   }
 
-  getNowPlaying(url: string): { artist: string; title: string } {
+  isYouTubeLink(url: string): boolean {
+    return url.includes('youtu');
+  }
+
+  getYoutubeId(url: string): string {
+    const shortUrlPattern = /youtu\.be\/([a-zA-Z0-9_-]{11})/;
+    const longUrlPattern = /youtube\.com\/.*[?&]v=([a-zA-Z0-9_-]{11})/;
+    
+    let match = url.match(shortUrlPattern);
+    if (match && match[1]) {
+      return match[1];
+    }
+  
+    match = url.match(longUrlPattern);
+    if (match && match[1]) {
+      return match[1];
+    }
+  
+    return '';
+  }
+
+  getYouTubeEmbedUrl(url: string): string {
+    return `https://www.youtube.com/embed/${this.getYoutubeId(url)}?autoplay=1&cc_load_policy=1`;
+  }
+
+  sanitizeUrl(url: string): string {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(this.getYouTubeEmbedUrl(url)) as string
+  }
+
+  getNowPlaying(url: string, field: string): { artist: string; title: string } {
     return {
       artist:
-        this.pr.songList.find((x) => url.includes(x.urlAudio))?.artist ?? '',
+        this.pr.songList.find((x) => url.includes(x[field] as string))?.artist ?? '',
       title:
-        this.pr.songList.find((x) => url.includes(x.urlAudio))?.title ?? '',
+        this.pr.songList.find((x) => url.includes(x[field] as string))?.title ?? '',
     };
   }
 
+  playVideo(url: string): void {
+    this.currentVideoSource = url.includes('youtu') || url.includes('https://')
+      ? url
+      : `${getServerURL(this.user)}${url}`;
+    this.currentAudioSource = null;
+  }
+
   playAudio(url: string): void {
+    this.currentVideoSource = null;
     if (this.currentAudioSource === url) {
       this.currentAudioSource = null;
       return;
@@ -201,5 +242,17 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
     this.currentAudioSource = url.includes('https://')
       ? url
       : `${getServerURL(this.user)}${url}`;
+  }
+
+  toggleTabVideoMode(): void {
+    this.tabVideoMode = !this.tabVideoMode;
+  }
+
+  closeVideoPlayer(): void {
+    this.currentVideoSource = null;
+  }
+
+  closeAudioPlayer(): void {
+    this.currentAudioSource = null;
   }
 }

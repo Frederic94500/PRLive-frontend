@@ -275,7 +275,7 @@ export class PREditComponent implements OnInit, AfterViewInit {
   }
 
   playVideo(url: string): void {
-    this.currentVideoSource = url.includes('youtu')
+    this.currentVideoSource = url.includes('https://') || url.includes('youtu')
       ? url
       : `${getServerURL(this.user)}${url}`;
     this.currentAudioSource = null;

@@ -118,7 +118,7 @@
   </p>
 </div>
 
-<div *ngIf="currentVideoSource" class="center floating-player">
+<div *ngIf="currentVideoSource" class="center floating-video-player">
   <button class="close-button" (click)="closeVideoPlayer()">✖</button>
   <u>Now playing</u>
   <br />
@@ -128,8 +128,7 @@
   <iframe
     id="ytplayer"
     type="text/html"
-    width="854"
-    height="480"
+    height="360"
     [src]="sanitizeUrl(currentVideoSource)"
     frameborder="0"
     allowfullscreen
@@ -139,14 +138,13 @@
     #player
     id="player"
     controls
-    height="480"
     [src]="currentVideoSource"
     autoplay
     *ngIf="currentVideoSource && !isYouTubeLink(currentVideoSource)"
   ></video>
 </div>
 
-<div *ngIf="currentAudioSource" class="center floating-player">
+<div *ngIf="currentAudioSource" class="center floating-audio-player">
   <button class="close-button" (click)="closeAudioPlayer()">✖</button>
   <u>Now playing</u>
   <br />

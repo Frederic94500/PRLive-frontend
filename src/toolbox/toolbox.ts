@@ -23,9 +23,7 @@ export function modifyPRURL(
 ): PRModel | PROutput {
   const server = getServerURL(user);
   pr.songList.forEach((song) => {
-    song.urlVideo = song.urlVideo.includes('https://')
-      ? song.urlVideo
-      : song.urlVideo.includes('youtu')
+    song.urlVideo = song.urlVideo.includes('https://') || song.urlVideo.includes('youtu')
       ? song.urlVideo
       : server + song.urlVideo;
     song.urlAudio = song.urlAudio.includes('https://')
