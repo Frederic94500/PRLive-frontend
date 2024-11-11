@@ -8,7 +8,7 @@
 
 <br />
 
-<div class="centered-content">
+<div class="centered-content" *ngIf="sheets">
   <mat-button-toggle-group [value]="filter" (change)="filterSheet($event)">
     <mat-button-toggle value="ALL" class="custom-button-toggle-all">All</mat-button-toggle>
     <mat-button-toggle value="NOTJOINED" class="custom-button-toggle-notjoined">Not joined</mat-button-toggle>
@@ -17,13 +17,25 @@
   </mat-button-toggle-group>
 </div>
 
-<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
+<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" [selectedIndex]="1">
+  <mat-tab label="Nomination">
+    <app-table
+      [user]="user"
+      [sheetSimple]="sheets"
+      [dataSource]="prsNomination"
+      [displayedColumns]="nominationDisplayedColumns"
+      [isAdmin]="isAdmin"
+      [isLoggedIn]="isLoggedIn"
+      [isCreator]="isCreator"
+      [filter]="filter"
+    ></app-table>
+  </mat-tab>
   <mat-tab label="Ongoing">
     <app-table
       [user]="user"
       [sheetSimple]="sheets"
-      [dataSource]="prsUnfinished"
-      [displayedColumns]="unfinishedDisplayedColumns"
+      [dataSource]="prsRanking"
+      [displayedColumns]="rankingDisplayedColumns"
       [isAdmin]="isAdmin"
       [isLoggedIn]="isLoggedIn"
       [isCreator]="isCreator"

@@ -4,20 +4,23 @@
     Creator : <b>{{ user.name }}</b> |
     <span *ngIf="pr.nomination">
       Nomination deadline:
-      <b class="{{ passedDeadline() }}">{{
-        pr.deadline | date : "dd/MM/yyyy HH:mm"
+      <b class="{{ passedDeadline(pr.nomination.deadlineNomination) }}">{{
+        pr.nomination.deadlineNomination | date : "dd/MM/yyyy HH:mm"
       }}</b>
       |
     </span>
     Deadline:
-    <b class="{{ passedDeadline() }}">{{
+    <b class="{{ passedDeadline(pr.deadline) }}">{{
       pr.deadline | date : "dd/MM/yyyy HH:mm"
     }}</b>
   </p>
   <p>
     Nomination:
     <mat-icon>{{ pr.nomination ? "check_circle" : "cancel" }}</mat-icon> |
-    Blind: <mat-icon>{{ pr.blind ? "check_circle" : "cancel" }}</mat-icon> |
+    <span *ngIf="pr.nomination">
+      Hidden: <mat-icon>{{ pr.nomination.hidden ? "check_circle" : "cancel" }}</mat-icon> |
+      Blind: <mat-icon>{{ pr.nomination.blind ? "check_circle" : "cancel" }}</mat-icon> |
+    </span>
     Tie: <mat-icon>{{ pr.tie.status ? "check_circle" : "cancel" }}</mat-icon> |
     Finished:
     <mat-icon>{{ pr.finished ? "check_circle" : "cancel" }}</mat-icon> | Video:
@@ -27,7 +30,10 @@
     Stats: <mat-icon>{{ pr.prStats ? "check_circle" : "cancel" }}</mat-icon>
   </p>
   <p>
-    Must be: <b>{{ pr.mustBe }}</b> | Number of songs:
+    Must be: <b>{{ pr.mustBe }}</b> |
+    <span *ngIf="pr.nomination">
+      Song per user: <b>{{ pr.nomination.songPerUser }}</b> |
+    </span> Number of songs:
     <b>{{ pr.numberSongs }}</b> | Number of voters:
     <b>{{ pr.numberVoters }}</b> | Finished count: <b>{{ countFinished() }}</b>
   </p>
@@ -37,6 +43,9 @@
     </button>
     <button mat-raised-button (click)="downloadJson()">
       <mat-icon>file_download</mat-icon>Download output JSON
+    </button>
+    <button mat-raised-button [routerLink]="['/nomination', pr._id]" *ngIf="pr.nomination">
+      <mat-icon>article</mat-icon>Nomination
     </button>
     <button mat-raised-button [routerLink]="['/pr', pr._id, 'edit']">
       <mat-icon>edit</mat-icon>Edit

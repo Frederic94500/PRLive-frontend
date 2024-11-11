@@ -1,4 +1,4 @@
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import {
   AfterViewInit,
   Component,
@@ -44,7 +44,8 @@ import { modifyPRURL } from '@/src/toolbox/toolbox';
     MatIconModule,
     MatCardModule,
     FormsModule,
-    MatTooltipModule
+    MatTooltipModule,
+    RouterLink,
   ],
   templateUrl: './sheet.component.html',
   styleUrl: './sheet.component.css',
@@ -115,6 +116,11 @@ export class SheetComponent implements OnInit, AfterViewInit {
         urlAudio: song?.urlAudio ?? '',
       };
     });
+    if (this.pr.nomination) {
+      if (this.pr.nomination.blind) {
+        this.displayedColumns = this.displayedColumns.filter((column) => !['artist', 'title', 'anime', 'video', 'type'].includes(column));
+      }
+    }
     this.sheetTable = new MatTableDataSource(sheetTableData);
 
     this.userCreator = (await new UserService().getUser(this.pr.creator)).data;

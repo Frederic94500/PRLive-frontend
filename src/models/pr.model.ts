@@ -1,3 +1,5 @@
+import { Nomination } from '../interfaces/nomination.interface';
+import { PRStatus } from '../enums/prStatus.enum';
 import { SongModel } from '@models/song.model';
 import { UserOutputModel } from './user.model';
 
@@ -5,7 +7,8 @@ export class PRModel {
   _id!: string;
   name!: string;
   creator!: string;
-  nomination!: boolean;
+  status!: PRStatus;
+  nomination!: Nomination;
   blind!: boolean;
   deadlineNomination!: string;
   deadline!: string;

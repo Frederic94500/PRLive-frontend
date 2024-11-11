@@ -3,12 +3,15 @@ import { AuthService } from '@services/auth.service';
 import { ErrorComponent } from '@components/error/error.component';
 import { IndexComponent } from '@components/index/index.component';
 import { LoginRedirectComponent } from '@components/login-redirect/login-redirect.component';
+import { NominationComponent } from './nomination/nomination.component';
+import { NominationResolver } from '../resolvers/nomination.resolver';
 import { PRComponent } from '@components/pr/pr.component';
 import { PRCreateComponent } from '@components/pr-create/pr-create.component';
 import { PRDetailComponent } from '@components/pr-detail/pr-detail.component';
 import { PREditComponent } from '@components/pr-edit/pr-edit.component';
 import { PRFinishedComponent } from './pr-finished/pr-finished.component';
 import { PRFinishedResolver } from '../resolvers/pr-finished.resolver';
+import { PRGetEditResolver } from '../resolvers/pr-get-edit.resolver';
 import { PROutputResolver } from '@resolvers/pr-output.resolver';
 import { PRResolver } from '@resolvers/pr.resolver';
 import { PRService } from '@services/pr.service';
@@ -67,7 +70,7 @@ export const routes: Routes = [
     canActivate: [() => inject(AuthGuard).protectedRoute()],
     resolve: {
       auth: () => inject(AuthService).getWhoAmI(),
-      pr: PRResolver,
+      pr: PRGetEditResolver,
     },
   },
   {
@@ -85,6 +88,15 @@ export const routes: Routes = [
     resolve: {
       sheet: SheetResolver,
       pr: PRResolver,
+      auth: () => inject(AuthService).getWhoAmI(),
+    },
+  },
+  {
+    path: 'nomination/:id',
+    component: NominationComponent,
+    canActivate: [() => inject(AuthGuard).canActivate()],
+    resolve: {
+      nomination: NominationResolver,
       auth: () => inject(AuthService).getWhoAmI(),
     },
   },

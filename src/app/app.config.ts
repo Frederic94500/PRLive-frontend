@@ -3,6 +3,7 @@ import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { ApiService } from '@services/api.service';
 import { AuthGuard } from '@guards/auth.guard';
 import { AuthService } from '@services/auth.service';
+import { NominationService } from '../services/nomination';
 import { PRService } from '@services/pr.service';
 import { SheetService } from '@services/sheet.service';
 import { UserService } from '../services/user.service';
@@ -25,5 +26,6 @@ export const appConfig: ApplicationConfig = {
     AuthGuard,
     UsersResolver,
     UserService,
+    NominationService
   ],
 };

@@ -16,6 +16,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NominationService } from '@/src/services/nomination';
 import { PR } from '@interfaces/pr.interface';
 import { PRService } from '@services/pr.service';
 import { PrEditAddSongDialogComponent } from '../pr-edit-add-song-dialog/pr-edit-add-song-dialog.component';
@@ -286,6 +287,20 @@ export class PREditComponent implements OnInit, AfterViewInit {
     this.currentAudioSource = url.includes('https://')
       ? url
       : `${getServerURL(this.user)}${url}`;
+  }
+
+  confirmEndNomination(): void {
+    const confirmEndNomination = confirm(
+      'Are you sure you want to end the nomination?'
+    );
+    if (confirmEndNomination) {
+      this.endNomination();
+    }
+  }
+
+  endNomination(): void {
+    this.pr.nomination.endNomination = true;
+    new NominationService().endNomination(this.pr._id);
   }
 
   toggleTabVideoMode(): void {

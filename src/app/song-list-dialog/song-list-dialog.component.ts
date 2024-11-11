@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { User } from '@/src/interfaces/user.interface';
 import { modifyPRURL } from '@/src/toolbox/toolbox';
+import { Song } from '@/src/interfaces/song.interface';
 
 @Component({
   selector: 'app-song-list-dialog',
@@ -28,8 +29,8 @@ export class SongListDialogComponent implements AfterViewInit {
     'urlAudio',
   ];
   pr: PRModel;
-  songList!: SongModel[];
-  songTable: MatTableDataSource<SongModel>;
+  songList!: Song[];
+  songTable: MatTableDataSource<Song>;
   currentAudioSource: string | null = null;
 
   @ViewChild(MatSort) sort!: MatSort;
@@ -43,6 +44,35 @@ export class SongListDialogComponent implements AfterViewInit {
     this.pr = modifyPRURL(this.pr, this.user) as PRModel;
 
     this.songList = data.songList;
+    this.songList = this.pr.songList.map(song => {
+      const { uuid, orderId, nominatedId, artist, title, anime, type, urlVideo, urlAudio, startSample, sampleLength } = song;
+      return {
+        uuid,
+        orderId,
+        nominatedId: this.pr.nomination.hidden ? '' : nominatedId ?? '',
+        artist: this.pr.nomination.blind ? '' : artist ?? '',
+        title: this.pr.nomination.blind ? '' : title ?? '',
+        anime: this.pr.nomination.blind ? '' : anime ?? '',
+        type,
+        urlVideo: this.pr.nomination.blind ? '' : urlVideo ?? '',
+        urlAudio: this.pr.nomination.blind ? '' : urlAudio ?? '',
+        startSample,
+        sampleLength,
+      };
+    })
+    if (this.pr.nomination) {
+      this.displayedColumns = [];
+      if (!this.pr.nomination.blind) {
+        this.displayedColumns.unshift(
+          'artist',
+          'title',
+          'anime',
+          'type',
+          'urlVideo',
+          'urlAudio'
+        );
+      }
+    }
     this.songTable = new MatTableDataSource(this.songList);
   }
 

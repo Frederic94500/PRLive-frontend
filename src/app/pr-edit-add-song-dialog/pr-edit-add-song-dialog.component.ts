@@ -72,6 +72,13 @@ export class PrEditAddSongDialogComponent {
   }
 
   async onSubmit(): Promise<void> {
+    if (this.songForm.invalid) {
+      this.snackBar.open('Please fill out all required fields.', 'Close', {
+        duration: 5000,
+      });
+      return;
+    }
+    
     let songData = this.songForm.value;
     songData.nominatedId = songData.nominatedId || null;
     songData.anime = songData.anime || null;

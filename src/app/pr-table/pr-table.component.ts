@@ -70,6 +70,24 @@ export class PRTableComponent implements OnInit, AfterViewInit {
     return '';
   }
 
+  isEmptySongList(pr: PRModel) {
+    return pr.numberSongs === 0;
+  }
+
+  hideNominatedSongs(pr: PRModel): boolean {
+    if (!pr.nomination) {
+      return false;
+    }
+    if (this.isEmptySongList(pr)) {
+      return true;
+    }
+    if (pr.nomination.hidden && pr.nomination.blind) {
+      return true;
+    }
+    return pr.nomination.hideNominatedSongList;
+  }
+
+
   async openSongListDialog(event: Event, prId: string): Promise<void> {
     event.stopPropagation();
 

@@ -14,8 +14,10 @@ import {
 
 import { CommonModule } from '@angular/common';
 import { MatButton } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PRInput } from '@/src/interfaces/pr.interface';
 import { PRService } from '@/src/services/pr.service';
@@ -34,6 +36,8 @@ import { Response } from '@/src/interfaces/api.interface';
     MatCheckboxModule,
     MatInputModule,
     MatButton,
+    MatSlideToggleModule,
+    MatButtonToggleModule
   ],
   templateUrl: './pr-create.component.html',
   styleUrl: './pr-create.component.css',
@@ -42,6 +46,7 @@ export class PRCreateComponent implements OnInit {
   name!: string;
   @Input() prForm!: FormGroup;
   prService: PRService = new PRService();
+  isNomination: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -51,12 +56,21 @@ export class PRCreateComponent implements OnInit {
   ngOnInit(): void {
     this.prForm = this.formBuilder.group({
       name: ['', Validators.required],
-      nomination: [false, Validators.required],
-      blind: [false, Validators.required],
-      deadlineNomination: [''],
       deadline: ['', Validators.required],
-      songList: [null, Validators.required],
+      isNomination: [this.isNomination, Validators.required],
+      hidden: [false],
+      blind: [false],
+      hideNominatedSongList: [false],
+      deadlineNomination: [''],
+      songPerUser: [1],
+      songList: [null],
     });
+  }
+
+  toggleNomination(): void {
+    this.isNomination = !this.isNomination;
+    this.prForm.get('isNomination')?.setValue(this.isNomination);
+    console.log(this.prForm.value);
   }
 
   downloadTemplate(): void {

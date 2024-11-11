@@ -56,11 +56,26 @@
     <td
       mat-cell
       *matCellDef="let pr"
-      class="{{ passedDeadline(pr.nomination, pr.deadlineNomination) }}"
+      class="{{ passedDeadline(pr.nomination.deadlineNomination, pr.nomination.deadlineNomination) }}"
     >
       <b>{{
-        pr.nomination ? (pr.deadlineNomination | date : "dd/MM/yyyy HH:mm") : ""
+        pr.nomination ? (pr.nomination.deadlineNomination | date : "dd/MM/yyyy HH:mm") : ""
       }}</b>
+    </td>
+  </ng-container>
+
+  <!-- Nominate Column -->
+  <ng-container matColumnDef="nominate">
+    <th mat-header-cell *matHeaderCellDef>Nominate</th>
+    <td mat-cell *matCellDef="let pr">
+      <button
+        mat-raised-button
+        color="primary"
+        *ngIf="pr.nomination"
+        [routerLink]="['/nomination/', pr._id]"
+      >
+        Nominate
+      </button>
     </td>
   </ng-container>
 
@@ -89,6 +104,7 @@
         class="custom-fab"
         *ngIf="isLoggedIn"
         (click)="openSongListDialog($event, pr._id)"
+        [disabled]="hideNominatedSongs(pr)"
       >
         {{ pr.numberSongs }}
       </button>

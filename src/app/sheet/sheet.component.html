@@ -29,6 +29,15 @@
     <button
       mat-raised-button
       color="primary"
+      [routerLink]="['/nomination', pr._id]"
+    >
+      <mat-icon>article</mat-icon>Nomination
+    </button>
+  </p>
+  <p>
+    <button
+      mat-raised-button
+      color="primary"
       (click)="autoFillRank()"
       [disabled]="pr.finished"
     >

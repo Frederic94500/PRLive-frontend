@@ -93,8 +93,8 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
     this.userList.sort = this.sort;
   }
 
-  passedDeadline(): string {
-    if (Date.parse(this.pr.deadline) < Date.now()) return 'red-value';
+  passedDeadline(date: string): string {
+    if (Date.parse(date) < Date.now()) return 'red-value';
     return 'green-value';
   }
 

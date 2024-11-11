@@ -53,6 +53,12 @@ export class PRService {
     );
   }
 
+  public async getUpdatePR(prId: string): Promise<Response> {
+    return await this.apiService.getWithCred(
+      `${this.apiEndpoint}/update/${prId}`
+    );
+  }
+
   public async updatePR(pr: PR): Promise<Response> {
     return await this.apiService.postPutData(
       pr,

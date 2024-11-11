@@ -6,12 +6,6 @@
       <input matInput formControlName="name" required />
     </mat-form-field>
 
-    <mat-checkbox formControlName="nomination" class="custom-checkbox">Nomination</mat-checkbox>
-
-    <mat-checkbox formControlName="blind" class="custom-checkbox">Blind</mat-checkbox>
-
-    <br />
-
     <mat-form-field class="input-full-width">
       <mat-label>Deadline</mat-label>
       <input
@@ -22,28 +16,45 @@
       />
     </mat-form-field>
 
-    <br />
+    <mat-slide-toggle (change)="toggleNomination()" required>Is Nomination</mat-slide-toggle>
 
-    <mat-form-field class="input-full-width">
-      <mat-label>Deadline Nomination</mat-label>
-      <input
-        matInput
-        type="datetime-local"
-        formControlName="deadlineNomination"
-      />
-    </mat-form-field>
-
-    <p><a (click)="downloadTemplate()" class="link-style">Template Standard Song List</a></p>
-    <div>
-      <label for="jsonFile">Upload JSON (Standard/AnisongDB format)</label>
+    <span *ngIf="isNomination">
+      <mat-form-field class="input-full-width">
+        <mat-label>Deadline Nomination</mat-label>
+        <input
+          matInput
+          type="datetime-local"
+          formControlName="deadlineNomination"
+          [required]="isNomination"
+        />
+      </mat-form-field>
       <br />
-      <input
-        id="jsonFile"
-        type="file"
-        (change)="onFileChange($event)"
-        accept=".json"
-      />
-    </div>
+      <mat-checkbox formControlName="hidden" class="custom-checkbox">Hidden</mat-checkbox>
+      <br />
+      <mat-checkbox formControlName="blind" class="custom-checkbox">Blind</mat-checkbox>
+      <br />
+      <mat-checkbox formControlName="hideNominatedSongList" class="custom-checkbox">Hide nomination song list</mat-checkbox>
+      <br />
+      <mat-form-field class="input-full-width">
+        <mat-label>Song per user</mat-label>
+        <input matInput formControlName="songPerUser" type="number" min="1" [required]="isNomination"/>
+      </mat-form-field>
+    </span>
+
+    <span *ngIf="!isNomination">
+      <p><a (click)="downloadTemplate()" class="link-style">Template Standard Song List</a></p>
+      <div>
+        <label for="jsonFile">Upload JSON (Standard/AnisongDB format)</label>
+        <br />
+        <input
+          id="jsonFile"
+          type="file"
+          (change)="onFileChange($event)"
+          accept=".json"
+          [required]="!isNomination"
+        />
+      </div>
+    </span>
 
     <br />
 

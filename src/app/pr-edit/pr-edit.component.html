@@ -19,7 +19,7 @@
         <input
           matInput
           type="datetime-local"
-          [value]="pr.deadlineNomination | date : 'yyyy-MM-ddTHH:mm'"
+          [value]="pr.nomination.deadlineNomination| date : 'yyyy-MM-ddTHH:mm'"
           id="deadlineNomination"
           (change)="updatePRField('deadlineNomination')"
           tabindex="0"
@@ -103,7 +103,13 @@
   <p>
     Nomination:
     <mat-icon>{{ pr.nomination ? "check_circle" : "cancel" }}</mat-icon> |
-    Blind: <mat-icon>{{ pr.blind ? "check_circle" : "cancel" }}</mat-icon> |
+    <button
+      mat-raised-button
+      color="primary"
+      *ngIf="pr.nomination"
+      (click)="confirmEndNomination()"
+      [disabled]="pr.nomination.endNomination"
+    >End Nomination</button> | 
     Finished:
     <mat-slide-toggle
       id="finished"

@@ -17,12 +17,12 @@
     </p>
   </div>
   <table mat-table [dataSource]="songTable" matSort>
-    <!-- OrderId Column -->
-    <ng-container matColumnDef="orderId">
+    <!-- NominatedId Column -->
+    <ng-container matColumnDef="nominatedId">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        Order<mat-icon>sort</mat-icon>
+        Nominated ID<mat-icon>sort</mat-icon>
       </th>
-      <td mat-cell *matCellDef="let song">{{ song.orderId }}</td>
+      <td mat-cell *matCellDef="let song">{{ song.nominatedId }}</td>
     </ng-container>
 
     <!-- Title Column -->

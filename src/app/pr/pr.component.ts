@@ -9,6 +9,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTabsModule } from '@angular/material/tabs';
 import { PRModel } from '@models/pr.model';
+import { PRStatus } from '@/src/enums/prStatus.enum';
 import { PRTableComponent } from '@components/pr-table/pr-table.component';
 import { SheetSimple } from '@/src/interfaces/sheet.interface';
 import { SheetStatus } from '@/src/enums/sheetStatus.enum';
@@ -34,12 +35,16 @@ import { User } from '@/src/interfaces/user.interface';
 export class PRComponent implements OnInit {
   user!: User;
   prs!: PRModel[];
-  unfinishedDisplayedColumns: string[] = [
+  nominationDisplayedColumns: string[] = [
+    'name',
+    'creator',
+    'deadlineNomination',
+    'numberSongs',
+  ];
+  rankingDisplayedColumns: string[] = [
     'name',
     'creator',
     'nomination',
-    'blind',
-    'deadlineNomination',
     'deadline',
     'numberSongs',
   ];
@@ -47,13 +52,12 @@ export class PRComponent implements OnInit {
     'name',
     'creator',
     'nomination',
-    'blind',
-    'deadlineNomination',
     'deadline',
     'numberSongs',
     'finished',
   ];
-  prsUnfinished!: MatTableDataSource<PRModel>;
+  prsNomination!: MatTableDataSource<PRModel>;
+  prsRanking!: MatTableDataSource<PRModel>;
   prsFinished!: MatTableDataSource<PRModel>;
   sheets!: SheetSimple[];
   isLoggedIn: boolean = false;
@@ -76,11 +80,14 @@ export class PRComponent implements OnInit {
 
   ngOnInit(): void {
     this.prs = this.route.snapshot.data['prs'].data;
-    this.prsUnfinished = new MatTableDataSource(
-      this.prs.filter((pr: PRModel) => !pr.finished)
+    this.prsNomination = new MatTableDataSource(
+      this.prs.filter((pr: PRModel) => pr.status === PRStatus.NOMINATION)
+    );
+    this.prsRanking = new MatTableDataSource(
+      this.prs.filter((pr: PRModel) => pr.status === PRStatus.RANKING)
     );
     this.prsFinished = new MatTableDataSource(
-      this.prs.filter((pr: PRModel) => pr.finished)
+      this.prs.filter((pr: PRModel) => pr.status === PRStatus.FINISHED)
     );
 
     const user = this.route.snapshot.data['auth'];
@@ -88,16 +95,19 @@ export class PRComponent implements OnInit {
     if (user.code === 200) {
       this.isLoggedIn = true;
       this.sheets = this.route.snapshot.data['sheets'].data;
-      if (!this.isAllJoined(this.prsUnfinished)) {
-        this.unfinishedDisplayedColumns.push('join');
+      this.nominationDisplayedColumns.push('nominate');
+      if (!this.isAllJoined(this.prsRanking)) {
+        this.rankingDisplayedColumns.push('join');
       }
       if (user.data.role === 'admin') {
-        this.unfinishedDisplayedColumns.push('_id');
+        this.nominationDisplayedColumns.push('_id');
+        this.rankingDisplayedColumns.push('_id');
         this.finishedDisplayedColumns.push('_id');
         this.isAdmin = true;
       }
       if (user.data.role === 'creator' || user.data.role === 'admin') {
-        this.unfinishedDisplayedColumns.push('options');
+        this.nominationDisplayedColumns.push('options');
+        this.rankingDisplayedColumns.push('options');
         this.finishedDisplayedColumns.push('options');
         this.isCreator = true;
       }
@@ -123,16 +133,19 @@ export class PRComponent implements OnInit {
     }
 
     if (this.filter === SheetStatus.ALL) {
-      this.prsUnfinished = new MatTableDataSource(
-        this.prs.filter((pr: PRModel) => !pr.finished)
+      this.prsNomination = new MatTableDataSource(
+        this.prs.filter((pr: PRModel) => pr.status === PRStatus.NOMINATION)
+      );
+      this.prsRanking = new MatTableDataSource(
+        this.prs.filter((pr: PRModel) => pr.status === PRStatus.RANKING)
       );
       this.prsFinished = new MatTableDataSource(
-        this.prs.filter((pr: PRModel) => pr.finished)
+        this.prs.filter((pr: PRModel) => pr.status === PRStatus.FINISHED)
       );
       return;
     }
 
-    this.prsUnfinished = new MatTableDataSource(
+    this.prsRanking = new MatTableDataSource(
       this.prs.filter((pr: PRModel) =>
         this.sheets.some(
           (sheet: SheetSimple) =>
