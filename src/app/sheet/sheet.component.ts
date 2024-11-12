@@ -67,7 +67,6 @@ export class SheetComponent implements OnInit, AfterViewInit {
   sheetService: SheetService = new SheetService();
   pr!: PR;
   sheet!: Sheet;
-  userCreator!: User;
   sheetTable!: MatTableDataSource<SheetSheetFront>;
   totalRank: number = 0;
   meanScore: number = 0;
@@ -122,8 +121,6 @@ export class SheetComponent implements OnInit, AfterViewInit {
       }
     }
     this.sheetTable = new MatTableDataSource(sheetTableData);
-
-    this.userCreator = (await new UserService().getUser(this.pr.creator)).data;
 
     this.computeTotalRank();
     this.updateMeanScore();

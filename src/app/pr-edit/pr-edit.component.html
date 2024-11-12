@@ -19,7 +19,7 @@
         <input
           matInput
           type="datetime-local"
-          [value]="pr.nomination.deadlineNomination| date : 'yyyy-MM-ddTHH:mm'"
+          [value]="pr.nomination.deadlineNomination | date : 'yyyy-MM-ddTHH:mm'"
           id="deadlineNomination"
           (change)="updatePRField('deadlineNomination')"
           tabindex="0"
@@ -101,15 +101,17 @@
   </p>
 
   <p>
+    Creator: <b>{{ pr.creator }}</b> |
     Nomination:
     <mat-icon>{{ pr.nomination ? "check_circle" : "cancel" }}</mat-icon> |
-    <button
-      mat-raised-button
-      color="primary"
-      *ngIf="pr.nomination"
-      (click)="confirmEndNomination()"
-      [disabled]="pr.nomination.endNomination"
-    >End Nomination</button> | 
+    <span *ngIf="pr.nomination">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="confirmEndNomination()"
+        [disabled]="pr.nomination.endNomination"
+      >End Nomination</button> | 
+    </span>
     Finished:
     <mat-slide-toggle
       id="finished"
@@ -118,9 +120,6 @@
     >
       {{ pr.finished }}
     </mat-slide-toggle>
-  </p>
-  <p>
-    Creator: <b>{{ creator.name }}</b>
   </p>
 </div>
 

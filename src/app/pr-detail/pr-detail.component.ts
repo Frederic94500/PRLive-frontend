@@ -80,7 +80,7 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
 
     this.isAdmin = this.route.snapshot.data['auth'].data.role === 'admin';
 
-    this.user = (await new UserService().getUser(this.pr.creator)).data;
+    this.user = this.route.snapshot.data['auth'].data
 
     if (this.isAdmin) {
       this.displayedColumnsSongList.unshift('uuid');

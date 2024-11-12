@@ -58,7 +58,6 @@ export class PREditComponent implements OnInit, AfterViewInit {
   ];
   pr!: PR;
   songList!: MatTableDataSource<Song>;
-  creator!: User;
   prService = new PRService();
   currentAudioSource: string | null = null;
   user!: User;
@@ -77,7 +76,6 @@ export class PREditComponent implements OnInit, AfterViewInit {
   async ngOnInit(): Promise<void> {
     this.pr = this.route.snapshot.data['pr'].data;
     this.songList = new MatTableDataSource(this.pr.songList);
-    this.creator = (await new UserService().getUser(this.pr.creator)).data;
     this.user = this.route.snapshot.data['auth'].data;
   }
 
