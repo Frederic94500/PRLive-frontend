@@ -15,7 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { SheetService } from '@/src/services/sheet.service';
 import { SheetViewDialogComponent } from '../sheet-view-dialog/sheet-view-dialog.component';
-import { SongModel } from '@models/song.model';
+import { Song } from '@/src/interfaces/song.interface';
 import { UserModel } from '@models/user.model';
 import { UserOutput } from '@interfaces/user.interface';
 import { UserService } from '@services/user.service';
@@ -57,7 +57,7 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
     'options',
   ];
   pr!: PRDetail;
-  songList!: MatTableDataSource<SongModel>;
+  songList!: MatTableDataSource<Song>;
   user!: UserModel;
   userList!: MatTableDataSource<UserOutput>;
   isAdmin!: boolean;
