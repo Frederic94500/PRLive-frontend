@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { SheetModel, SheetSheetFrontModel } from '@models/sheet.model';
+import { Sheet, SheetSheetFront } from '@/src/interfaces/sheet.interface';
 
 import { CommonModule } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -66,9 +66,9 @@ export class SheetComponent implements OnInit, AfterViewInit {
 
   sheetService: SheetService = new SheetService();
   pr!: PR;
-  sheet!: SheetModel;
+  sheet!: Sheet;
   userCreator!: User;
-  sheetTable!: MatTableDataSource<SheetSheetFrontModel>;
+  sheetTable!: MatTableDataSource<SheetSheetFront>;
   totalRank: number = 0;
   meanScore: number = 0;
   currentAudioSource: string | null = null;
@@ -104,7 +104,7 @@ export class SheetComponent implements OnInit, AfterViewInit {
     }
 
     this.sheet = this.route.snapshot.data['sheet'].data;
-    const sheetTableData: SheetSheetFrontModel[] = this.sheet.sheet.map((songTable) => {
+    const sheetTableData: SheetSheetFront[] = this.sheet.sheet.map((songTable) => {
       const song = this.pr.songList.find((song) => song.uuid === songTable.uuid);
       return {
         ...songTable,

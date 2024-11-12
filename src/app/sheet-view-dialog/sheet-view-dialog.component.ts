@@ -1,5 +1,3 @@
-import { SheetModel, SheetSheetModel } from '@/src/models/sheet.model';
-
 import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { SongModel } from '@/src/models/song.model';
@@ -7,6 +5,7 @@ import { UserOutputModel } from '@/src/models/user.model';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { CommonModule } from '@angular/common';
+import { Sheet, SheetSheet } from '@/src/interfaces/sheet.interface';
 
 @Component({
   selector: 'app-sheet-view-dialog',
@@ -26,8 +25,8 @@ export class SheetViewDialogComponent implements AfterViewInit {
   ];
   voter: UserOutputModel;
   songList: SongModel[];
-  sheet: SheetModel;
-  sheetTable: MatTableDataSource<SheetSheetModel>;
+  sheet: Sheet;
+  sheetTable: MatTableDataSource<SheetSheet>;
   mustBe: number = 0;
   totalRank: number = 0;
   meanScore: number = 0;
@@ -41,7 +40,7 @@ export class SheetViewDialogComponent implements AfterViewInit {
     this.voter = data.voter;
     this.songList = data.songList;
     this.sheet = data.sheet;
-    this.sheetTable = new MatTableDataSource<SheetSheetModel>(this.sheet.sheet);
+    this.sheetTable = new MatTableDataSource<SheetSheet>(this.sheet.sheet);
     this.mustBe = data.mustBe;
 
     this.totalRank = this.sheetTable.data.reduce(

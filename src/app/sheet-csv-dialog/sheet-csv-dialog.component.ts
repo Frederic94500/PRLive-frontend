@@ -1,6 +1,5 @@
 import { Component, Inject, Input } from '@angular/core';
 
-import { SheetModel, SheetSheetFrontModel } from '@/src/models/sheet.model';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,6 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SheetService } from '@/src/services/sheet.service';
 import { Response } from '@/src/interfaces/api.interface';
 import { MatIconModule } from '@angular/material/icon';
+import { Sheet, SheetSheetFront } from '@/src/interfaces/sheet.interface';
 
 @Component({
   selector: 'app-sheet-csv-dialog',
@@ -19,8 +19,8 @@ import { MatIconModule } from '@angular/material/icon';
 export class SheetCSVDialogComponent {
   @Input() prName: string;
   @Input() username: string;
-  @Input() sheet: SheetModel;
-  @Input() sheetSheetFrontModel: SheetSheetFrontModel[];
+  @Input() sheet: Sheet;
+  @Input() sheetSheetFrontModel: SheetSheetFront[];
 
   constructor(
     public dialogSheetCsv: MatDialogRef<SheetCSVDialogComponent>,
@@ -33,7 +33,7 @@ export class SheetCSVDialogComponent {
     this.sheetSheetFrontModel = data.sheetSheetFrontModel;
   }
 
-  convertToCSV(sheetSheetFrontModel: SheetSheetFrontModel[]): string {
+  convertToCSV(sheetSheetFrontModel: SheetSheetFront[]): string {
     const reorderFields = (row: any) => {
       const { _id, rank, score, comment, ...rest } = row;
       return { ...rest, rank, score, comment };
@@ -72,7 +72,7 @@ export class SheetCSVDialogComponent {
     return await new SheetService().putSheet(this.sheet.prId, this.sheet);
   }
 
-  transferEditToSheet(csvSheet: SheetSheetFrontModel[]): void {
+  transferEditToSheet(csvSheet: SheetSheetFront[]): void {
     this.sheetSheetFrontModel.forEach((sheet) => {
       const csvRow = csvSheet.find((csv) => csv.uuid === sheet.uuid);
       if (csvRow) {
@@ -87,7 +87,7 @@ export class SheetCSVDialogComponent {
     return str.split(char).length - 1;
   }
   
-  processCSV(csv: string): SheetSheetFrontModel[] {
+  processCSV(csv: string): SheetSheetFront[] {
     const rows = csv.split('\n');
     const typeOfSeparator = this.countSpecificChar(rows[0], ',') > this.countSpecificChar(rows[0], ';') ? ',' : ';';
     const header = rows[0].split(typeOfSeparator).map(key => key.trim().replace(/^"|"$/g, ''));
@@ -99,7 +99,7 @@ export class SheetCSVDialogComponent {
       }, {});
     });
     console.log(data);
-    return data as SheetSheetFrontModel[];
+    return data as SheetSheetFront[];
   }
 
   importCSV(): void {
