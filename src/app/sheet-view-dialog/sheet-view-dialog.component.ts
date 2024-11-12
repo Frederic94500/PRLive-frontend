@@ -1,11 +1,11 @@
 import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { UserOutputModel } from '@/src/models/user.model';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { CommonModule } from '@angular/common';
 import { Sheet, SheetSheet } from '@/src/interfaces/sheet.interface';
 import { Song } from '@/src/interfaces/song.interface';
+import { UserOutput } from '@/src/interfaces/user.interface';
 
 @Component({
   selector: 'app-sheet-view-dialog',
@@ -23,7 +23,7 @@ export class SheetViewDialogComponent implements AfterViewInit {
     'rank',
     'score',
   ];
-  voter: UserOutputModel;
+  voter: UserOutput;
   songList: Song[];
   sheet: Sheet;
   sheetTable: MatTableDataSource<SheetSheet>;

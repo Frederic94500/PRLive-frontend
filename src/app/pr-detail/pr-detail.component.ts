@@ -3,6 +3,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { PR, PRDetail } from '@/src/interfaces/pr.interface';
+import { User, UserOutput } from '@interfaces/user.interface';
 import { getServerURL, modifyPRURL } from '@/src/toolbox/toolbox';
 
 import { CommonModule } from '@angular/common';
@@ -16,8 +17,6 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { SheetService } from '@/src/services/sheet.service';
 import { SheetViewDialogComponent } from '../sheet-view-dialog/sheet-view-dialog.component';
 import { Song } from '@/src/interfaces/song.interface';
-import { UserModel } from '@models/user.model';
-import { UserOutput } from '@interfaces/user.interface';
 import { UserService } from '@services/user.service';
 
 @Component({
@@ -58,7 +57,7 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
   ];
   pr!: PRDetail;
   songList!: MatTableDataSource<Song>;
-  user!: UserModel;
+  user!: User;
   userList!: MatTableDataSource<UserOutput>;
   isAdmin!: boolean;
   currentAudioSource: string | null = null;

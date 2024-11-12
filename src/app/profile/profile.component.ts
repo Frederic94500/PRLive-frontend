@@ -10,7 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Server } from '@/src/enums/server.enum';
-import { UserModel } from '@models/user.model';
+import { User } from '@/src/interfaces/user.interface';
 import { UserService } from '@/src/services/user.service';
 
 @Component({
@@ -31,7 +31,7 @@ import { UserService } from '@/src/services/user.service';
 })
 export class ProfileComponent implements OnInit {
   userService = new UserService();
-  user!: UserModel;
+  user!: User;
 
   constructor(
     private route: ActivatedRoute,
