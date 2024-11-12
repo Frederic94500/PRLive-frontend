@@ -1,7 +1,6 @@
+import { PR, PROutput } from '../interfaces/pr.interface';
 import { Server, ServerURL } from '../enums/server.enum';
 
-import { PRModel } from '../models/pr.model';
-import { PROutput } from '../interfaces/pr.interface';
 import { User } from '@interfaces/user.interface';
 
 export function getServerURL(user: User): string {
@@ -18,9 +17,9 @@ export function getServerURL(user: User): string {
 }
 
 export function modifyPRURL(
-  pr: PRModel | PROutput,
+  pr: PR | PROutput,
   user: User
-): PRModel | PROutput {
+): PR | PROutput {
   const server = getServerURL(user);
   pr.songList.forEach((song) => {
     song.urlVideo = song.urlVideo.includes('https://') || song.urlVideo.includes('youtu')

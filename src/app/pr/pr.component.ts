@@ -8,7 +8,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIcon } from '@angular/material/icon';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTabsModule } from '@angular/material/tabs';
-import { PRModel } from '@models/pr.model';
+import { PR } from '@/src/interfaces/pr.interface';
 import { PRStatus } from '@/src/enums/prStatus.enum';
 import { PRTableComponent } from '@components/pr-table/pr-table.component';
 import { SheetSimple } from '@/src/interfaces/sheet.interface';
@@ -34,7 +34,7 @@ import { User } from '@/src/interfaces/user.interface';
 })
 export class PRComponent implements OnInit {
   user!: User;
-  prs!: PRModel[];
+  prs!: PR[];
   nominationDisplayedColumns: string[] = [
     'name',
     'creator',
@@ -56,9 +56,9 @@ export class PRComponent implements OnInit {
     'numberSongs',
     'finished',
   ];
-  prsNomination!: MatTableDataSource<PRModel>;
-  prsRanking!: MatTableDataSource<PRModel>;
-  prsFinished!: MatTableDataSource<PRModel>;
+  prsNomination!: MatTableDataSource<PR>;
+  prsRanking!: MatTableDataSource<PR>;
+  prsFinished!: MatTableDataSource<PR>;
   sheets!: SheetSimple[];
   isLoggedIn: boolean = false;
   isCreator: boolean = false;
@@ -67,9 +67,9 @@ export class PRComponent implements OnInit {
 
   constructor(private route: ActivatedRoute) {}
 
-  isAllJoined(prsData: MatTableDataSource<PRModel>): boolean {
+  isAllJoined(prsData: MatTableDataSource<PR>): boolean {
     const sheets = this.sheets.filter((sheet: SheetSimple) =>
-      prsData.data.some((pr: PRModel) => pr._id === sheet.prId)
+      prsData.data.some((pr: PR) => pr._id === sheet.prId)
     );
     return (
       sheets.filter(
@@ -81,13 +81,13 @@ export class PRComponent implements OnInit {
   ngOnInit(): void {
     this.prs = this.route.snapshot.data['prs'].data;
     this.prsNomination = new MatTableDataSource(
-      this.prs.filter((pr: PRModel) => pr.status === PRStatus.NOMINATION)
+      this.prs.filter((pr: PR) => pr['status'] === PRStatus.NOMINATION)
     );
     this.prsRanking = new MatTableDataSource(
-      this.prs.filter((pr: PRModel) => pr.status === PRStatus.RANKING)
+      this.prs.filter((pr: PR) => pr['status'] === PRStatus.RANKING)
     );
     this.prsFinished = new MatTableDataSource(
-      this.prs.filter((pr: PRModel) => pr.status === PRStatus.FINISHED)
+      this.prs.filter((pr: PR) => pr['status'] === PRStatus.FINISHED)
     );
 
     const user = this.route.snapshot.data['auth'];
@@ -134,19 +134,19 @@ export class PRComponent implements OnInit {
 
     if (this.filter === SheetStatus.ALL) {
       this.prsNomination = new MatTableDataSource(
-        this.prs.filter((pr: PRModel) => pr.status === PRStatus.NOMINATION)
+        this.prs.filter((pr: PR) => pr['status'] === PRStatus.NOMINATION)
       );
       this.prsRanking = new MatTableDataSource(
-        this.prs.filter((pr: PRModel) => pr.status === PRStatus.RANKING)
+        this.prs.filter((pr: PR) => pr['status'] === PRStatus.RANKING)
       );
       this.prsFinished = new MatTableDataSource(
-        this.prs.filter((pr: PRModel) => pr.status === PRStatus.FINISHED)
+        this.prs.filter((pr: PR) => pr['status'] === PRStatus.FINISHED)
       );
       return;
     }
 
     this.prsRanking = new MatTableDataSource(
-      this.prs.filter((pr: PRModel) =>
+      this.prs.filter((pr: PR) =>
         this.sheets.some(
           (sheet: SheetSimple) =>
             sheet.prId === pr._id &&
@@ -156,7 +156,7 @@ export class PRComponent implements OnInit {
       )
     );
     this.prsFinished = new MatTableDataSource(
-      this.prs.filter((pr: PRModel) =>
+      this.prs.filter((pr: PR) =>
         this.sheets.some(
           (sheet: SheetSimple) =>
             sheet.prId === pr._id &&

@@ -23,7 +23,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { PRModel } from '@models/pr.model';
+import { PR } from '@/src/interfaces/pr.interface';
 import { SheetCSVDialogComponent } from '../sheet-csv-dialog/sheet-csv-dialog.component';
 import { SheetProfileDialogComponent } from '../sheet-profile-dialog/sheet-profile-dialog.component';
 import { SheetService } from '@services/sheet.service';
@@ -65,7 +65,7 @@ export class SheetComponent implements OnInit, AfterViewInit {
   ];
 
   sheetService: SheetService = new SheetService();
-  pr!: PRModel;
+  pr!: PR;
   sheet!: SheetModel;
   userCreator!: User;
   sheetTable!: MatTableDataSource<SheetSheetFrontModel>;
@@ -94,7 +94,7 @@ export class SheetComponent implements OnInit, AfterViewInit {
   async ngOnInit(): Promise<void> {
     const user: User = this.route.snapshot.data['auth'].data;
     this.pr = this.route.snapshot.data['pr'].data;
-    this.pr = modifyPRURL(this.pr, user) as PRModel;
+    this.pr = modifyPRURL(this.pr, user) as PR;
 
     const response = this.route.snapshot.data['sheet'];
     if (response.code !== 200) {

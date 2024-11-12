@@ -8,14 +8,13 @@ import {
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { PROutput, PRSimple } from '@/src/interfaces/pr.interface';
+import { PR, PROutput, PRSimple } from '@/src/interfaces/pr.interface';
 
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { PRModel } from '@models/pr.model';
 import { PRService } from '@/src/services/pr.service';
 import { RouterLink } from '@angular/router';
 import { SheetSimple } from '@/src/interfaces/sheet.interface';
@@ -43,7 +42,7 @@ import { modifyPRURL } from '@/src/toolbox/toolbox';
 export class PRTableComponent implements OnInit, AfterViewInit {
   @Input() user!: User;
   @Input() sheetSimple!: SheetSimple[];
-  @Input() dataSource!: MatTableDataSource<PRModel>;
+  @Input() dataSource!: MatTableDataSource<PR>;
   @Input() displayedColumns!: string[];
   @Input() isAdmin: boolean = false;
   @Input() isLoggedIn: boolean = false;
@@ -70,11 +69,11 @@ export class PRTableComponent implements OnInit, AfterViewInit {
     return '';
   }
 
-  isEmptySongList(pr: PRModel) {
+  isEmptySongList(pr: PR) {
     return pr.numberSongs === 0;
   }
 
-  hideNominatedSongs(pr: PRModel): boolean {
+  hideNominatedSongs(pr: PR): boolean {
     if (!pr.nomination) {
       return false;
     }

@@ -2,7 +2,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { UserModel, UserOutputModel } from '@models/user.model';
+import { PR, PRDetail } from '@/src/interfaces/pr.interface';
 import { getServerURL, modifyPRURL } from '@/src/toolbox/toolbox';
 
 import { CommonModule } from '@angular/common';
@@ -13,10 +13,10 @@ import { MatIcon } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
-import { PRDetailModel } from '@models/pr.model';
 import { SheetService } from '@/src/services/sheet.service';
 import { SheetViewDialogComponent } from '../sheet-view-dialog/sheet-view-dialog.component';
 import { SongModel } from '@models/song.model';
+import { UserModel } from '@models/user.model';
 import { UserOutput } from '@interfaces/user.interface';
 import { UserService } from '@services/user.service';
 
@@ -56,10 +56,10 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
     'doubleRank',
     'options',
   ];
-  pr!: PRDetailModel;
+  pr!: PRDetail;
   songList!: MatTableDataSource<SongModel>;
   user!: UserModel;
-  userList!: MatTableDataSource<UserOutputModel>;
+  userList!: MatTableDataSource<UserOutput>;
   isAdmin!: boolean;
   currentAudioSource: string | null = null;
   currentVideoSource: string | null = null;
@@ -130,7 +130,7 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
   }
 
   downloadJson(): void {
-    const pr = modifyPRURL({...this.pr}, this.user);
+    const pr = modifyPRURL(this.pr as PR, this.user);
     const json = JSON.stringify(pr, null, 2);
     const blob = new Blob([json], { type: 'application/json' });
     const url = window.URL.createObjectURL(blob);

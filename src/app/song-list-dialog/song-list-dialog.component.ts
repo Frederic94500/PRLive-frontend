@@ -1,15 +1,14 @@
 import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { SongModel } from '@/src/models/song.model';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { CommonModule } from '@angular/common';
-import { PRModel } from '@/src/models/pr.model';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { User } from '@/src/interfaces/user.interface';
 import { modifyPRURL } from '@/src/toolbox/toolbox';
 import { Song } from '@/src/interfaces/song.interface';
+import { PR } from '@/src/interfaces/pr.interface';
 
 @Component({
   selector: 'app-song-list-dialog',
@@ -28,7 +27,7 @@ export class SongListDialogComponent implements AfterViewInit {
     'urlVideo',
     'urlAudio',
   ];
-  pr: PRModel;
+  pr: PR;
   songList!: Song[];
   songTable: MatTableDataSource<Song>;
   currentAudioSource: string | null = null;
@@ -41,7 +40,7 @@ export class SongListDialogComponent implements AfterViewInit {
   ) {
     this.user = data.user;
     this.pr = data.pr;
-    this.pr = modifyPRURL(this.pr, this.user) as PRModel;
+    this.pr = modifyPRURL(this.pr, this.user) as PR;
 
     this.songList = data.songList;
     this.songList = this.pr.songList.map(song => {

@@ -1,6 +1,7 @@
 import { AnisongDb, Song, SongInput, SongOutput } from '@interfaces/song.interface';
 
 import { Nomination } from './nomination.interface';
+import { PRStatus } from '../enums/prStatus.enum';
 import { UserOutput } from '@interfaces/user.interface';
 
 export interface PRSimple {
@@ -19,9 +20,8 @@ export interface PR {
   _id: string;
   name: string;
   creator: string;
+  status: PRStatus;
   nomination: Nomination;
-  blind: boolean;
-  deadlineNomination: string;
   deadline: string;
   finished: boolean;
   numberSongs: number;
@@ -31,7 +31,23 @@ export interface PR {
   affinityImage: string;
   prStats: string;
   songList: Song[];
-  [key: string]: string | number | boolean | Song[] | Nomination;
+  [key: string]: string | number | boolean | Song[] | Nomination | Tie | UserOutput[];
+}
+
+export interface Tie {
+  prId: string;
+  status: boolean;
+  tieSong: {
+    uuid: string;
+    urlAudio: string;
+    totalRank: number;
+  }[];
+}
+
+export interface PRDetail extends PR {
+  numberVoters: number;
+  tie: Tie;
+  voters: UserOutput[];
 }
 
 export interface PRInput {
