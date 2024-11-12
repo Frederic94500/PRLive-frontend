@@ -1,4 +1,5 @@
 import { AuthGuard } from '@guards/auth.guard';
+import { AuthResolver } from '../resolvers/auth.resolver';
 import { AuthService } from '@services/auth.service';
 import { ErrorComponent } from '@components/error/error.component';
 import { IndexComponent } from '@components/index/index.component';
@@ -27,7 +28,7 @@ export const routes: Routes = [
     path: '',
     component: IndexComponent,
     resolve: {
-      auth: () => inject(AuthService).getWhoAmI(),
+      auth: AuthResolver,
     },
   },
   {
@@ -42,7 +43,7 @@ export const routes: Routes = [
     path: 'pr',
     component: PRComponent,
     resolve: {
-      auth: () => inject(AuthService).getWhoAmI(),
+      auth: AuthResolver,
       prs: () => inject(PRService).getPRSimple(),
       sheets: () => inject(SheetService).getSheetSimple(),
     },
@@ -52,7 +53,7 @@ export const routes: Routes = [
     component: PRCreateComponent,
     canActivate: [() => inject(AuthGuard).protectedRoute()],
     resolve: {
-      auth: () => inject(AuthService).getWhoAmI(),
+      auth: AuthResolver,
     },
   },
   {
@@ -60,7 +61,7 @@ export const routes: Routes = [
     component: PRDetailComponent,
     canActivate: [() => inject(AuthGuard).protectedRoute()],
     resolve: {
-      auth: () => inject(AuthService).getWhoAmI(),
+      auth: AuthResolver,
       pr: PROutputResolver,
     },
   },
@@ -69,7 +70,7 @@ export const routes: Routes = [
     component: PREditComponent,
     canActivate: [() => inject(AuthGuard).protectedRoute()],
     resolve: {
-      auth: () => inject(AuthService).getWhoAmI(),
+      auth: AuthResolver,
       pr: PRGetEditResolver,
     },
   },
@@ -77,7 +78,7 @@ export const routes: Routes = [
     path: 'pr/:id/finished',
     component: PRFinishedComponent,
     resolve: {
-      auth: () => inject(AuthService).getWhoAmI(),
+      auth: AuthResolver,
       prFinished: PRFinishedResolver,
     },
   },
@@ -88,7 +89,7 @@ export const routes: Routes = [
     resolve: {
       sheet: SheetResolver,
       pr: PRResolver,
-      auth: () => inject(AuthService).getWhoAmI(),
+      auth: AuthResolver,
     },
   },
   {
@@ -97,7 +98,7 @@ export const routes: Routes = [
     canActivate: [() => inject(AuthGuard).canActivate()],
     resolve: {
       nomination: NominationResolver,
-      auth: () => inject(AuthService).getWhoAmI(),
+      auth: AuthResolver,
     },
   },
   {
@@ -105,7 +106,7 @@ export const routes: Routes = [
     component: ProfileComponent,
     canActivate: [() => inject(AuthGuard).canActivate()],
     resolve: {
-      auth: () => inject(AuthService).getWhoAmI(),
+      auth: AuthResolver,
     },
   },
   {
