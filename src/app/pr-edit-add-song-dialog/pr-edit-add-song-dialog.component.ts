@@ -12,7 +12,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { PRService } from '@/src/services/pr.service';
 import { SongInput } from '@/src/interfaces/song.interface';
 
@@ -43,7 +47,7 @@ export class PrEditAddSongDialogComponent {
     @Inject(MAT_DIALOG_DATA) private data: any
   ) {
     this.songData = {
-      nominatedId: '',
+      nominator: '',
       artist: '',
       title: '',
       anime: '',
@@ -55,13 +59,19 @@ export class PrEditAddSongDialogComponent {
     };
     this.prId = data.prId;
     this.songForm = this.formBuilder.group({
-      nominatedId: [this.songData.nominatedId],
+      nominator: [this.songData.nominator],
       artist: [this.songData.artist, Validators.required],
       title: [this.songData.title, Validators.required],
       anime: [this.songData.anime],
       type: [this.songData.type, Validators.required],
-      startSample: [this.songData.startSample, [Validators.required, Validators.pattern(/^\d*\.?\d+$/)]],
-      sampleLength: [this.songData.sampleLength, [Validators.required, Validators.pattern(/^\d*\.?\d+$/)]],
+      startSample: [
+        this.songData.startSample,
+        [Validators.required, Validators.pattern(/^\d*\.?\d+$/)],
+      ],
+      sampleLength: [
+        this.songData.sampleLength,
+        [Validators.required, Validators.pattern(/^\d*\.?\d+$/)],
+      ],
       urlVideo: [this.songData.urlVideo, [Validators.required]],
       urlAudio: [this.songData.urlAudio, [Validators.required]],
     });
@@ -78,12 +88,15 @@ export class PrEditAddSongDialogComponent {
       });
       return;
     }
-    
+
     let songData = this.songForm.value;
-    songData.nominatedId = songData.nominatedId || null;
+    songData.nominator = songData.nominator || null;
     songData.anime = songData.anime || null;
     songData.tiebreak = 0;
-    const response = await new PRService().addSongPR(this.prId, this.songForm.value);
+    const response = await new PRService().addSongPR(
+      this.prId,
+      this.songForm.value
+    );
     if (response.code === 201) {
       this.snackBar.open('Song added', 'Close', {
         duration: 2000,

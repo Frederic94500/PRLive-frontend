@@ -76,7 +76,7 @@ export class PRCreateComponent implements OnInit {
   downloadTemplate(): void {
     const template = [
       {
-        nominatedId: 'Nominated ID (optional)(WIP)',
+        nominator: 'Nominated ID (optional)(WIP)',
         artist: 'Artist',
         title: 'Song Title',
         anime: 'Anime (optional)',
@@ -97,7 +97,7 @@ export class PRCreateComponent implements OnInit {
         urlAudio: 'https://ladist1.catbox.video/w7mtjf.mp3',
       },
       {
-        nominatedId: '771428089024479263',
+        nominator: '771428089024479263',
         artist: 'MAN WITH A MISSION',
         title: 'Dead End in Tokyo',
         type: 'Musique Originale',

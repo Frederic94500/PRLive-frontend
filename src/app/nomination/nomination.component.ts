@@ -53,8 +53,8 @@ export class NominationComponent implements AfterViewInit {
       if (!this.nomination.hidden) {
         this.displayedColumns.unshift('nominator');
         this.nomination.songList.forEach((song) => {
-          song.nominatedId = this.nomination.nominators.find(
-            (user) => user.nominator === song.nominatedId
+          song.nominator = this.nomination.nominators.find(
+            (user) => user.nominator === song.nominator
           )!.name;
         });
       }
@@ -97,8 +97,8 @@ export class NominationComponent implements AfterViewInit {
       this.nomination = newNomination;
       if (!this.nomination.hidden) {
         this.nomination.songList.forEach((song) => {
-          song.nominatedId = this.nomination.nominators.find(
-            (user) => user.nominator === song.nominatedId
+          song.nominator = this.nomination.nominators.find(
+            (user) => user.nominator === song.nominator
           )!.name;
         });
       }

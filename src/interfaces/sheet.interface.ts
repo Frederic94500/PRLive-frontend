@@ -22,7 +22,7 @@ export interface SheetSheet {
 export interface SheetSheetFront {
   uuid: string;
   orderId: number;
-  nominatedId?: string;
+  nominator?: string;
   artist: string;
   title: string;
   anime?: string;

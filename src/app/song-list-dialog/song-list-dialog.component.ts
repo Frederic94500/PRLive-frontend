@@ -1,6 +1,10 @@
 import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+} from '@angular/material/dialog';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,7 +17,14 @@ import { PR } from '@/src/interfaces/pr.interface';
 @Component({
   selector: 'app-song-list-dialog',
   standalone: true,
-  imports: [CommonModule, MatDialogModule, MatTableModule, MatSortModule, MatIconModule, MatButtonModule],
+  imports: [
+    CommonModule,
+    MatDialogModule,
+    MatTableModule,
+    MatSortModule,
+    MatIconModule,
+    MatButtonModule,
+  ],
   templateUrl: './song-list-dialog.component.html',
   styleUrl: './song-list-dialog.component.css',
 })
@@ -43,12 +54,24 @@ export class SongListDialogComponent implements AfterViewInit {
     this.pr = modifyPRURL(this.pr, this.user) as PR;
 
     this.songList = data.songList;
-    this.songList = this.pr.songList.map(song => {
-      const { uuid, orderId, nominatedId, artist, title, anime, type, urlVideo, urlAudio, startSample, sampleLength } = song;
+    this.songList = this.pr.songList.map((song) => {
+      const {
+        uuid,
+        orderId,
+        nominator,
+        artist,
+        title,
+        anime,
+        type,
+        urlVideo,
+        urlAudio,
+        startSample,
+        sampleLength,
+      } = song;
       return {
         uuid,
         orderId,
-        nominatedId: this.pr.nomination.hidden ? '' : nominatedId ?? '',
+        nominator: this.pr.nomination.hidden ? '' : nominator ?? '',
         artist: this.pr.nomination.blind ? '' : artist ?? '',
         title: this.pr.nomination.blind ? '' : title ?? '',
         anime: this.pr.nomination.blind ? '' : anime ?? '',
@@ -58,7 +81,7 @@ export class SongListDialogComponent implements AfterViewInit {
         startSample,
         sampleLength,
       };
-    })
+    });
     if (this.pr.nomination) {
       this.displayedColumns = [];
       if (!this.pr.nomination.blind) {
