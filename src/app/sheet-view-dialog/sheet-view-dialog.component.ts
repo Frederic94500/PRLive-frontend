@@ -19,7 +19,7 @@ export class SheetViewDialogComponent implements AfterViewInit {
     // 'orderId',
     'artist',
     'title',
-    'anime',
+    'source',
     'rank',
     'score',
   ];

@@ -143,12 +143,12 @@
     <td mat-cell *matCellDef="let song">{{ song.title }}</td>
   </ng-container>
 
-  <!-- Anime Column -->
-  <ng-container matColumnDef="anime">
+  <!-- Source Column -->
+  <ng-container matColumnDef="source">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>
-      Anime<mat-icon>sort</mat-icon>
+      Source<mat-icon>sort</mat-icon>
     </th>
-    <td mat-cell *matCellDef="let song">{{ song.anime }}</td>
+    <td mat-cell *matCellDef="let song">{{ song.source }}</td>
   </ng-container>
 
   <ng-container matColumnDef="type">

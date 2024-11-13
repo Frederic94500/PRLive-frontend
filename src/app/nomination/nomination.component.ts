@@ -44,7 +44,7 @@ export class NominationComponent implements AfterViewInit {
         this.displayedColumns.unshift(
           'artist',
           'title',
-          'anime',
+          'source',
           'type',
           'urlVideo',
           'urlAudio'

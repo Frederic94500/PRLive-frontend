@@ -34,7 +34,7 @@ export class PRFinishedComponent implements AfterViewInit {
       return {
         rankPosition: song.rankPosition,
         song: song.artist + ' - ' + song.title,
-        anime: song.anime || '',
+        source: song.source || '',
         type: song.type,
         urlVideo: song.urlVideo,
         totalRank: song.totalRank,

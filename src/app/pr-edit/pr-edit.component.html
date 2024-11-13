@@ -212,20 +212,20 @@
     </td>
   </ng-container>
 
-  <!-- Anime Column -->
-  <ng-container matColumnDef="anime">
+  <!-- Source Column -->
+  <ng-container matColumnDef="source">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>
-      Anime<mat-icon>sort</mat-icon>
+      Source<mat-icon>sort</mat-icon>
     </th>
     <td mat-cell *matCellDef="let song">
       <mat-form-field appearance="fill" class="compact-form-field">
-        <mat-label>Anime</mat-label>
+        <mat-label>Source</mat-label>
         <input
-          id="{{ song.uuid + '-anime' }}"
+          id="{{ song.uuid + '-source' }}"
           matInput
           type="text"
-          [value]="song.anime"
-          (change)="updateSongListField(song.uuid, 'anime')"
+          [value]="song.source"
+          (change)="updateSongListField(song.uuid, 'source')"
           tabindex="0"
         />
       </mat-form-field>

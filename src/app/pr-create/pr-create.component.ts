@@ -79,7 +79,7 @@ export class PRCreateComponent implements OnInit {
         nominator: 'Nominated ID (optional)(WIP)',
         artist: 'Artist',
         title: 'Song Title',
-        anime: 'Anime (optional)',
+        source: 'Anime (optional)',
         type: 'Type',
         startSample: 0,
         sampleLength: 30,
@@ -89,7 +89,7 @@ export class PRCreateComponent implements OnInit {
       {
         artist: 'YOASOBI',
         title: 'Kaibutsu',
-        anime: 'Beastars',
+        source: 'Beastars',
         type: 'Opening 1',
         startSample: 34,
         sampleLength: 30,

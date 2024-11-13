@@ -48,7 +48,7 @@ export class PREditComponent implements OnInit, AfterViewInit {
   displayedColumnsSongList: string[] = [
     'artist',
     'title',
-    'anime',
+    'source',
     'type',
     'startSample',
     'sampleLength',

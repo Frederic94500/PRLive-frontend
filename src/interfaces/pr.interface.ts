@@ -90,7 +90,7 @@ export interface PRFinished {
 export interface ResultTable {
   rankPosition: number;
   song: string;
-  anime: string;
+  source: string;
   type: string;
   urlVideo: string;
   totalRank: number;

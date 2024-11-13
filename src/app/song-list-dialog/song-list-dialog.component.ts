@@ -33,7 +33,7 @@ export class SongListDialogComponent implements AfterViewInit {
   displayedColumns: string[] = [
     'artist',
     'title',
-    'anime',
+    'source',
     'type',
     'urlVideo',
     'urlAudio',
@@ -61,26 +61,29 @@ export class SongListDialogComponent implements AfterViewInit {
         nominator,
         artist,
         title,
-        anime,
+        source,
         type,
         urlVideo,
         urlAudio,
         startSample,
         sampleLength,
       } = song;
-      return {
-        uuid,
-        orderId,
-        nominator: this.pr.nomination.hidden ? '' : nominator ?? '',
-        artist: this.pr.nomination.blind ? '' : artist ?? '',
-        title: this.pr.nomination.blind ? '' : title ?? '',
-        anime: this.pr.nomination.blind ? '' : anime ?? '',
-        type,
-        urlVideo: this.pr.nomination.blind ? '' : urlVideo ?? '',
-        urlAudio: this.pr.nomination.blind ? '' : urlAudio ?? '',
-        startSample,
-        sampleLength,
-      };
+      if (this.pr.nomination) {
+        return {
+          uuid,
+          orderId,
+          nominator: this.pr.nomination.hidden ? '' : nominator ?? '',
+          artist: this.pr.nomination.blind ? '' : artist ?? '',
+          title: this.pr.nomination.blind ? '' : title ?? '',
+          source: this.pr.nomination.blind ? '' : source ?? '',
+          type,
+          urlVideo: this.pr.nomination.blind ? '' : urlVideo ?? '',
+          urlAudio: this.pr.nomination.blind ? '' : urlAudio ?? '',
+          startSample,
+          sampleLength,
+        };
+      }
+      return song;
     });
     if (this.pr.nomination) {
       this.displayedColumns = [];
@@ -88,7 +91,7 @@ export class SongListDialogComponent implements AfterViewInit {
         this.displayedColumns.unshift(
           'artist',
           'title',
-          'anime',
+          'source',
           'type',
           'urlVideo',
           'urlAudio'

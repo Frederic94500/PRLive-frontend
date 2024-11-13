@@ -50,7 +50,7 @@ export class PrEditAddSongDialogComponent {
       nominator: '',
       artist: '',
       title: '',
-      anime: '',
+      source: '',
       type: '',
       startSample: 0,
       sampleLength: 1,
@@ -62,7 +62,7 @@ export class PrEditAddSongDialogComponent {
       nominator: [this.songData.nominator],
       artist: [this.songData.artist, Validators.required],
       title: [this.songData.title, Validators.required],
-      anime: [this.songData.anime],
+      source: [this.songData.source],
       type: [this.songData.type, Validators.required],
       startSample: [
         this.songData.startSample,
@@ -91,7 +91,7 @@ export class PrEditAddSongDialogComponent {
 
     let songData = this.songForm.value;
     songData.nominator = songData.nominator || null;
-    songData.anime = songData.anime || null;
+    songData.source = songData.source || null;
     songData.tiebreak = 0;
     const response = await new PRService().addSongPR(
       this.prId,

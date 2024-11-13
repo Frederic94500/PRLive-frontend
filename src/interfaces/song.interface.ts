@@ -56,7 +56,7 @@ export interface SongInput {
   nominator?: string;
   artist: string;
   title: string;
-  anime?: string;
+  source?: string;
   type: string;
   startSample: number;
   sampleLength: number;
@@ -70,7 +70,7 @@ export interface Song {
   nominator?: string;
   artist: string;
   title: string;
-  anime?: string;
+  source?: string;
   type: string;
   startSample: number;
   sampleLength: number;
@@ -85,7 +85,7 @@ export interface SongOutput {
   nominator?: string;
   artist: string;
   title: string;
-  anime?: string;
+  source?: string;
   type: string;
   startSample: number;
   sampleLength: number;

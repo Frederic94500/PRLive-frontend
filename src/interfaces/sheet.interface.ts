@@ -25,7 +25,7 @@ export interface SheetSheetFront {
   nominator?: string;
   artist: string;
   title: string;
-  anime?: string;
+  source?: string;
   type: string;
   urlVideo: string;
   urlAudio: string;

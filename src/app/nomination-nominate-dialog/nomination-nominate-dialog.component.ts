@@ -38,7 +38,7 @@ export class NominationNominateDialogComponent {
     this.nominateForm = this.formBuilder.group({
       artist: ['', Validators.required],
       title: ['', Validators.required],
-      anime: [''],
+      source: [''],
       type: ['', Validators.required],
       startSample: [0, Validators.required],
       urlVideo: ['', [Validators.required, this.httpsValidator]],
@@ -59,7 +59,7 @@ export class NominationNominateDialogComponent {
     }
 
     let songData = this.nominateForm.value;
-    songData.anime = songData.anime || null;
+    songData.source = songData.source || null;
     songData.sampleLength = 30;
     
     const response = await new NominationService().nominateSong(this.prId, songData);

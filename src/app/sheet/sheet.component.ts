@@ -55,13 +55,13 @@ export class SheetComponent implements OnInit, AfterViewInit {
     'orderId',
     'artist',
     'title',
-    'anime',
+    'source',
     'type',
     'video',
     'audio',
     'rank',
     'score',
-    'comment'
+    'comment',
   ];
 
   sheetService: SheetService = new SheetService();
@@ -103,21 +103,28 @@ export class SheetComponent implements OnInit, AfterViewInit {
     }
 
     this.sheet = this.route.snapshot.data['sheet'].data;
-    const sheetTableData: SheetSheetFront[] = this.sheet.sheet.map((songTable) => {
-      const song = this.pr.songList.find((song) => song.uuid === songTable.uuid);
-      return {
-        ...songTable,
-        artist: song?.artist ?? '',
-        title: song?.title ?? '',
-        anime: song?.anime ?? '',
-        type: song?.type ?? '',
-        urlVideo: song?.urlVideo ?? '',
-        urlAudio: song?.urlAudio ?? '',
-      };
-    });
+    const sheetTableData: SheetSheetFront[] = this.sheet.sheet.map(
+      (songTable) => {
+        const song = this.pr.songList.find(
+          (song) => song.uuid === songTable.uuid
+        );
+        return {
+          ...songTable,
+          artist: song?.artist ?? '',
+          title: song?.title ?? '',
+          source: song?.source ?? '',
+          type: song?.type ?? '',
+          urlVideo: song?.urlVideo ?? '',
+          urlAudio: song?.urlAudio ?? '',
+        };
+      }
+    );
     if (this.pr.nomination) {
       if (this.pr.nomination.blind) {
-        this.displayedColumns = this.displayedColumns.filter((column) => !['artist', 'title', 'anime', 'video', 'type'].includes(column));
+        this.displayedColumns = this.displayedColumns.filter(
+          (column) =>
+            !['artist', 'title', 'source', 'video', 'type'].includes(column)
+        );
       }
     }
     this.sheetTable = new MatTableDataSource(sheetTableData);
@@ -139,23 +146,32 @@ export class SheetComponent implements OnInit, AfterViewInit {
     this.sheetTable.data.forEach((x) => {
       x.rank = this.sheet.sheet.find((y) => y.uuid === x.uuid)?.rank ?? 0;
       x.score = this.sheet.sheet.find((y) => y.uuid === x.uuid)?.score ?? 0;
-      x.comment = this.sheet.sheet.find((y) => y.uuid === x.uuid)?.comment ?? '';
+      x.comment =
+        this.sheet.sheet.find((y) => y.uuid === x.uuid)?.comment ?? '';
     });
   }
 
   private async updateSheet(): Promise<void> {
     if (this.pr.finished) {
-      this.snackBar.open('PR is finished, you cannot update the sheet', 'Close', {
-        duration: 2000,
-      });
+      this.snackBar.open(
+        'PR is finished, you cannot update the sheet',
+        'Close',
+        {
+          duration: 2000,
+        }
+      );
       return;
     }
     this.sheet.sheet.sort((a, b) => a.orderId - b.orderId);
     const response = await this.sheetService.putSheet(this.pr._id, this.sheet);
     if (response.code !== 200) {
-      this.snackBar.open(`Error updating sheet: ${response.data || response.message}`, 'Close', {
-        duration: 2000,
-      });
+      this.snackBar.open(
+        `Error updating sheet: ${response.data || response.message}`,
+        'Close',
+        {
+          duration: 2000,
+        }
+      );
       return;
     }
     this.computeTotalRank();
@@ -185,7 +201,9 @@ export class SheetComponent implements OnInit, AfterViewInit {
     const inputElement = document.getElementById(
       uuid + '-comment'
     ) as HTMLInputElement;
-    this.sheet.sheet[this.pr.songList.findIndex((x) => x.uuid === uuid)].comment = inputElement.value;
+    this.sheet.sheet[
+      this.pr.songList.findIndex((x) => x.uuid === uuid)
+    ].comment = inputElement.value;
     this.updateSheet();
   }
 
@@ -204,26 +222,30 @@ export class SheetComponent implements OnInit, AfterViewInit {
   getYoutubeId(url: string): string {
     const shortUrlPattern = /youtu\.be\/([a-zA-Z0-9_-]{11})/;
     const longUrlPattern = /youtube\.com\/.*[?&]v=([a-zA-Z0-9_-]{11})/;
-    
+
     let match = url.match(shortUrlPattern);
     if (match && match[1]) {
       return match[1];
     }
-  
+
     match = url.match(longUrlPattern);
     if (match && match[1]) {
       return match[1];
     }
-  
+
     return '';
   }
 
   getYouTubeEmbedUrl(url: string): string {
-    return `https://www.youtube.com/embed/${this.getYoutubeId(url)}?autoplay=1&cc_load_policy=1`;
+    return `https://www.youtube.com/embed/${this.getYoutubeId(
+      url
+    )}?autoplay=1&cc_load_policy=1`;
   }
 
   sanitizeUrl(url: string): string {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(this.getYouTubeEmbedUrl(url)) as string
+    return this.sanitizer.bypassSecurityTrustResourceUrl(
+      this.getYouTubeEmbedUrl(url)
+    ) as string;
   }
 
   playVideo(url: string): void {
@@ -269,9 +291,11 @@ export class SheetComponent implements OnInit, AfterViewInit {
   getNowPlaying(url: string, field: string): { artist: string; title: string } {
     return {
       artist:
-        this.pr.songList.find((x) => url.includes(x[field] as string))?.artist ?? '',
+        this.pr.songList.find((x) => url.includes(x[field] as string))
+          ?.artist ?? '',
       title:
-        this.pr.songList.find((x) => url.includes(x[field] as string))?.title ?? '',
+        this.pr.songList.find((x) => url.includes(x[field] as string))?.title ??
+        '',
     };
   }
 
