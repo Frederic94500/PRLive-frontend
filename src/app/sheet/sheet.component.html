@@ -30,6 +30,7 @@
       mat-raised-button
       color="primary"
       [routerLink]="['/nomination', pr._id]"
+      *ngIf="pr.nomination"
     >
       <mat-icon>article</mat-icon>Nomination
     </button>
