@@ -24,11 +24,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { PR } from '@/src/interfaces/pr.interface';
+import { Response } from '@/src/interfaces/api.interface';
 import { SheetCSVDialogComponent } from '../sheet-csv-dialog/sheet-csv-dialog.component';
 import { SheetProfileDialogComponent } from '../sheet-profile-dialog/sheet-profile-dialog.component';
 import { SheetService } from '@services/sheet.service';
 import { User } from '@interfaces/user.interface';
-import { UserService } from '@services/user.service';
 import { modifyPRURL } from '@/src/toolbox/toolbox';
 
 @Component({
@@ -100,9 +100,18 @@ export class SheetComponent implements OnInit, AfterViewInit {
       this.router.navigate(['/error'], {
         queryParams: { code: 403, message: response.data },
       });
+    } else {
+      const serverSheet: Sheet = response.data;
+      const localSheet: Sheet | null = this.getSheetLocal(this.pr._id);
+      if (localSheet && new Date(localSheet.latestUpdate) > new Date(serverSheet.latestUpdate)) {
+        console.log('Using local sheet');
+        this.sheet = localSheet;
+      } else {
+        console.log('Using server sheet');
+        this.sheet = serverSheet;
+      }
     }
 
-    this.sheet = this.route.snapshot.data['sheet'].data;
     const sheetTableData: SheetSheetFront[] = this.sheet.sheet.map(
       (songTable) => {
         const song = this.pr.songList.find(
@@ -129,12 +138,15 @@ export class SheetComponent implements OnInit, AfterViewInit {
     }
     this.sheetTable = new MatTableDataSource(sheetTableData);
 
-    this.computeTotalRank();
-    this.updateMeanScore();
+    this.update();
   }
 
   ngAfterViewInit(): void {
     this.sheetTable.sort = this.sort;
+  }
+
+  computeTotalRank(): void {
+    this.totalRank = this.sheet.sheet.reduce((acc, val) => acc + val.rank, 0);
   }
 
   private updateMeanScore(): void {
@@ -151,6 +163,12 @@ export class SheetComponent implements OnInit, AfterViewInit {
     });
   }
 
+  private update(): void {
+    this.computeTotalRank();
+    this.updateMeanScore();
+    this.updateTable();
+  }
+
   private async updateSheet(): Promise<void> {
     if (this.pr.finished) {
       this.snackBar.open(
@@ -163,7 +181,17 @@ export class SheetComponent implements OnInit, AfterViewInit {
       return;
     }
     this.sheet.sheet.sort((a, b) => a.orderId - b.orderId);
-    const response = await this.sheetService.putSheet(this.pr._id, this.sheet);
+    this.storeSheet(this.sheet);
+    let response: Response;
+    try {
+      response = await this.sheetService.putSheet(this.pr._id, this.sheet);
+    } catch (error) {
+      this.snackBar.open('No answer from server, saved on local', 'Close', {
+        duration: 2000,
+      });
+      this.update();
+      return;
+    }
     if (response.code !== 200) {
       this.snackBar.open(
         `Error updating sheet: ${response.data || response.message}`,
@@ -174,9 +202,7 @@ export class SheetComponent implements OnInit, AfterViewInit {
       );
       return;
     }
-    this.computeTotalRank();
-    this.updateMeanScore();
-    this.updateTable();
+    this.update();
   }
 
   updateRank(uuid: string): void {
@@ -299,10 +325,6 @@ export class SheetComponent implements OnInit, AfterViewInit {
     };
   }
 
-  computeTotalRank(): void {
-    this.totalRank = this.sheet.sheet.reduce((acc, val) => acc + val.rank, 0);
-  }
-
   passedDeadline(): string {
     if (Date.parse(this.pr.deadline) < Date.now()) return 'red-value';
     return 'green-value';
@@ -399,5 +421,24 @@ export class SheetComponent implements OnInit, AfterViewInit {
 
   onWheel(event: WheelEvent): void {
     event.preventDefault();
+  }
+
+  public storeSheet(sheet: Sheet): void {
+    try {
+      sheet.latestUpdate = new Date().toISOString();
+      localStorage.setItem(`sheet-${sheet.prId}`, btoa(JSON.stringify(sheet)));
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  public getSheetLocal(prId: string): Sheet | null {
+    try {
+      const sheet = localStorage.getItem(`sheet-${prId}`);
+      return sheet ? JSON.parse(atob(sheet)) : null;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
   }
 }
