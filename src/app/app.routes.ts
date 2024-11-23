@@ -1,6 +1,6 @@
 import { AuthGuard } from '@guards/auth.guard';
 import { AuthResolver } from '../resolvers/auth.resolver';
-import { AuthService } from '@services/auth.service';
+import { ConfirmJoinPRComponent } from './confirm-join-pr/confirm-join-pr.component';
 import { ErrorComponent } from '@components/error/error.component';
 import { IndexComponent } from '@components/index/index.component';
 import { LoginRedirectComponent } from '@components/login-redirect/login-redirect.component';
@@ -90,6 +90,15 @@ export const routes: Routes = [
     resolve: {
       auth: AuthResolver,
       tie: TieResolver,
+    },
+  },
+  {
+    path: 'confirmjoin/:id',
+    component: ConfirmJoinPRComponent,
+    canActivate: [() => inject(AuthGuard).canActivate()],
+    resolve: {
+      auth: AuthResolver,
+      pr: PRResolver,
     },
   },
   {

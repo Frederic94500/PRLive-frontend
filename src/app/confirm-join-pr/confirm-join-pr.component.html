@@ -1,0 +1,126 @@
+<div class="centered-content">
+  <h3>PR {{ pr.name }}</h3>
+  <p>
+    Number of songs: <b>{{ pr.numberSongs }}</b> | 
+    Deadline:
+    <b class="{{ passedDeadline(pr.deadline) }}">{{
+      pr.deadline | date : "dd/MM/yyyy HH:mm"
+    }}</b>
+  </p>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="onClickJoin()"
+  ><mat-icon>table_rows</mat-icon>Join PR</button>
+</div>
+
+<div *ngIf="currentVideoSource" class="center floating-video-player">
+  <button class="close-button" (click)="closeVideoPlayer()">✖</button>
+  <u>Now playing</u>
+  <br />
+  <b>{{ getNowPlaying(currentVideoSource, "urlVideo").artist }}</b> -
+  <b>{{ getNowPlaying(currentVideoSource, "urlVideo").title }}</b>
+  <br />
+  <iframe
+    id="ytplayer"
+    type="text/html"
+    height="360"
+    [src]="sanitizeUrl(currentVideoSource)"
+    frameborder="0"
+    allowfullscreen
+    *ngIf="currentVideoSource && isYouTubeLink(currentVideoSource)"
+  ></iframe>
+  <video
+    #player
+    id="player"
+    controls
+    [src]="currentVideoSource"
+    autoplay
+    *ngIf="currentVideoSource && !isYouTubeLink(currentVideoSource)"
+  ></video>
+</div>
+
+<div *ngIf="currentAudioSource" class="center floating-audio-player">
+  <button class="close-button" (click)="closeAudioPlayer()">✖</button>
+  <u>Now playing</u>
+  <br />
+  <b>{{ getNowPlaying(currentAudioSource, "urlAudio").artist }}</b> -
+  <b>{{ getNowPlaying(currentAudioSource, "urlAudio").title }}</b>
+  <br />
+  <audio
+    #player
+    id="player"
+    controls
+    [src]="currentAudioSource"
+    *ngIf="currentAudioSource"
+    autoplay
+  ></audio>
+</div>
+
+<table mat-table [dataSource]="songList" matSort class="full-width-table">
+  <!-- Artist Column -->
+  <ng-container matColumnDef="artist">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      Artist<mat-icon>sort</mat-icon>
+    </th>
+    <td mat-cell *matCellDef="let song">{{ song.artist }}</td>
+  </ng-container>
+
+  <!-- Title Column -->
+  <ng-container matColumnDef="title">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      Title<mat-icon>sort</mat-icon>
+    </th>
+    <td mat-cell *matCellDef="let song">{{ song.title }}</td>
+  </ng-container>
+
+  <!-- Source Column -->
+  <ng-container matColumnDef="source">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      Source<mat-icon>sort</mat-icon>
+    </th>
+    <td mat-cell *matCellDef="let song">{{ song.source }}</td>
+  </ng-container>
+
+  <!-- Type Column -->
+  <ng-container matColumnDef="type">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      Type<mat-icon>sort</mat-icon>
+    </th>
+    <td mat-cell *matCellDef="let song">{{ song.type }}</td>
+  </ng-container>
+
+  <!-- URL Video Column -->
+  <ng-container matColumnDef="urlVideo">
+    <th mat-header-cell *matHeaderCellDef>URL Video</th>
+    <td mat-cell *matCellDef="let song">
+      <button
+        mat-icon-button
+        (click)="playVideo(song.urlVideo)"
+        *ngIf="!tabVideoMode"
+      >
+        <mat-icon>video_library</mat-icon>
+      </button>
+      <a
+        mat-icon-button
+        [href]="videoLink(song.uuid)"
+        target="_blank"
+        *ngIf="tabVideoMode"
+        ><mat-icon>open_in_new</mat-icon>
+      </a>
+    </td>
+  </ng-container>
+
+  <!-- URL Audio Column -->
+  <ng-container matColumnDef="urlAudio">
+    <th mat-header-cell *matHeaderCellDef>URL Audio</th>
+    <td mat-cell *matCellDef="let song">
+      <button mat-icon-button (click)="playAudio(song.urlAudio)">
+        <mat-icon>music_note</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumnsSongList"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumnsSongList"></tr>
+</table>

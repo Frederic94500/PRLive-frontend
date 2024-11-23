@@ -17,7 +17,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { SheetService } from '@/src/services/sheet.service';
 import { SheetViewDialogComponent } from '../sheet-view-dialog/sheet-view-dialog.component';
 import { Song } from '@/src/interfaces/song.interface';
-import { UserService } from '@services/user.service';
+import { environment } from '@/src/environments/environment';
 
 @Component({
   selector: 'app-pr-detail',
@@ -124,6 +124,15 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
       `${msg}\n\nDeadline: <t:${new Date(this.pr.deadline).getTime() / 1000}:F>`
     );
     this.snackBar.open('Stallers copied to clipboard', 'Close', {
+      duration: 2000,
+    });
+  }
+
+  copyLinkConfirmJoin(): void {
+    navigator.clipboard.writeText(
+      `${environment.frontUrl}/confirmjoin/${this.pr._id}`
+    );
+    this.snackBar.open('Link copied to clipboard', 'Close', {
       duration: 2000,
     });
   }
