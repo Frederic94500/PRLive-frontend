@@ -1,4 +1,10 @@
-import { AnisongDb, Song, SongInput, SongOutput } from '@interfaces/song.interface';
+import {
+  AnisongDb,
+  Song,
+  SongInput,
+  SongOutput,
+  TieSong,
+} from '@interfaces/song.interface';
 
 import { Nomination } from './nomination.interface';
 import { PRStatus } from '../enums/prStatus.enum';
@@ -31,17 +37,28 @@ export interface PR {
   affinityImage: string;
   prStats: string;
   songList: Song[];
-  [key: string]: string | number | boolean | Song[] | Nomination | Tie | UserOutput[];
+  [key: string]:
+    | string
+    | number
+    | boolean
+    | Song[]
+    | Nomination
+    | Tie
+    | UserOutput[];
 }
 
 export interface Tie {
   prId: string;
+  name: string;
   status: boolean;
-  tieSong: {
+  tieSongs: TieSong[][];
+}
+
+export interface Tiebreak {
+  tieSongs: {
     uuid: string;
-    urlAudio: string;
-    totalRank: number;
-  }[];
+    tiebreak: number;
+  }[][];
 }
 
 export interface PRDetail extends PR {

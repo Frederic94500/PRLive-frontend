@@ -21,6 +21,8 @@ import { Routes } from '@angular/router';
 import { SheetComponent } from '@components/sheet/sheet.component';
 import { SheetResolver } from '@resolvers/sheet.resolver';
 import { SheetService } from '../services/sheet.service';
+import { TieResolver } from '../resolvers/tie.resolver';
+import { TiebreakComponent } from './tiebreak/tiebreak.component';
 import { inject } from '@angular/core';
 
 export const routes: Routes = [
@@ -80,6 +82,14 @@ export const routes: Routes = [
     resolve: {
       auth: AuthResolver,
       prFinished: PRFinishedResolver,
+    },
+  },
+  {
+    path: 'pr/:id/tiebreak',
+    component: TiebreakComponent,
+    resolve: {
+      auth: AuthResolver,
+      tie: TieResolver,
     },
   },
   {

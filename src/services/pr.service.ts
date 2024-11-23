@@ -1,4 +1,4 @@
-import { PR, PRInput } from '@interfaces/pr.interface';
+import { PR, PRInput, Tiebreak } from '@interfaces/pr.interface';
 
 import { ApiService } from '@services/api.service';
 import { FileType } from '../enums/fileType.enum';
@@ -63,6 +63,20 @@ export class PRService {
     return await this.apiService.postPutData(
       pr,
       `${this.apiEndpoint}/update/${pr._id}`,
+      'PUT'
+    );
+  }
+
+  public async getTie(prId: string): Promise<Response> {
+    return await this.apiService.getWithCred(
+      `${this.apiEndpoint}/tie/${prId}`
+    );
+  }
+
+  public async tiebreak(prId: string, tie: Tiebreak): Promise<Response> {
+    return await this.apiService.postPutData(
+      tie,
+      `${this.apiEndpoint}/tiebreak/${prId}`,
       'PUT'
     );
   }

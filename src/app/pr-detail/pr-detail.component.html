@@ -41,6 +41,9 @@
     <button mat-raised-button (click)="generateStallerMsg()">
       <mat-icon>content_copy</mat-icon>Copy Staller Message
     </button>
+    <button mat-raised-button [routerLink]="['/pr', pr._id, 'tiebreak']" *ngIf="pr.tie.status">
+      <mat-icon>settings</mat-icon>Tiebreak
+    </button>
     <button mat-raised-button (click)="downloadJson()">
       <mat-icon>file_download</mat-icon>Download output JSON
     </button>

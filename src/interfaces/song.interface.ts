@@ -100,3 +100,9 @@ export interface SongOutput {
     rank: number;
   }[];
 }
+
+export interface TieSong {
+  uuid: string;
+  urlAudio: string;
+  totalRank: number;
+}

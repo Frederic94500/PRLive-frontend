@@ -1,7 +1,8 @@
-import { PR, PROutput } from '../interfaces/pr.interface';
+import { PR, PROutput, Tie } from '../interfaces/pr.interface';
 import { Server, ServerURL } from '../enums/server.enum';
 
 import { User } from '@interfaces/user.interface';
+import { get } from 'node:http';
 
 export function getServerURL(user: User): string {
   switch (user.server) {
@@ -31,4 +32,17 @@ export function modifyPRURL(
   });
 
   return pr;
+}
+
+export function modifyTieURL(tie: Tie, user: User): Tie {
+  const server = getServerURL(user);
+  tie.tieSongs.forEach((tieSongs) => {
+    tieSongs.forEach((tieSong) => {
+      tieSong.urlAudio = tieSong.urlAudio.includes('https://')
+        ? tieSong.urlAudio
+        : server + tieSong.urlAudio;
+    });
+  });
+
+  return tie;
 }
