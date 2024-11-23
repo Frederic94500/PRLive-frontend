@@ -4,7 +4,8 @@
     <h4>This PR has not a tie!</h4>
   </span>
   <span *ngIf="tie.status">
-    <h4>This PR has a tie!</h4>
+    <h4 class="centered-content">This PR has a tie!</h4>
+    <p>Please score the musics. Your favorite music is the one that will have the highest score</p>
     <div class="centered-button">
       <button mat-raised-button (click)="onCopyLink()" *ngIf="isCreator()"><mat-icon>content_copy</mat-icon>Copy tiebreak link</button>
     </div>
@@ -21,7 +22,7 @@
         <audio controls [src]="song.urlAudio" tabindex="-1"></audio>
         <br />
         <mat-form-field appearance="fill" class="centered-content">
-          <mat-label>Tiebreak value</mat-label>
+          <mat-label>Tiebreak score</mat-label>
           <input
             id="{{ song.uuid }}"
             matInput
