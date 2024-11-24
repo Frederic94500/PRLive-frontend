@@ -316,4 +316,23 @@ export class PREditComponent implements OnInit, AfterViewInit {
   onWheel(event: WheelEvent): void {
     event.preventDefault();
   }
+
+  openPromptChangeAllSampleLength(): void {
+    const newSampleLength = prompt('Enter new sample length in seconds');
+    if (!newSampleLength || isNaN(parseInt(newSampleLength)) || parseInt(newSampleLength) < 1 || parseInt(newSampleLength) > 3600) {
+      this.snackBar.open('Invalid sample length', 'Close', {
+        duration: 2000,
+      });
+      return;
+    }
+    const sampleLength = parseInt(newSampleLength);
+    this.pr.songList.forEach((song) => {
+      song.sampleLength = sampleLength;
+    });
+    this.updatePR();
+    
+    this.snackBar.open('Sample length updated', 'Close', {
+      duration: 2000,
+    });
+  }
 }

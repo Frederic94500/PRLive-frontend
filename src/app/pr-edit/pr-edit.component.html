@@ -47,7 +47,11 @@
       }}</mat-icon>
       {{ tabVideoMode ? "Tab Video Mode" : "Floating Video Mode" }}
     </button>
-    <br />
+    <button mat-raised-button color="primary" (click)="openPromptChangeAllSampleLength()">
+      <mat-icon>timer</mat-icon>Change all sample length
+    </button>
+  </p>
+  <p>
     <mat-form-field appearance="fill" class="full-width-form-field">
       <mat-label>Video URL</mat-label>
       <input
