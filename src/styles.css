@@ -9,3 +9,10 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   background: #979797;
 }
+
+.centered-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

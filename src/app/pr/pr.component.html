@@ -1,20 +1,18 @@
-<div class="centered-content"><h3>Party Ranking List</h3></div>
-
-<div class="centered-content" *ngIf="isCreator">
-  <button mat-raised-button routerLink="/pr/create">
-    <mat-icon>add</mat-icon>Create Party Ranking
-  </button>
-</div>
-
-<br />
-
-<div class="centered-content" *ngIf="sheets">
-  <mat-button-toggle-group [value]="filter" (change)="filterSheet($event)">
-    <mat-button-toggle value="ALL" class="custom-button-toggle-all">All</mat-button-toggle>
-    <mat-button-toggle value="NOTJOINED" class="custom-button-toggle-notjoined">Not joined</mat-button-toggle>
-    <mat-button-toggle value="UNFILLED" class="custom-button-toggle-unfilled">Unfilled</mat-button-toggle>
-    <mat-button-toggle value="FILLED" class="custom-button-toggle-filled">Filled</mat-button-toggle>
-  </mat-button-toggle-group>
+<div class="centered-content">
+  <h3>Party Ranking List</h3>
+  <span *ngIf="isCreator">
+    <button mat-raised-button routerLink="/pr/create">
+      <mat-icon>add</mat-icon>Create Party Ranking
+    </button>
+  </span>
+  <span *ngIf="sheets">
+    <mat-button-toggle-group [value]="filter" (change)="filterSheet($event)">
+      <mat-button-toggle value="ALL" class="custom-button-toggle-all">All</mat-button-toggle>
+      <mat-button-toggle value="NOTJOINED" class="custom-button-toggle-notjoined">Not joined</mat-button-toggle>
+      <mat-button-toggle value="UNFILLED" class="custom-button-toggle-unfilled">Unfilled</mat-button-toggle>
+      <mat-button-toggle value="FILLED" class="custom-button-toggle-filled">Filled</mat-button-toggle>
+    </mat-button-toggle-group>
+  </span>
 </div>
 
 <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" [selectedIndex]="1">
