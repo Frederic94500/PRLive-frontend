@@ -4,6 +4,7 @@ import { ConfirmJoinPRComponent } from './confirm-join-pr/confirm-join-pr.compon
 import { ErrorComponent } from '@components/error/error.component';
 import { IndexComponent } from '@components/index/index.component';
 import { LoginRedirectComponent } from '@components/login-redirect/login-redirect.component';
+import { LogoutComponent } from './logout/logout.component';
 import { NominationComponent } from './nomination/nomination.component';
 import { NominationResolver } from '../resolvers/nomination.resolver';
 import { PRComponent } from '@components/pr/pr.component';
@@ -36,6 +37,10 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginRedirectComponent,
+  },
+  {
+    path: 'logout',
+    component: LogoutComponent,
   },
   {
     path: 'error',

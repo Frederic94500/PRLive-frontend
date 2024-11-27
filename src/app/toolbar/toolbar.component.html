@@ -5,6 +5,11 @@
     <button mat-button routerLink="">Home</button>
     <button mat-button routerLink="/pr">Party Ranking</button>
     <button mat-button routerLink="/profile">Profile</button>
-    <a mat-button href="{{ linkLog }}">{{ loginButton }}</a>
+    <span *ngIf="logStatus">
+      <button mat-button routerLink="/logout"><mat-icon>logout</mat-icon>Logout</button>
+    </span>
+    <span *ngIf="!logStatus">
+      <button mat-button routerLink="/login"><mat-icon>login</mat-icon>Login</button>
+    </span>
   </mat-toolbar>
 </div>
