@@ -5,6 +5,7 @@
     <button mat-button routerLink="">Home</button>
     <button mat-button routerLink="/pr">Party Ranking</button>
     <button mat-button routerLink="/profile">Profile</button>
+    <button mat-button *ngIf="isAdmin" routerLink="/users">Users</button>
     <span *ngIf="logStatus">
       <button mat-button routerLink="/logout"><mat-icon>logout</mat-icon>Logout</button>
     </span>

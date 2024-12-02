@@ -21,6 +21,7 @@ import { RouterModule } from '@angular/router';
 })
 export class ToolbarComponent {
   logStatus = false;
+  isAdmin = false;
 
   constructor(private authService: AuthService) {
     this.authService
@@ -28,6 +29,9 @@ export class ToolbarComponent {
       .then((res) => {
         if (res.code === 200) {
           this.logStatus = true;
+          if (res.data.role === 'admin') {
+            this.isAdmin = true;
+          }
         } else {
         }
       })

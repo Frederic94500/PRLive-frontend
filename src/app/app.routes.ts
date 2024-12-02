@@ -24,6 +24,8 @@ import { SheetResolver } from '@resolvers/sheet.resolver';
 import { SheetService } from '../services/sheet.service';
 import { TieResolver } from '../resolvers/tie.resolver';
 import { TiebreakComponent } from './tiebreak/tiebreak.component';
+import { UserService } from '../services/user.service';
+import { UsersComponent } from './users/users.component';
 import { inject } from '@angular/core';
 
 export const routes: Routes = [
@@ -131,6 +133,15 @@ export const routes: Routes = [
     canActivate: [() => inject(AuthGuard).canActivate()],
     resolve: {
       auth: AuthResolver,
+    },
+  },
+  {
+    path: 'users',
+    component: UsersComponent,
+    canActivate: [() => inject(AuthGuard).adminRoute()],
+    resolve: {
+      auth: AuthResolver,
+      users: () => inject(UserService).getUsers(),
     },
   },
   {

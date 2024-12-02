@@ -1,0 +1,63 @@
+<div class="centered-content">
+  <h3>Users list</h3>
+</div>
+
+<table mat-table [dataSource]="userList" matSort>
+  <ng-container matColumnDef="discordId">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Discord ID<mat-icon>sort</mat-icon></th>
+    <td mat-cell *matCellDef="let user">{{ user.discordId }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="username">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Username<mat-icon>sort</mat-icon></th>
+    <td mat-cell *matCellDef="let user">{{ user.username }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Name<mat-icon>sort</mat-icon></th>
+    <td mat-cell *matCellDef="let user">{{ user.name }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="role">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Role<mat-icon>sort</mat-icon></th>
+    <td mat-cell *matCellDef="let user">{{ user.role == 'admin' ? 'Admin' : user.role == 'creator' ? 'Creator' : 'User' }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="image">
+    <th mat-header-cell *matHeaderCellDef>Image</th>
+    <td mat-cell *matCellDef="let user" class="image-cell">
+      <img height="44" [src]="user.image" alt="User Image" />
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="options">
+    <th mat-header-cell *matHeaderCellDef>Options</th>
+    <td mat-cell *matCellDef="let user">
+      <button 
+        mat-icon-button
+        [matMenuTriggerFor]="menu"
+        aria-label="Options"
+        (click)="$event.stopPropagation()"
+      >
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="openUserEditInfoDialog(user)">
+          <mat-icon>edit</mat-icon>
+          <span>Edit</span>
+        </button>
+        <button mat-menu-item (click)="updatePFP(user)">
+          <mat-icon>update</mat-icon>
+          <span>Update PFP from Discord</span>
+        </button>
+        <button mat-menu-item (click)="confirmDeleteUser(user)" class="warn-button">
+          <mat-icon>delete</mat-icon>
+          <span>Delete User</span>
+        </button>
+      </mat-menu>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
