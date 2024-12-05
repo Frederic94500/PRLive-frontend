@@ -42,12 +42,14 @@
       Add song
     </button>
     <button mat-raised-button color="primary" (click)="toggleTabVideoMode()">
-      <mat-icon>{{
-        tabVideoMode ? "open_in_new" : "video_library" 
-      }}</mat-icon>
+      <mat-icon>{{ tabVideoMode ? "open_in_new" : "video_library" }}</mat-icon>
       {{ tabVideoMode ? "Tab Video Mode" : "Floating Video Mode" }}
     </button>
-    <button mat-raised-button color="primary" (click)="openPromptChangeAllSampleLength()">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="openPromptChangeAllSampleLength()"
+    >
       <mat-icon>timer</mat-icon>Change all sample length
     </button>
   </p>
@@ -105,8 +107,7 @@
   </p>
 
   <p>
-    Creator: <b>{{ pr.creator }}</b> |
-    Nomination:
+    Creator: <b>{{ pr.creator }}</b> | Nomination:
     <mat-icon>{{ pr.nomination ? "check_circle" : "cancel" }}</mat-icon> |
     <span *ngIf="pr.nomination">
       <button
@@ -114,7 +115,10 @@
         color="primary"
         (click)="confirmEndNomination()"
         [disabled]="pr.nomination.endNomination"
-      >End Nomination</button> | 
+      >
+        End Nomination
+      </button>
+      |
     </span>
     Finished:
     <mat-slide-toggle
@@ -268,7 +272,7 @@
           type="number"
           [value]="song.startSample"
           (change)="updateSongListField(song.uuid, 'startSample')"
-          (wheel)="onWheel($event)"
+          (wheel)="$event.preventDefault()"
           tabindex="0"
         />
       </mat-form-field>
@@ -287,7 +291,7 @@
           type="number"
           [value]="song.sampleLength"
           (change)="updateSongListField(song.uuid, 'sampleLength')"
-          (wheel)="onWheel($event)"
+          (wheel)="$event.preventDefault()"
           tabindex="0"
         />
       </mat-form-field>

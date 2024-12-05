@@ -418,11 +418,7 @@ export class SheetComponent implements OnInit, AfterViewInit {
   closeAudioPlayer(): void {
     this.currentAudioSource = null;
   }
-
-  onWheel(event: WheelEvent): void {
-    event.preventDefault();
-  }
-
+  
   public storeSheet(sheet: Sheet): void {
     try {
       sheet.latestUpdate = new Date().toISOString();

@@ -52,6 +52,7 @@
             id="startSample"
             formControlName="startSample"
             min="0"
+            (wheel)="$event.preventDefault()"
             required
           />
         </mat-form-field>

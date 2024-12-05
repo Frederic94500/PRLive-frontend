@@ -320,10 +320,6 @@ export class PREditComponent implements OnInit, AfterViewInit {
     this.currentAudioSource = null;
   }
 
-  onWheel(event: WheelEvent): void {
-    event.preventDefault();
-  }
-
   openPromptChangeAllSampleLength(): void {
     const newSampleLength = prompt('Enter new sample length in seconds');
     if (

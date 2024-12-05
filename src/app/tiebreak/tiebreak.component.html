@@ -5,9 +5,14 @@
   </span>
   <span *ngIf="tie.status">
     <h4 class="centered-content">This PR has a tie!</h4>
-    <p>Please score the musics. Your favorite music is the one that will have the highest score</p>
+    <p>
+      Please score the musics. Your favorite music is the one that will have the
+      highest score
+    </p>
     <div class="centered-button">
-      <button mat-raised-button (click)="onCopyLink()" *ngIf="isCreator()"><mat-icon>content_copy</mat-icon>Copy tiebreak link</button>
+      <button mat-raised-button (click)="onCopyLink()" *ngIf="isCreator()">
+        <mat-icon>content_copy</mat-icon>Copy tiebreak link
+      </button>
     </div>
   </span>
   <br />
@@ -15,7 +20,9 @@
 
 <div *ngIf="tie.status">
   <div *ngFor="let tieSong of tie.tieSongs; let i = index">
-    <h4 class="centered-content">Tie on total rank {{ tieSong[0].totalRank }}</h4>
+    <h4 class="centered-content">
+      Tie on total rank {{ tieSong[0].totalRank }}
+    </h4>
     <div class="tie-song-container">
       <div *ngFor="let song of tieSong; let j = index">
         <h5 class="centered-content">Song n°{{ j + 1 }}</h5>
@@ -31,7 +38,7 @@
             max="2147483648"
             matTooltip="Higher is better"
             matTooltipPosition="below"
-            (wheel)="onWheel($event)"
+            (wheel)="$event.preventDefault()"
             tabindex="{{ i }}"
             required
           />
@@ -40,6 +47,8 @@
     </div>
   </div>
   <div class="centered-content">
-    <button mat-raised-button color="primary" (click)="onSubmit()">Submit Tiebreak</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()">
+      Submit Tiebreak
+    </button>
   </div>
 </div>

@@ -37,10 +37,6 @@ export class TiebreakComponent implements OnInit {
     return this.user.role === 'admin' || this.user.role === 'creator';
   }
 
-  onWheel(event: WheelEvent) {
-    event.preventDefault();
-  }
-
   onCopyLink() {
     const el = document.createElement('textarea');
     el.value = window.location.href;

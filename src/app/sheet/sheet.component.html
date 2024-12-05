@@ -58,9 +58,7 @@
       {{ isPlaylistMode ? "Playlist Mode: ON" : "Playlist Mode: OFF" }}
     </button>
     <button mat-raised-button color="primary" (click)="toggleTabVideoMode()">
-      <mat-icon>{{
-        tabVideoMode ? "open_in_new" : "video_library" 
-      }}</mat-icon>
+      <mat-icon>{{ tabVideoMode ? "open_in_new" : "video_library" }}</mat-icon>
       {{ tabVideoMode ? "Tab Video Mode" : "Floating Video Mode" }}
     </button>
   </p>
@@ -96,8 +94,8 @@
   <button class="close-button" (click)="closeAudioPlayer()">✖</button>
   <u>Now playing</u>
   <br />
-  <b>{{ getNowPlaying(currentAudioSource, 'urlAudio').artist }}</b> -
-  <b>{{ getNowPlaying(currentAudioSource, 'urlAudio').title }}</b>
+  <b>{{ getNowPlaying(currentAudioSource, "urlAudio").artist }}</b> -
+  <b>{{ getNowPlaying(currentAudioSource, "urlAudio").title }}</b>
   <br />
   <audio
     #player
@@ -214,7 +212,7 @@
           [value]="song.rank"
           (change)="updateRank(song.uuid)"
           (keydown.enter)="focusNextInput(i, 'rank')"
-          (wheel)="onWheel($event)"
+          (wheel)="$event.preventDefault()"
           tabindex="0"
           [disabled]="pr.finished"
         />
@@ -238,7 +236,7 @@
           [value]="song.score"
           (change)="updateScore(song.uuid)"
           (keydown.enter)="focusNextInput(i, 'score')"
-          (wheel)="onWheel($event)"
+          (wheel)="$event.preventDefault()"
           tabindex="1"
           [disabled]="pr.finished"
         />
