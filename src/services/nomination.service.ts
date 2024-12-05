@@ -20,6 +20,20 @@ export class NominationService {
     );
   }
 
+  public async getNominationSong(prId: string, songId: string): Promise<Response> {
+    return await this.apiService.getWithCred(
+      `${this.apiEndpoint}/getnomination/${prId}/${songId}`
+    );
+  }
+
+  public async editNominationSong(prId: string, songId: string, songData: Song): Promise<Response> {
+    return await this.apiService.postPutData(
+      songData,
+      `${this.apiEndpoint}/editnomination/${prId}/${songId}`,
+      'PUT'
+    );
+  }
+
   public async endNomination(prId: string): Promise<Response> {
     return await this.apiService.postPutData(
       {},

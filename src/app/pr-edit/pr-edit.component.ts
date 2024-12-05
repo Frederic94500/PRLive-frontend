@@ -16,7 +16,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { NominationService } from '@/src/services/nomination';
+import { NominationService } from '@/src/services/nomination.service';
 import { PR } from '@interfaces/pr.interface';
 import { PRService } from '@services/pr.service';
 import { PrEditAddSongDialogComponent } from '../pr-edit-add-song-dialog/pr-edit-add-song-dialog.component';
@@ -72,7 +72,7 @@ export class PREditComponent implements OnInit, AfterViewInit {
     private dialog: MatDialog,
     private sanitizer: DomSanitizer
   ) {}
-  
+
   async ngOnInit(): Promise<void> {
     this.pr = this.route.snapshot.data['pr'].data;
     this.songList = new MatTableDataSource(this.pr.songList);
@@ -179,8 +179,9 @@ export class PREditComponent implements OnInit, AfterViewInit {
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
       if (file) {
-        this.prService.uploadFilePR(this.pr._id, type as FileType, file).then(
-          async (response) => {
+        this.prService
+          .uploadFilePR(this.pr._id, type as FileType, file)
+          .then(async (response) => {
             if (response.code !== 200) {
               this.snackBar.open(
                 `Error uploading file: ${response.data}`,
@@ -196,8 +197,7 @@ export class PREditComponent implements OnInit, AfterViewInit {
             });
             this.refreshPR();
             input.value = '';
-          }
-        );
+          });
       }
     }
   }
@@ -218,7 +218,7 @@ export class PREditComponent implements OnInit, AfterViewInit {
           });
 
           input.value = '';
-        }
+        };
       }
     }
   }
@@ -238,9 +238,11 @@ export class PREditComponent implements OnInit, AfterViewInit {
   getNowPlaying(url: string, field: string): { artist: string; title: string } {
     return {
       artist:
-        this.pr.songList.find((x) => url.includes(x[field] as string))?.artist ?? '',
+        this.pr.songList.find((x) => url.includes(x[field] as string))
+          ?.artist ?? '',
       title:
-        this.pr.songList.find((x) => url.includes(x[field] as string))?.title ?? '',
+        this.pr.songList.find((x) => url.includes(x[field] as string))?.title ??
+        '',
     };
   }
 
@@ -251,32 +253,37 @@ export class PREditComponent implements OnInit, AfterViewInit {
   getYoutubeId(url: string): string {
     const shortUrlPattern = /youtu\.be\/([a-zA-Z0-9_-]{11})/;
     const longUrlPattern = /youtube\.com\/.*[?&]v=([a-zA-Z0-9_-]{11})/;
-    
+
     let match = url.match(shortUrlPattern);
     if (match && match[1]) {
       return match[1];
     }
-  
+
     match = url.match(longUrlPattern);
     if (match && match[1]) {
       return match[1];
     }
-  
+
     return '';
   }
 
   getYouTubeEmbedUrl(url: string): string {
-    return `https://www.youtube.com/embed/${this.getYoutubeId(url)}?autoplay=1&cc_load_policy=1`;
+    return `https://www.youtube.com/embed/${this.getYoutubeId(
+      url
+    )}?autoplay=1&cc_load_policy=1`;
   }
 
   sanitizeUrl(url: string): string {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(this.getYouTubeEmbedUrl(url)) as string
+    return this.sanitizer.bypassSecurityTrustResourceUrl(
+      this.getYouTubeEmbedUrl(url)
+    ) as string;
   }
 
   playVideo(url: string): void {
-    this.currentVideoSource = url.includes('https://') || url.includes('youtu')
-      ? url
-      : `${getServerURL(this.user)}${url}`;
+    this.currentVideoSource =
+      url.includes('https://') || url.includes('youtu')
+        ? url
+        : `${getServerURL(this.user)}${url}`;
     this.currentAudioSource = null;
   }
 
@@ -319,7 +326,12 @@ export class PREditComponent implements OnInit, AfterViewInit {
 
   openPromptChangeAllSampleLength(): void {
     const newSampleLength = prompt('Enter new sample length in seconds');
-    if (!newSampleLength || isNaN(parseInt(newSampleLength)) || parseInt(newSampleLength) < 1 || parseInt(newSampleLength) > 3600) {
+    if (
+      !newSampleLength ||
+      isNaN(parseInt(newSampleLength)) ||
+      parseInt(newSampleLength) < 1 ||
+      parseInt(newSampleLength) > 3600
+    ) {
       this.snackBar.open('Invalid sample length', 'Close', {
         duration: 2000,
       });
@@ -330,7 +342,7 @@ export class PREditComponent implements OnInit, AfterViewInit {
       song.sampleLength = sampleLength;
     });
     this.updatePR();
-    
+
     this.snackBar.open('Sample length updated', 'Close', {
       duration: 2000,
     });

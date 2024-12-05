@@ -5,3 +5,7 @@
 .red {
   color: darkred;
 }
+
+.warn-button {
+  color: #f44336;
+}
