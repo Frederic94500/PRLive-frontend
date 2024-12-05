@@ -1,86 +1,155 @@
 <div class="centered-content">
   <h3>Nomination for PR {{ nomination.name }}</h3>
   <p>
-    Number of songs: <b>{{ nomination.numberSongs }}</b> | 
-    Song per user: <b>{{ nomination.songPerUser }}</b> | 
-    Remaining songs: <b class="{{ valueColor() }}">{{ nomination.remainingNominations }}</b>
+    Number of songs: <b>{{ nomination.numberSongs }}</b> | Song per user:
+    <b>{{ nomination.songPerUser }}</b> | Remaining songs:
+    <b class="{{ valueColor() }}">{{ nomination.remainingNominations }}</b>
   </p>
-  <button
-    mat-raised-button
-    color="primary"
-    (click)="openNominationNominateDialog()"
-    [disabled]="nomination.remainingNominations <= 0"
-    *ngIf="!nomination.endNomination"
-  >
-    <mat-icon>add</mat-icon>Nominate song
-  </button>
-  <button
-    mat-raised-button
-    color="primary"
-    [routerLink]="['/sheet', nomination.prId]"
-    *ngIf="nomination.endNomination"
-  ><mat-icon>table_rows</mat-icon>Sheet</button>
-  <br />
+  <p>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="openNominationNominateDialog()"
+      [disabled]="nomination.remainingNominations <= 0"
+      *ngIf="!nomination.endNomination"
+    >
+      <mat-icon>add</mat-icon>Nominate song
+    </button>
+    <button mat-raised-button color="primary" (click)="toggleTabVideoMode()">
+      <mat-icon>{{ tabVideoMode ? "open_in_new" : "video_library" }}</mat-icon>
+      {{ tabVideoMode ? "Tab Video Mode" : "Floating Video Mode" }}
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      [routerLink]="['/sheet', nomination.prId]"
+      *ngIf="nomination.endNomination"
+    >
+      <mat-icon>table_rows</mat-icon>Sheet
+    </button>
+  </p>
   <h4 *ngIf="isEmptySongList()">No songs nominated yet.</h4>
-  <h4 *ngIf="nomination.hideNominatedSongList">Song list is hidden until the end of the nomination.</h4>
-  <h4 *ngIf="nomination.blind && nomination.hidden && !nomination.hideNominatedSongList">Useless to show song list.</h4>
+  <h4 *ngIf="nomination.hideNominatedSongList">
+    Song list is hidden until the end of the nomination.
+  </h4>
+  <h4
+    *ngIf="
+      nomination.blind && nomination.hidden && !nomination.hideNominatedSongList
+    "
+  >
+    Useless to show song list.
+  </h4>
+</div>
+
+<div *ngIf="currentVideoSource" class="center floating-video-player">
+  <button class="close-button" (click)="closeVideoPlayer()">✖</button>
+  <u>Now playing</u>
+  <br />
+  <b>{{ getNowPlaying(currentVideoSource, "urlVideo").artist }}</b> -
+  <b>{{ getNowPlaying(currentVideoSource, "urlVideo").title }}</b>
+  <br />
+  <iframe
+    id="ytplayer"
+    type="text/html"
+    height="360"
+    [src]="sanitizeUrl(currentVideoSource)"
+    frameborder="0"
+    allowfullscreen
+    *ngIf="currentVideoSource && isYouTubeLink(currentVideoSource)"
+  ></iframe>
+  <video
+    #player
+    id="player"
+    controls
+    [src]="currentVideoSource"
+    autoplay
+    *ngIf="currentVideoSource && !isYouTubeLink(currentVideoSource)"
+  ></video>
 </div>
 
 <!-- table for songList -->
-<table mat-table [dataSource]="nomination.songList" class="mat-elevation-z8" *ngIf="showNominatedSongs()">
+<table
+  mat-table
+  [dataSource]="nomination.songList"
+  class="mat-elevation-z8"
+  *ngIf="showNominatedSongs()"
+>
   <!-- ID Column -->
   <ng-container matColumnDef="id">
-    <th mat-header-cell *matHeaderCellDef> ID </th>
-    <td mat-cell *matCellDef="let song"> {{ song.id }} </td>
+    <th mat-header-cell *matHeaderCellDef>ID</th>
+    <td mat-cell *matCellDef="let song">{{ song.id }}</td>
   </ng-container>
 
   <!-- Nominator Column -->
   <ng-container matColumnDef="nominator">
-    <th mat-header-cell *matHeaderCellDef> Nominator </th>
-    <td mat-cell *matCellDef="let song"> {{ song.nominator }} </td>
+    <th mat-header-cell *matHeaderCellDef>Nominator</th>
+    <td mat-cell *matCellDef="let song">{{ song.nominator }}</td>
   </ng-container>
 
   <!-- Artist Column -->
   <ng-container matColumnDef="artist">
-    <th mat-header-cell *matHeaderCellDef> Artist </th>
-    <td mat-cell *matCellDef="let song"> {{ song.artist }} </td>
+    <th mat-header-cell *matHeaderCellDef>Artist</th>
+    <td mat-cell *matCellDef="let song">{{ song.artist }}</td>
   </ng-container>
 
   <!-- Title Column -->
   <ng-container matColumnDef="title">
-    <th mat-header-cell *matHeaderCellDef> Title </th>
-    <td mat-cell *matCellDef="let song"> {{ song.title }} </td>
+    <th mat-header-cell *matHeaderCellDef>Title</th>
+    <td mat-cell *matCellDef="let song">{{ song.title }}</td>
   </ng-container>
 
   <!-- Source Column -->
   <ng-container matColumnDef="source">
-    <th mat-header-cell *matHeaderCellDef> Source </th>
-    <td mat-cell *matCellDef="let song"> {{ song.source }} </td>
+    <th mat-header-cell *matHeaderCellDef>Source</th>
+    <td mat-cell *matCellDef="let song">{{ song.source }}</td>
   </ng-container>
 
   <!-- Type Column -->
   <ng-container matColumnDef="type">
-    <th mat-header-cell *matHeaderCellDef> Type </th>
-    <td mat-cell *matCellDef="let song"> {{ song.type }} </td>
+    <th mat-header-cell *matHeaderCellDef>Type</th>
+    <td mat-cell *matCellDef="let song">{{ song.type }}</td>
   </ng-container>
-  
+
   <!-- URL Video Column -->
   <ng-container matColumnDef="urlVideo">
-    <th mat-header-cell *matHeaderCellDef> URL Video </th>
-    <td mat-cell *matCellDef="let song"> {{ song.urlVideo }} </td>
+    <th mat-header-cell *matHeaderCellDef>URL Video</th>
+    <td mat-cell *matCellDef="let song">
+      <button
+        mat-icon-button
+        (click)="playVideo(song.urlVideo)"
+        *ngIf="!tabVideoMode"
+      >
+        <mat-icon>video_library</mat-icon>
+      </button>
+      <a
+        mat-icon-button
+        [href]="videoLink(song.uuid)"
+        target="_blank"
+        *ngIf="tabVideoMode"
+        ><mat-icon>open_in_new</mat-icon>
+      </a>
+    </td>
   </ng-container>
 
   <!-- URL Audio Column -->
   <ng-container matColumnDef="urlAudio">
-    <th mat-header-cell *matHeaderCellDef> URL Audio </th>
-    <td mat-cell *matCellDef="let song"> {{ song.urlAudio }} </td>
+    <th mat-header-cell *matHeaderCellDef>URL Audio</th>
+    <td mat-cell *matCellDef="let song">
+      <button mat-icon-button (click)="playAudio(song.urlAudio)">
+        <mat-icon>music_note</mat-icon>
+      </button>
+    </td>
   </ng-container>
 
   <!-- Edit Column -->
   <ng-container matColumnDef="edit">
     <th mat-header-cell *matHeaderCellDef>Edit</th>
     <td mat-cell *matCellDef="let song">
-      <button mat-icon-button (click)="openNominationEditDialog(song)" *ngIf="song.isAllowedEdit">
+      <button
+        mat-icon-button
+        (click)="openNominationEditDialog(song)"
+        *ngIf="song.isAllowedEdit"
+      >
         <mat-icon>edit</mat-icon>
       </button>
     </td>
