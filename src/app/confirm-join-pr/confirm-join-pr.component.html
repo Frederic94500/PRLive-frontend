@@ -1,17 +1,20 @@
 <div class="centered-content">
   <h3>PR {{ pr.name }}</h3>
   <p>
-    Number of songs: <b>{{ pr.numberSongs }}</b> | 
-    Deadline:
+    Number of songs: <b>{{ pr.numberSongs }}</b> | Deadline:
     <b class="{{ passedDeadline(pr.deadline) }}">{{
       pr.deadline | date : "dd/MM/yyyy HH:mm"
     }}</b>
   </p>
-  <button
-    mat-raised-button
-    color="primary"
-    (click)="onClickJoin()"
-  ><mat-icon>table_rows</mat-icon>Join PR</button>
+  <p>
+    <button mat-raised-button color="primary" (click)="onClickJoin()">
+      <mat-icon>table_rows</mat-icon>Join PR
+    </button>
+    <button mat-raised-button color="primary" (click)="toggleTabVideoMode()">
+      <mat-icon>{{ tabVideoMode ? "open_in_new" : "video_library" }}</mat-icon>
+      {{ tabVideoMode ? "Tab Video Mode" : "Floating Video Mode" }}
+    </button>
+  </p>
 </div>
 
 <div *ngIf="currentVideoSource" class="center floating-video-player">

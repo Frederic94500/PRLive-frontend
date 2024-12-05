@@ -6,6 +6,10 @@
   color: darkred;
 }
 
+.center {
+  text-align: center;
+}
+
 .floating-audio-player {
   position: fixed;
   top: 20px;
