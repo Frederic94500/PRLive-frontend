@@ -20,17 +20,6 @@
   font-size: 0.5rem; /* Réduire la taille de la police des champs de saisie */
 }
 
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-input[type="number"] {
-  -moz-appearance: textfield;
-  appearance: textfield;
-}
-
 .red-mini-fab {
   background-color: darkred;
   color: white;
