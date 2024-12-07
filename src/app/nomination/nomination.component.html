@@ -67,6 +67,23 @@
   ></video>
 </div>
 
+<div *ngIf="currentAudioSource" class="center floating-audio-player">
+  <button class="close-button" (click)="closeAudioPlayer()">✖</button>
+  <u>Now playing</u>
+  <br />
+  <b>{{ getNowPlaying(currentAudioSource, "urlAudio").artist }}</b> -
+  <b>{{ getNowPlaying(currentAudioSource, "urlAudio").title }}</b>
+  <br />
+  <audio
+    #player
+    id="player"
+    controls
+    [src]="currentAudioSource"
+    *ngIf="currentAudioSource"
+    autoplay
+  ></audio>
+</div>
+
 <!-- table for songList -->
 <table
   mat-table
