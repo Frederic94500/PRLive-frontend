@@ -1,8 +1,10 @@
+import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
+
 import { AuthService } from '@services/auth.service';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 
@@ -23,7 +25,16 @@ export class ToolbarComponent {
   logStatus = false;
   isAdmin = false;
 
-  constructor(private authService: AuthService) {
+  constructor(
+    private authService: AuthService,
+    private matIconRegistry: MatIconRegistry,
+    private domSanitizer: DomSanitizer
+  ) {
+    this.matIconRegistry.addSvgIcon(
+      'discord',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('discord.svg')
+    );
+
     this.authService
       .getWhoAmI()
       .then((res) => {

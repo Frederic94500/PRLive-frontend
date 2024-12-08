@@ -4,13 +4,9 @@
     <span class="spacer"></span>
     <button mat-button routerLink="">Home</button>
     <button mat-button routerLink="/pr">Party Ranking</button>
-    <button mat-button routerLink="/profile">Profile</button>
+    <button mat-button routerLink="/profile" *ngIf="logStatus">Profile</button>
     <button mat-button *ngIf="isAdmin" routerLink="/users">Users</button>
-    <span *ngIf="logStatus">
-      <button mat-button routerLink="/logout"><mat-icon>logout</mat-icon>Logout</button>
-    </span>
-    <span *ngIf="!logStatus">
-      <button mat-button routerLink="/login"><mat-icon>login</mat-icon>Login</button>
-    </span>
+    <button mat-button routerLink="/logout" *ngIf="logStatus"><mat-icon class="logout-button">logout</mat-icon>Logout</button>
+    <button mat-button routerLink="/login" *ngIf="!logStatus" class="discord-button"><mat-icon svgIcon="discord"></mat-icon>Login with Discord</button>
   </mat-toolbar>
 </div>

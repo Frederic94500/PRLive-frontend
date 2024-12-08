@@ -2,6 +2,10 @@
   flex: 1 1 auto;
 }
 
-.example-container {
-  height: 100%;
+.discord-button {
+  background-color: #5865F2
+}
+
+.logout-button {
+  color: #FF0000
 }
