@@ -48,6 +48,7 @@ export class PRTableComponent implements OnInit, AfterViewInit {
   @Input() isLoggedIn: boolean = false;
   @Input() isCreator: boolean = false;
   @Input() filter: string = 'all';
+  @Input() _searchFilter: string = '';
 
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -57,6 +58,12 @@ export class PRTableComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
+  }
+  
+  @Input()
+  set searchFilter(value: string) {
+    this._searchFilter = value;
+    this.dataSource.filter = value.trim().toLowerCase();
   }
 
   passedDeadline(nomination: boolean, date: string): string {

@@ -5,7 +5,9 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 import { MatButton } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTabsModule } from '@angular/material/tabs';
 import { PR } from '@/src/interfaces/pr.interface';
@@ -28,9 +30,12 @@ import { User } from '@/src/interfaces/user.interface';
     PRTableComponent,
     MatTabsModule,
     MatButtonToggleModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
   templateUrl: './pr.component.html',
   styleUrl: './pr.component.css',
+  host: {ngSkipHydration: 'true'},
 })
 export class PRComponent implements OnInit {
   user!: User;
@@ -64,6 +69,7 @@ export class PRComponent implements OnInit {
   isCreator: boolean = false;
   isAdmin: boolean = false;
   filter: string = SheetStatus.ALL;
+  searchFilter: string = '';
 
   constructor(private route: ActivatedRoute) {}
 
@@ -165,5 +171,9 @@ export class PRComponent implements OnInit {
         )
       )
     );
+  }
+
+  applyFilter(event: Event): void {
+    this.searchFilter = (event.target as HTMLInputElement).value;
   }
 }

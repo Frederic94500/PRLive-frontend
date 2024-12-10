@@ -5,14 +5,22 @@
       <mat-icon>add</mat-icon>Create Party Ranking
     </button>
   </span>
-  <span *ngIf="sheets">
-    <mat-button-toggle-group [value]="filter" (change)="filterSheet($event)">
-      <mat-button-toggle value="ALL" class="custom-button-toggle-all">All</mat-button-toggle>
-      <mat-button-toggle value="NOTJOINED" class="custom-button-toggle-notjoined">Not joined</mat-button-toggle>
-      <mat-button-toggle value="UNFILLED" class="custom-button-toggle-unfilled">Unfilled</mat-button-toggle>
-      <mat-button-toggle value="FILLED" class="custom-button-toggle-filled">Filled</mat-button-toggle>
-    </mat-button-toggle-group>
-  </span>
+  <p>
+    <span *ngIf="sheets">
+      <mat-button-toggle-group [value]="filter" (change)="filterSheet($event)">
+        <mat-button-toggle value="ALL" class="custom-button-toggle-all">All</mat-button-toggle>
+        <mat-button-toggle value="NOTJOINED" class="custom-button-toggle-notjoined">Not joined</mat-button-toggle>
+        <mat-button-toggle value="UNFILLED" class="custom-button-toggle-unfilled">Unfilled</mat-button-toggle>
+        <mat-button-toggle value="FILLED" class="custom-button-toggle-filled">Filled</mat-button-toggle>
+      </mat-button-toggle-group>
+    </span>
+    <span>
+      <mat-form-field appearance="fill">
+        <mat-label>Search PR</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Example: Tatsuya Kitani" #input/>
+      </mat-form-field>
+    </span>
+  </p>
 </div>
 
 <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" [selectedIndex]="1">
@@ -26,6 +34,7 @@
       [isLoggedIn]="isLoggedIn"
       [isCreator]="isCreator"
       [filter]="filter"
+      [searchFilter]="searchFilter"
     ></app-table>
   </mat-tab>
   <mat-tab label="Ongoing">
@@ -38,6 +47,7 @@
       [isLoggedIn]="isLoggedIn"
       [isCreator]="isCreator"
       [filter]="filter"
+      [searchFilter]="searchFilter"
     ></app-table>
   </mat-tab>
   <mat-tab label="Finished">
@@ -50,6 +60,7 @@
       [isLoggedIn]="isLoggedIn"
       [isCreator]="isCreator"
       [filter]="filter"
+      [searchFilter]="searchFilter"
     ></app-table>
   </mat-tab>
 </mat-tab-group>
