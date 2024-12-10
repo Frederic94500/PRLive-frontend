@@ -7,7 +7,7 @@
     }}</b>
     | Must be: <b>{{ pr.mustBe }}</b> | Total rank:
     <b class="{{ mustBeChecker() }}">{{ totalRank }}</b> | Mean score:
-    <b>{{ meanScore }}</b>
+    <b>{{ meanScore | number:'1.3-3' }}</b>
   </p>
   <p>
     <button

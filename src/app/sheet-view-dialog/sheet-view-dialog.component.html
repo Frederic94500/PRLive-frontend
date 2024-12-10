@@ -3,18 +3,10 @@
   <div class="centered-content">
     <p>
       Total rank: <b class="{{ mustBeChecker() }}">{{ totalRank }}</b> | Mean
-      score: <b>{{ meanScore }}</b>
+      score: <b>{{ meanScore | number:'1.3-3' }}</b>
     </p>
   </div>
   <table mat-table [dataSource]="sheetTable" matSort>
-    <!-- OrderId Column
-    <ng-container matColumnDef="orderId">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Order</th>
-      <td mat-cell *matCellDef="let song">
-        {{ getEntry(song.uuid, "orderId") }}
-      </td>
-    </ng-container> -->
-
     <!-- Title Column -->
     <ng-container matColumnDef="title">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>

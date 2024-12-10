@@ -1,5 +1,5 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
 
 import { ApiService } from '@services/api.service';
 import { AuthGuard } from '@guards/auth.guard';
@@ -21,6 +21,7 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     provideAnimationsAsync(),
     provideHttpClient(withInterceptorsFromDi()),
+    provideHttpClient(withFetch()),
     ApiService,
     AuthService,
     PRService,
