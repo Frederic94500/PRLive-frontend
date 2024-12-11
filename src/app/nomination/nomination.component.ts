@@ -53,29 +53,18 @@ export class NominationComponent implements AfterViewInit {
     this.user = this.route.snapshot.data['auth'].data;
     this.nomination = this.route.snapshot.data['nomination'].data;
 
-    if (
-      !this.nomination.hideNominatedSongList &&
-      (!this.nomination.blind || !this.nomination.hidden)
-    ) {
-      this.displayedColumns = ['edit'];
-      if (!this.nomination.blind) {
-        this.displayedColumns.unshift(
-          'artist',
-          'title',
-          'source',
-          'type',
-          'urlVideo',
-          'urlAudio'
-        );
-      }
-      if (!this.nomination.hidden) {
-        this.displayedColumns.unshift('nominator');
-        this.nomination.songList.forEach((song) => {
-          song.nominator = this.nomination.nominators.find(
-            (user) => user.nominator === song.nominator
-          )!.name;
-        });
-      }
+    if (!this.nomination.blind) {
+      this.displayedColumns.unshift(
+        'artist',
+        'title',
+        'source',
+        'type',
+        'urlVideo',
+        'urlAudio'
+      );
+    }
+    if (!this.nomination.hidden) {
+      this.displayedColumns.unshift('nominator');
     }
 
     this.songList = new MatTableDataSource(this.nomination.songList);
@@ -96,7 +85,6 @@ export class NominationComponent implements AfterViewInit {
     const isURL = URL.includes('https://');
     return isURL ? URL : `${getServerURL(this.user)}${URL}`;
   }
-
 
   isYouTubeLink(url: string): boolean {
     return url.includes('youtu');
@@ -182,11 +170,7 @@ export class NominationComponent implements AfterViewInit {
   }
 
   showNominatedSongs(): boolean {
-    if (this.nomination.blind && this.nomination.hidden) {
-      return false;
-    }
-
-    return !this.nomination.hideNominatedSongList && !this.isEmptySongList();
+    return !this.isEmptySongList();
   }
 
   openNominationNominateDialog(): void {
@@ -201,13 +185,6 @@ export class NominationComponent implements AfterViewInit {
         await new NominationService().getNomination(this.nomination.prId)
       ).data;
       this.nomination = newNomination;
-      if (!this.nomination.hidden) {
-        this.nomination.songList.forEach((song) => {
-          song.nominator = this.nomination.nominators.find(
-            (user) => user.nominator === song.nominator
-          )!.name;
-        });
-      }
       this.songList = new MatTableDataSource(newNomination.songList);
     });
   }
@@ -241,13 +218,6 @@ export class NominationComponent implements AfterViewInit {
         await this.nominationService.getNomination(this.nomination.prId)
       ).data;
       this.nomination = newNomination;
-      if (!this.nomination.hidden) {
-        this.nomination.songList.forEach((song) => {
-          song.nominator = this.nomination.nominators.find(
-            (user) => user.nominator === song.nominator
-          )!.name;
-        });
-      }
       this.songList = new MatTableDataSource(newNomination.songList);
     });
   }

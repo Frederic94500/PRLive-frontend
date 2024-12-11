@@ -32,13 +32,6 @@
   <h4 *ngIf="nomination.hideNominatedSongList">
     Song list is hidden until the end of the nomination.
   </h4>
-  <h4
-    *ngIf="
-      nomination.blind && nomination.hidden && !nomination.hideNominatedSongList
-    "
-  >
-    Useless to show song list.
-  </h4>
 </div>
 
 <div *ngIf="currentVideoSource" class="center floating-video-player">
