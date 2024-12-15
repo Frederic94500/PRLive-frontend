@@ -38,6 +38,7 @@ import { environment } from '@/src/environments/environment';
 export class PRDetailComponent implements OnInit, AfterViewInit {
   displayedColumnsSongList: string[] = [
     'orderId',
+    'nominator',
     'artist',
     'title',
     'source',
@@ -84,6 +85,11 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
 
     if (this.isAdmin) {
       this.displayedColumnsSongList.unshift('uuid');
+    }
+    if (!this.pr.nomination) {
+      this.displayedColumnsSongList = this.displayedColumnsSongList.filter(
+        (column) => column !== 'nominator'
+      );
     }
   }
 

@@ -125,6 +125,14 @@
         <td mat-cell *matCellDef="let song">{{ song.uuid }}</td>
       </ng-container>
 
+      <!-- Nominator Column -->
+      <ng-container matColumnDef="nominator">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Nominator<mat-icon>sort</mat-icon>
+        </th>
+        <td mat-cell *matCellDef="let song">{{ song.nominator }}</td>
+      </ng-container>
+
       <!-- Artist Column -->
       <ng-container matColumnDef="artist">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
