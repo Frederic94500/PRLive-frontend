@@ -14,6 +14,7 @@ export interface Nomination {
   endNomination: boolean;
   songPerUser: number;
   nominatedSongList: NominatedSongs[];
+  [key: string]: string | boolean | number | NominatedSongs[] | undefined;
 }
 
 export interface NominationData {

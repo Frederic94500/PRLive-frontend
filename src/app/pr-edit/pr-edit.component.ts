@@ -96,13 +96,20 @@ export class PREditComponent implements OnInit, AfterViewInit {
   async updatePR(): Promise<void> {
     const response = await this.prService.updatePR(this.pr);
     if (response.code != 200) {
-      this.snackBar.open('Failed to update PR', 'Close', {
+      this.snackBar.open(`Failed to update PR: ${response.data || response.message}`, 'Close', {
         duration: 2000,
       });
     }
   }
 
   async simpleUpdatePRField(): Promise<void> {
+    this.updatePR();
+  }
+
+  async updatePRNominationField(field: string): Promise<void> {
+    const inputElement = document.getElementById(field) as HTMLInputElement;
+    const value = inputElement.value;
+    this.pr.nomination[field] = value;
     this.updatePR();
   }
 
