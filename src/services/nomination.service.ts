@@ -34,6 +34,10 @@ export class NominationService {
     );
   }
 
+  public async deleteNominationSong(prId: string, songId: string): Promise<Response> {
+    return await this.apiService.deleteData(`${this.apiEndpoint}/deletenomination/${prId}/${songId}`);
+  }
+
   public async endNomination(prId: string): Promise<Response> {
     return await this.apiService.postPutData(
       {},

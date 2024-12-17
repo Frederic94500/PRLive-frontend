@@ -9,3 +9,12 @@
 .warn-button {
   color: #f44336;
 }
+
+.red-mini-fab {
+  background-color: darkred;
+  color: white;
+}
+
+.red-mini-fab:hover {
+  background-color: red;
+}

@@ -34,7 +34,7 @@ import { getServerURL } from '@/src/toolbox/toolbox';
 })
 export class NominationComponent implements AfterViewInit {
   user: User;
-  displayedColumns: string[] = ['edit'];
+  displayedColumns: string[] = ['edit', 'delete'];
   nomination: NominationData;
   songList: MatTableDataSource<any>;
   currentAudioSource: string | null = null;
@@ -178,6 +178,7 @@ export class NominationComponent implements AfterViewInit {
       data: {
         prId: this.nomination.prId,
       },
+      disableClose: true,
     });
 
     this.dialog.afterAllClosed.subscribe(async () => {
@@ -211,6 +212,7 @@ export class NominationComponent implements AfterViewInit {
         prId: this.nomination.prId,
         song: nominatedSong.data,
       },
+      disableClose: true,
     });
 
     this.dialog.afterAllClosed.subscribe(async () => {
@@ -220,5 +222,43 @@ export class NominationComponent implements AfterViewInit {
       this.nomination = newNomination;
       this.songList = new MatTableDataSource(newNomination.songList);
     });
+  }
+
+  openNominationDeleteDialog(songUuid: string): void {
+    const confirmDelete = window.confirm(
+      'Are you sure you want to delete this nomination?'
+    );
+    if (confirmDelete) {
+      this.deleteNominationSong(songUuid);
+    }
+  }
+
+  async deleteNominationSong(songUuid: string): Promise<void> {
+    const deleteSong = await this.nominationService.deleteNominationSong(
+      this.nomination.prId,
+      songUuid
+    );
+    if (deleteSong.code !== 200) {
+      this.snackBar.open(
+        `Failed to delete nomination. Reason: ${
+          deleteSong.data || deleteSong.message
+        }`,
+        'Close',
+        {
+          duration: 2000,
+        }
+      );
+      return;
+    }
+
+    this.snackBar.open('Song deleted successfully', 'Close', {
+      duration: 2000,
+    });
+
+    const newNomination = (
+      await this.nominationService.getNomination(this.nomination.prId)
+    ).data;
+    this.nomination = newNomination;
+    this.songList = new MatTableDataSource(newNomination.songList);
   }
 }
