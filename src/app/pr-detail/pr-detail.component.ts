@@ -54,6 +54,7 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
     'hasFinished',
     'staller',
     'doubleRank',
+    'image',
     'options',
   ];
   pr!: PRDetail;
