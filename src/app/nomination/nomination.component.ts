@@ -1,5 +1,6 @@
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
 import { CommonModule } from '@angular/common';
@@ -9,7 +10,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatSort } from '@angular/material/sort';
 import { NominationData } from '@/src/interfaces/nomination.interface';
 import { NominationEditDialogComponent } from '../nomination-edit-dialog/nomination-edit-dialog.component';
 import { NominationNominateDialogComponent } from '../nomination-nominate-dialog/nomination-nominate-dialog.component';
@@ -28,6 +28,7 @@ import { getServerURL } from '@/src/toolbox/toolbox';
     MatTableModule,
     RouterLink,
     MatMenuModule,
+    MatSortModule,
   ],
   templateUrl: './nomination.component.html',
   styleUrl: './nomination.component.css',
