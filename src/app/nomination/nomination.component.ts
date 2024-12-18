@@ -55,10 +55,10 @@ export class NominationComponent implements AfterViewInit {
 
     if (!this.nomination.blind) {
       this.displayedColumns.unshift(
-        'artist',
-        'title',
         'source',
         'type',
+        'title',
+        'artist',
         'urlVideo',
         'urlAudio'
       );
