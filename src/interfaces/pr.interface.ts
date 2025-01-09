@@ -81,15 +81,21 @@ export interface PRInput {
 }
 
 export interface PROutput {
+  _id: string;
   name: string;
   creator: string;
-  nomination: boolean;
-  blind: boolean;
-  deadlineNomination: string;
+  status: PRStatus;
+  nomination: Nomination;
   deadline: string;
+  finished: boolean;
   numberVoters: number;
   numberSongs: number;
   mustBe: number;
+  threadId: string;
+  video?: string;
+  affinityImage?: string;
+  prStats?: string;
+  tie: Tie;
   songList: SongOutput[];
   voters: UserOutput[];
 }

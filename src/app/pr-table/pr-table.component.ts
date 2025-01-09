@@ -110,13 +110,18 @@ export class PRTableComponent implements OnInit, AfterViewInit {
 
   async downloadJson(prId: string): Promise<void> {
     const prOutput: PROutput = (await new PRService().outputPR(prId)).data;
+    if (prOutput.tie.status) {
+      if (!confirm('This PR has an unresolved tie. Do you want to download the output?')) {
+        return;
+      }
+    }
     const pr = modifyPRURL(prOutput, this.user);
     const json = JSON.stringify(pr, null, 2);
     const blob = new Blob([json], { type: 'application/json' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${prOutput.name}_output_PR.json`;
+    a.download = `${prOutput.name.replace(/[^a-zA-Z0-9]/g, '_')}_output_PR.json`;
     a.click();
     window.URL.revokeObjectURL(url);
   }
