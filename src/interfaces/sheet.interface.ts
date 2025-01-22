@@ -4,6 +4,7 @@ export interface SheetSimple {
 }
 
 export interface Sheet {
+  _id: string;
   prId: string;
   voterId: string;
   name: string;

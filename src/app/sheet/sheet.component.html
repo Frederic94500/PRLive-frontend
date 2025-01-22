@@ -22,7 +22,7 @@
       mat-raised-button
       color="primary"
       (click)="openSheetProfileDialog()"
-      [disabled]="pr.finished"
+      [disabled]="pr.finished || !auth"
     >
       <mat-icon>edit</mat-icon>Edit Profile PR
     </button>

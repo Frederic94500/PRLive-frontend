@@ -25,6 +25,10 @@ export class SheetService {
     );
   }
 
+  public async getSheetNoAuth(prId: string, voterId: string, sheetId: string): Promise<Response> {
+    return await this.apiService.getNoCred(`${this.apiEndpoint}/${prId}/${voterId}/${sheetId}`);
+  }
+
   public async putSheet(prId: string, sheet: Sheet): Promise<Response> {
     return await this.apiService.postPutData(
       sheet,
@@ -33,8 +37,20 @@ export class SheetService {
     );
   }
 
+  public async putSheetNoAuth(prId: string, voterId: string, sheetId: string, sheet: Sheet): Promise<Response> {
+    return await this.apiService.postPutDataNoCred(
+      sheet,
+      `${this.apiEndpoint}/${prId}/${voterId}/${sheetId}`,
+      'PUT'
+    );
+  }
+
   public async deleteSheet(prId: string): Promise<Response> {
     return await this.apiService.deleteData(`${this.apiEndpoint}/delete/${prId}`);
+  }
+
+  public async deleteSheetNoAuth(prId: string, voterId: string, sheetId: string): Promise<Response> {
+    return await this.apiService.deleteData(`${this.apiEndpoint}/delete/${prId}/${voterId}/${sheetId}`);
   }
 
   public async deleteSheetUser(

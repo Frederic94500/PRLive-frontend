@@ -25,6 +25,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { PR } from '@/src/interfaces/pr.interface';
 import { Response } from '@/src/interfaces/api.interface';
+import { Server } from '@/src/enums/server.enum';
 import { SheetCSVDialogComponent } from '../sheet-csv-dialog/sheet-csv-dialog.component';
 import { SheetProfileDialogComponent } from '../sheet-profile-dialog/sheet-profile-dialog.component';
 import { SheetService } from '@services/sheet.service';
@@ -64,6 +65,7 @@ export class SheetComponent implements OnInit, AfterViewInit {
     'comment',
   ];
 
+  auth: boolean = false;
   sheetService: SheetService = new SheetService();
   pr!: PR;
   sheet!: Sheet;
@@ -91,7 +93,8 @@ export class SheetComponent implements OnInit, AfterViewInit {
   @ViewChild('player') audioPlayer!: ElementRef<HTMLAudioElement>;
 
   async ngOnInit(): Promise<void> {
-    const user: User = this.route.snapshot.data['auth'].data;
+    this.auth = this.route.snapshot.data['auth'].data ? true : false;
+    const user: User = this.auth ? this.route.snapshot.data['auth'].data : { server: Server.EU };
     this.pr = this.route.snapshot.data['pr'].data;
     this.pr = modifyPRURL(this.pr, user) as PR;
 
@@ -184,7 +187,11 @@ export class SheetComponent implements OnInit, AfterViewInit {
     this.storeSheet(this.sheet);
     let response: Response;
     try {
-      response = await this.sheetService.putSheet(this.pr._id, this.sheet);
+      if (this.auth) {
+        response = await this.sheetService.putSheet(this.pr._id, this.sheet);
+      } else {
+        response = await this.sheetService.putSheetNoAuth(this.pr._id, this.sheet.voterId, this.sheet._id, this.sheet);
+      }
     } catch (error) {
       this.snackBar.open('No answer from server, saved on local', 'Close', {
         duration: 2000,
@@ -375,7 +382,12 @@ export class SheetComponent implements OnInit, AfterViewInit {
   }
 
   async quitSheet(): Promise<void> {
-    const response = await this.sheetService.deleteSheet(this.pr._id);
+    let response: Response;
+    if (this.auth) {
+      response = await this.sheetService.deleteSheetNoAuth(this.pr._id, this.sheet.voterId, this.sheet._id);
+    } else {
+      response = await this.sheetService.deleteSheet(this.pr._id);
+    }
     if (response.code !== 200) {
       this.snackBar.open('Failed to quit PR', 'Close', {
         duration: 2000,
@@ -433,7 +445,6 @@ export class SheetComponent implements OnInit, AfterViewInit {
       const sheet = localStorage.getItem(`sheet-${prId}`);
       return sheet ? JSON.parse(atob(sheet)) : null;
     } catch (error) {
-      console.error(error);
       return null;
     }
   }

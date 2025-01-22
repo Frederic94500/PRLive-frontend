@@ -23,6 +23,12 @@ export class PRService {
     return await this.apiService.getWithCred(`${this.apiEndpoint}/get/${prId}`);
   }
 
+  public async getPRNoAuth(prId: string, voterId: string): Promise<Response> {
+    return await this.apiService.getNoCred(
+      `${this.apiEndpoint}/get/${prId}/${voterId}`
+    );
+  }
+
   public async createPR(pr: PRInput): Promise<Response> {
     return await this.apiService.postPutData(
       pr,

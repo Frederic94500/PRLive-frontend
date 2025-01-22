@@ -20,6 +20,21 @@ export class ApiService {
     return response.json();
   }
 
+  public async postPutDataNoCred(
+    data: any,
+    endpoint: string,
+    method: string
+  ): Promise<Response> {
+    const response = await fetch(`${this.apiUrl}/${this.apiEndpoint}/${endpoint}`, {
+      method: method,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    return response.json();
+  }
+
   public async postPutData(
     data: any,
     endpoint: string,
@@ -63,6 +78,13 @@ export class ApiService {
     const response = await fetch(`${this.apiUrl}/${this.apiEndpoint}/${endpoint}`, {
       method: 'DELETE',
       credentials: 'include',
+    });
+    return response.json();
+  }
+
+  public async deleteDataNoCred(endpoint: string): Promise<Response> {
+    const response = await fetch(`${this.apiUrl}/${this.apiEndpoint}/${endpoint}`, {
+      method: 'DELETE',
     });
     return response.json();
   }
