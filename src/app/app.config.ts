@@ -6,6 +6,7 @@ import { AuthGuard } from '@guards/auth.guard';
 import { AuthService } from '@services/auth.service';
 import { NominationService } from '../services/nomination.service';
 import { PRService } from '@services/pr.service';
+import { ServerService } from '../services/server.service';
 import { SheetService } from '@services/sheet.service';
 import { UserService } from '../services/user.service';
 import { UsersResolver } from '../resolvers/users.resolver';
@@ -30,5 +31,6 @@ export const appConfig: ApplicationConfig = {
     UsersResolver,
     UserService,
     NominationService,
+    ServerService,
   ],
 };

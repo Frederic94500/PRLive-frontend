@@ -21,6 +21,8 @@ import { PRResolver } from '@resolvers/pr.resolver';
 import { PRService } from '@services/pr.service';
 import { ProfileComponent } from '@components/profile/profile.component';
 import { Routes } from '@angular/router';
+import { ServersComponent } from './servers/servers.component';
+import { ServersResolver } from '../resolvers/servers.resolver';
 import { SheetComponent } from '@components/sheet/sheet.component';
 import { SheetNoAuthResolver } from '../resolvers/sheet-no-auth.resolver';
 import { SheetResolver } from '@resolvers/sheet.resolver';
@@ -154,6 +156,15 @@ export const routes: Routes = [
     resolve: {
       auth: AuthResolver,
       users: () => inject(UserService).getUsers(),
+    },
+  },
+  {
+    path: 'servers',
+    component: ServersComponent,
+    canActivate: [() => inject(AuthGuard).adminRoute()],
+    resolve: {
+      auth: AuthResolver,
+      servers: ServersResolver,
     },
   },
   {
