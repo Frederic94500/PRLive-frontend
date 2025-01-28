@@ -1,7 +1,8 @@
 <div class="centered-content">
   <h3>PR {{ pr.name }}</h3>
   <p>
-    Creator : <b>{{ pr.creator }}</b> |
+    Server: <b>{{ pr.serverId }}</b> |
+    Creator: <b>{{ pr.creator }}</b> |
     <span *ngIf="pr.nomination">
       Nomination deadline:
       <b class="{{ passedDeadline(pr.nomination.deadlineNomination) }}">{{

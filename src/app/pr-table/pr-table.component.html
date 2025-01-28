@@ -12,6 +12,14 @@
     <td mat-cell *matCellDef="let pr">{{ pr._id }}</td>
   </ng-container>
 
+  <!-- ServerId Column -->
+  <ng-container matColumnDef="serverId">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      Server<mat-icon>sort</mat-icon>
+    </th>
+    <td mat-cell *matCellDef="let pr">{{ pr.serverId }}</td>
+  </ng-container>
+
   <!-- Name Column -->
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>

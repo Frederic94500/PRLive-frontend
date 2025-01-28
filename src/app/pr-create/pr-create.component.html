@@ -7,6 +7,15 @@
     </mat-form-field>
 
     <mat-form-field class="input-full-width">
+      <mat-label>Server</mat-label>
+      <mat-select formControlName="serverId" required>
+        <mat-option *ngFor="let server of servers" [value]="server._id">{{
+          server.name
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="input-full-width">
       <mat-label>Deadline</mat-label>
       <input
         matInput

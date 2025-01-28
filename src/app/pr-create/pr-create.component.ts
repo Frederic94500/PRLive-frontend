@@ -12,16 +12,19 @@ import {
   MatLabel,
 } from '@angular/material/form-field';
 
+import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatButton } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PRInput } from '@/src/interfaces/pr.interface';
 import { PRService } from '@/src/services/pr.service';
 import { Response } from '@/src/interfaces/api.interface';
+import { Server } from '@/src/interfaces/server.interface';
 
 @Component({
   selector: 'app-pr-create',
@@ -37,7 +40,8 @@ import { Response } from '@/src/interfaces/api.interface';
     MatInputModule,
     MatButton,
     MatSlideToggleModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatSelectModule,
   ],
   templateUrl: './pr-create.component.html',
   styleUrl: './pr-create.component.css',
@@ -47,15 +51,20 @@ export class PRCreateComponent implements OnInit {
   @Input() prForm!: FormGroup;
   prService: PRService = new PRService();
   isNomination: boolean = false;
+  servers: Server[];
 
   constructor(
     private formBuilder: FormBuilder,
-    private snackBar: MatSnackBar
-  ) {}
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute,
+  ) {
+    this.servers = this.route.snapshot.data['servers'].data;
+  }
 
   ngOnInit(): void {
     this.prForm = this.formBuilder.group({
       name: ['', Validators.required],
+      serverId: ['', Validators.required],
       deadline: ['', Validators.required],
       isNomination: [this.isNomination, Validators.required],
       hidden: [false],

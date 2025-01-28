@@ -41,12 +41,14 @@ export class PRComponent implements OnInit {
   user!: User;
   prs!: PR[];
   nominationDisplayedColumns: string[] = [
+    'serverId',
     'name',
     'creator',
     'deadlineNomination',
     'numberSongs',
   ];
   rankingDisplayedColumns: string[] = [
+    'serverId',
     'name',
     'creator',
     'nomination',
@@ -54,6 +56,7 @@ export class PRComponent implements OnInit {
     'numberSongs',
   ];
   finishedDisplayedColumns: string[] = [
+    'serverId',
     'name',
     'creator',
     'nomination',

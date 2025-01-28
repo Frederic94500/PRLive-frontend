@@ -1,6 +1,7 @@
 <div class="centered-content">
   <h3>Sheet {{ pr.name }}</h3>
   <p>
+    Server: <b>{{ pr.serverId }}</b> | 
     Creator : <b>{{ pr.creator }}</b> | Deadline:
     <b class="{{ passedDeadline() }}">{{
       pr.deadline | date : "dd/MM/yyyy HH:mm"

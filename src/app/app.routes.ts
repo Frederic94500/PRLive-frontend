@@ -68,6 +68,7 @@ export const routes: Routes = [
     canActivate: [() => inject(AuthGuard).protectedRoute()],
     resolve: {
       auth: AuthResolver,
+      servers: ServersResolver,
     },
   },
   {
