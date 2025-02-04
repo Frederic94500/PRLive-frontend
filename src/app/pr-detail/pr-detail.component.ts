@@ -14,6 +14,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
+import { PRDetailAnnouncePRDialogComponent } from '../pr-detail-announce-pr-dialog/pr-detail-announce-pr-dialog.component';
 import { SheetService } from '@/src/services/sheet.service';
 import { SheetViewDialogComponent } from '../sheet-view-dialog/sheet-view-dialog.component';
 import { Song } from '@/src/interfaces/song.interface';
@@ -194,6 +195,12 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
     this.userList.data = this.userList.data.filter(
       (user) => user.discordId !== discordId
     );
+  }
+
+  openAnnouncePRDialog(): void {
+    this.dialog.open(PRDetailAnnouncePRDialogComponent, {
+      data: { prId: this.pr._id },
+    });
   }
 
   videoLink(uuid: string): string {

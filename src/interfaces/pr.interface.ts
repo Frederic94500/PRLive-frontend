@@ -121,3 +121,7 @@ export interface ResultTable {
   totalRank: number;
   voters: number[];
 }
+
+export interface AnnouncePR {
+  message: string;
+}

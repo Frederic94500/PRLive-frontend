@@ -1,4 +1,4 @@
-import { PR, PRInput, Tiebreak } from '@interfaces/pr.interface';
+import { AnnouncePR, PR, PRInput, Tiebreak } from '@interfaces/pr.interface';
 
 import { ApiService } from '@services/api.service';
 import { FileType } from '../enums/fileType.enum';
@@ -41,6 +41,14 @@ export class PRService {
     return await this.apiService.postPutData(
       song,
       `${this.apiEndpoint}/addsong/${prId}`,
+      'POST'
+    );
+  }
+
+  public async announcePR(prId: string, data: AnnouncePR): Promise<Response> {
+    return await this.apiService.postPutData(
+      data,
+      `${this.apiEndpoint}/announce/${prId}`,
       'POST'
     );
   }

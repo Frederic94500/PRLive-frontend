@@ -39,12 +39,6 @@
     <b>{{ pr.numberVoters }}</b> | Finished count: <b>{{ countFinished() }}</b>
   </p>
   <p>
-    <button mat-raised-button (click)="generateStallerMsg()">
-      <mat-icon>content_copy</mat-icon>Copy Staller Message
-    </button>
-    <button mat-raised-button (click)="copyLinkConfirmJoin()">
-      <mat-icon>content_copy</mat-icon>Copy Link Confirm Join
-    </button>
     <button mat-raised-button [routerLink]="['/pr', pr._id, 'tiebreak']" *ngIf="pr.tie.status">
       <mat-icon>settings</mat-icon>Tiebreak
     </button>
@@ -60,6 +54,17 @@
     <button mat-raised-button color="primary" (click)="toggleTabVideoMode()">
       <mat-icon>{{ tabVideoMode ? "open_in_new" : "video_library" }}</mat-icon>
       {{ tabVideoMode ? "Tab Video Mode" : "Floating Video Mode" }}
+    </button>
+  </p>
+  <p>
+    <button mat-raised-button (click)="generateStallerMsg()">
+      <mat-icon>content_copy</mat-icon>Copy Staller Message
+    </button>
+    <button mat-raised-button (click)="copyLinkConfirmJoin()">
+      <mat-icon>content_copy</mat-icon>Copy Link Confirm Join
+    </button>
+    <button mat-raised-button (click)="openAnnouncePRDialog()">
+      <mat-icon>campaign</mat-icon>Announce PR
     </button>
   </p>
 </div>
