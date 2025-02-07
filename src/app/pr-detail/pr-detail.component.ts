@@ -8,6 +8,7 @@ import { getServerURL, modifyPRURL } from '@/src/toolbox/toolbox';
 
 import { CommonModule } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
+import { FileType } from '@/src/enums/fileType.enum';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
@@ -15,6 +16,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { PRDetailAnnouncePRDialogComponent } from '../pr-detail-announce-pr-dialog/pr-detail-announce-pr-dialog.component';
+import { PRService } from '@/src/services/pr.service';
 import { SheetService } from '@/src/services/sheet.service';
 import { SheetViewDialogComponent } from '../sheet-view-dialog/sheet-view-dialog.component';
 import { Song } from '@/src/interfaces/song.interface';
@@ -39,6 +41,7 @@ import { environment } from '@/src/environments/environment';
 export class PRDetailComponent implements OnInit, AfterViewInit {
   displayedColumnsSongList: string[] = [
     'orderId',
+    'rankPosition',
     'nominator',
     'artist',
     'title',
@@ -73,17 +76,20 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
     public dialog: MatDialog,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private prService: PRService
   ) {}
 
   async ngOnInit(): Promise<void> {
     this.pr = this.route.snapshot.data['pr'].data;
-    this.songList = new MatTableDataSource(this.pr.songList.sort((a, b) => a.orderId - b.orderId));
+    this.songList = new MatTableDataSource(
+      this.pr.songList.sort((a, b) => a.orderId - b.orderId)
+    );
     this.userList = new MatTableDataSource(this.pr.voters);
 
     this.isAdmin = this.route.snapshot.data['auth'].data.role === 'admin';
 
-    this.user = this.route.snapshot.data['auth'].data
+    this.user = this.route.snapshot.data['auth'].data;
 
     if (this.isAdmin) {
       this.displayedColumnsSongList.unshift('uuid');
@@ -147,11 +153,18 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
 
   downloadJson(): void {
     if (this.pr.tie.status) {
-      if (!confirm('This PR has an unresolved tie. Do you want to download the output?')) {
+      if (
+        !confirm(
+          'This PR has an unresolved tie. Do you want to download the output?'
+        )
+      ) {
         return;
       }
     }
     const pr = modifyPRURL(this.pr as PR, this.user);
+    pr.songList = pr.songList.sort(
+      (a, b) => Number(b.rankPosition) - Number(a.rankPosition)
+    );
     const json = JSON.stringify(pr, null, 2);
     const blob = new Blob([json], { type: 'application/json' });
     const url = window.URL.createObjectURL(blob);
@@ -173,7 +186,7 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
       this.snackBar.open('Error fetching sheet', 'Close', { duration: 2000 });
       return;
     }
-    
+
     this.dialog.open(SheetViewDialogComponent, {
       data: {
         voter,
@@ -185,7 +198,9 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
   }
 
   openDeleteUserDialog(prId: string, discordId: string): void {
-    confirm('Are you sure you want to delete this User?') ? this.removeUser(prId, discordId) : null;
+    confirm('Are you sure you want to delete this User?')
+      ? this.removeUser(prId, discordId)
+      : null;
   }
 
   async removeUser(prId: string, discordId: string): Promise<void> {
@@ -222,41 +237,48 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
   getYoutubeId(url: string): string {
     const shortUrlPattern = /youtu\.be\/([a-zA-Z0-9_-]{11})/;
     const longUrlPattern = /youtube\.com\/.*[?&]v=([a-zA-Z0-9_-]{11})/;
-    
+
     let match = url.match(shortUrlPattern);
     if (match && match[1]) {
       return match[1];
     }
-  
+
     match = url.match(longUrlPattern);
     if (match && match[1]) {
       return match[1];
     }
-  
+
     return '';
   }
 
   getYouTubeEmbedUrl(url: string): string {
-    return `https://www.youtube.com/embed/${this.getYoutubeId(url)}?autoplay=1&cc_load_policy=1`;
+    return `https://www.youtube.com/embed/${this.getYoutubeId(
+      url
+    )}?autoplay=1&cc_load_policy=1`;
   }
 
   sanitizeUrl(url: string): string {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(this.getYouTubeEmbedUrl(url)) as string
+    return this.sanitizer.bypassSecurityTrustResourceUrl(
+      this.getYouTubeEmbedUrl(url)
+    ) as string;
   }
 
   getNowPlaying(url: string, field: string): { artist: string; title: string } {
     return {
       artist:
-        this.pr.songList.find((x) => url.includes(x[field] as string))?.artist ?? '',
+        this.pr.songList.find((x) => url.includes(x[field] as string))
+          ?.artist ?? '',
       title:
-        this.pr.songList.find((x) => url.includes(x[field] as string))?.title ?? '',
+        this.pr.songList.find((x) => url.includes(x[field] as string))?.title ??
+        '',
     };
   }
 
   playVideo(url: string): void {
-    this.currentVideoSource = url.includes('youtu') || url.includes('https://')
-      ? url
-      : `${getServerURL(this.user)}${url}`;
+    this.currentVideoSource =
+      url.includes('youtu') || url.includes('https://')
+        ? url
+        : `${getServerURL(this.user)}${url}`;
     this.currentAudioSource = null;
   }
 
@@ -281,5 +303,34 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
 
   closeAudioPlayer(): void {
     this.currentAudioSource = null;
+  }
+
+  openFileUploadDialog(prId: string, voterId: string): void {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/png, image/jpeg, image/gif, image/webp';
+    input.onchange = async () => {
+      if (!input.files) {
+        return;
+      }
+      const file = input.files[0];
+      if (!file) {
+        return;
+      }
+      const response = await this.prService.uploadFilePR(
+        prId,
+        FileType.PFP,
+        file,
+        [{ item: 'voterId', value: voterId }]
+      );
+      if (response.code !== 200) {
+        this.snackBar.open('Error uploading file', 'Close', { duration: 2000 });
+        return;
+      }
+      this.snackBar.open('File uploaded', 'Close', { duration: 2000 });
+      this.pr = (await this.prService.outputPR(prId)).data;
+      this.userList.data = this.pr.voters;
+    };
+    input.click();
   }
 }

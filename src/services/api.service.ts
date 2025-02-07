@@ -51,9 +51,12 @@ export class ApiService {
     return response.json();
   }
 
-  public async postFile(endpoint: string, type: FileType, file: File): Promise<Response> {
+  public async postFile(endpoint: string, type: FileType, file: File, params?: {item: string, value: any}[]): Promise<Response> {
     const formData = new FormData();
     formData.append('type', type);
+    for (const param of params??[]) {
+      formData.append(param.item, param.value);
+    }
     formData.append('file', file);
     const response = await fetch(`${this.apiUrl}/${this.apiEndpoint}/${endpoint}`, {
       method: 'POST',

@@ -57,13 +57,13 @@
     </button>
   </p>
   <p>
-    <button mat-raised-button (click)="generateStallerMsg()">
+    <button mat-raised-button (click)="generateStallerMsg()" [disabled]="pr.finished">
       <mat-icon>content_copy</mat-icon>Copy Staller Message
     </button>
-    <button mat-raised-button (click)="copyLinkConfirmJoin()">
+    <button mat-raised-button (click)="copyLinkConfirmJoin()" [disabled]="pr.finished">
       <mat-icon>content_copy</mat-icon>Copy Link Confirm Join
     </button>
-    <button mat-raised-button (click)="openAnnouncePRDialog()">
+    <button mat-raised-button (click)="openAnnouncePRDialog()" [disabled]="pr.finished">
       <mat-icon>campaign</mat-icon>Announce PR
     </button>
   </p>
@@ -121,6 +121,14 @@
           Order ID<mat-icon>sort</mat-icon>
         </th>
         <td mat-cell *matCellDef="let song">{{ song.orderId }}</td>
+      </ng-container>
+
+      <!-- Rank Position Column -->
+      <ng-container matColumnDef="rankPosition">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Rank Position<mat-icon>sort</mat-icon>
+        </th>
+        <td mat-cell *matCellDef="let song">{{ song.rankPosition }}</td>
       </ng-container>
 
       <!-- UUID Column -->
@@ -297,6 +305,13 @@
             >
               <mat-icon>visibility</mat-icon>
               <span>View Sheet</span>
+            </button>
+            <button
+              mat-menu-item
+              (click)="openFileUploadDialog(pr._id, voter.discordId)"
+            >
+              <mat-icon>account_box</mat-icon>
+              <span>Change PFP</span>
             </button>
             <button
               mat-menu-item

@@ -59,11 +59,12 @@ export class PRService {
     );
   }
 
-  public async uploadFilePR(prId: string, type: FileType, file: File): Promise<Response> {
+  public async uploadFilePR(prId: string, type: FileType, file: File, params?: {item: string, value: any}[]): Promise<Response> {
     return await this.apiService.postFile(
       `${this.apiEndpoint}/uploadfile/${prId}`,
       type,
-      file
+      file,
+      params
     );
   }
 
