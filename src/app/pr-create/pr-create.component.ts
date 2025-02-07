@@ -17,6 +17,7 @@ import { CommonModule } from '@angular/common';
 import { MatButton } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -42,6 +43,7 @@ import { Server } from '@/src/interfaces/server.interface';
     MatSlideToggleModule,
     MatButtonToggleModule,
     MatSelectModule,
+    MatIconModule,
   ],
   templateUrl: './pr-create.component.html',
   styleUrl: './pr-create.component.css',
@@ -52,6 +54,7 @@ export class PRCreateComponent implements OnInit {
   prService: PRService = new PRService();
   isNomination: boolean = false;
   servers: Server[];
+  songCount: number = 0;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -126,6 +129,14 @@ export class PRCreateComponent implements OnInit {
     a.click();
   }
 
+  openJsonInputFile(): void {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json';
+    input.onchange = (event) => this.onFileChange(event);
+    input.click();
+  }
+
   onFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length) {
@@ -136,11 +147,12 @@ export class PRCreateComponent implements OnInit {
           const json = JSON.parse(reader.result as string);
           console.log(json);
           this.prForm.get('songList')?.setValue(json);
+          this.songCount = json.length;
         } catch (e) {
           this.snackBar.open('Invalid JSON file', 'Close', { duration: 2000 });
         }
       };
-      reader.readAsText(file);
+      reader.readAsText(file);  
     }
   }
 

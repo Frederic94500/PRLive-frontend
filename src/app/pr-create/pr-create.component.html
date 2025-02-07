@@ -1,6 +1,6 @@
 <div class="centered-content">
   <h2>Create PR</h2>
-  <form [formGroup]="prForm" (ngSubmit)="onSubmit()" class="centered-content">
+  <form [formGroup]="prForm" class="centered-content">
     <mat-form-field class="input-full-width">
       <mat-label>Name</mat-label>
       <input matInput formControlName="name" required />
@@ -25,7 +25,9 @@
       />
     </mat-form-field>
 
-    <mat-slide-toggle (change)="toggleNomination()" required>Is Nomination</mat-slide-toggle>
+    <mat-slide-toggle (change)="toggleNomination()" required>
+      Is Nomination
+    </mat-slide-toggle>
 
     <span *ngIf="isNomination">
       <mat-form-field class="input-full-width">
@@ -38,35 +40,47 @@
         />
       </mat-form-field>
       <br />
-      <mat-checkbox formControlName="hidden" class="custom-checkbox">Hidden</mat-checkbox>
+      <mat-checkbox formControlName="hidden" class="custom-checkbox">
+        Hidden
+      </mat-checkbox>
       <br />
-      <mat-checkbox formControlName="blind" class="custom-checkbox">Blind</mat-checkbox>
+      <mat-checkbox formControlName="blind" class="custom-checkbox">
+        Blind
+      </mat-checkbox>
       <br />
-      <mat-checkbox formControlName="hideNominatedSongList" class="custom-checkbox">Hide nomination song list</mat-checkbox>
+      <mat-checkbox
+        formControlName="hideNominatedSongList"
+        class="custom-checkbox"
+      >
+        Hide nomination song list
+      </mat-checkbox>
       <br />
       <mat-form-field class="input-full-width">
         <mat-label>Song per user</mat-label>
-        <input matInput formControlName="songPerUser" type="number" min="1" [required]="isNomination"/>
+        <input
+          matInput
+          formControlName="songPerUser"
+          type="number"
+          min="1"
+          [required]="isNomination"
+        />
       </mat-form-field>
     </span>
 
-    <span *ngIf="!isNomination">
-      <p><a (click)="downloadTemplate()" class="link-style">Template Standard Song List</a></p>
-      <div>
-        <label for="jsonFile">Upload JSON (Standard/AnisongDB format)</label>
-        <br />
-        <input
-          id="jsonFile"
-          type="file"
-          (change)="onFileChange($event)"
-          accept=".json"
-          [required]="!isNomination"
-        />
-      </div>
+    <span *ngIf="!isNomination" class="centered-content">
+      <button mat-raised-button (click)="downloadTemplate()">
+        <mat-icon>download</mat-icon>
+        Template Standard Song List
+      </button>
+      <button mat-raised-button (click)="openJsonInputFile()">
+        <mat-icon>upload_file</mat-icon>
+        Upload JSON (Standard/AnisongDB format)
+      </button>
+      Number of songs : {{ songCount }}
     </span>
 
     <br />
 
-    <button mat-raised-button type="submit">Submit</button>
+    <button mat-raised-button type="submit" (click)="onSubmit()">Submit</button>
   </form>
 </div>
