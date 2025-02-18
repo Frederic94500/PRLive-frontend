@@ -30,6 +30,7 @@ import { SheetCSVDialogComponent } from '../sheet-csv-dialog/sheet-csv-dialog.co
 import { SheetProfileDialogComponent } from '../sheet-profile-dialog/sheet-profile-dialog.component';
 import { SheetService } from '@services/sheet.service';
 import { User } from '@interfaces/user.interface';
+import { VideoPlayerComponent } from '../video-player/video-player.component';
 import { modifyPRURL } from '@/src/toolbox/toolbox';
 
 @Component({
@@ -47,6 +48,7 @@ import { modifyPRURL } from '@/src/toolbox/toolbox';
     FormsModule,
     MatTooltipModule,
     RouterLink,
+    VideoPlayerComponent,
   ],
   templateUrl: './sheet.component.html',
   styleUrl: './sheet.component.css',
@@ -246,39 +248,6 @@ export class SheetComponent implements OnInit, AfterViewInit {
 
   togglePlaylistMode(): void {
     this.isPlaylistMode = !this.isPlaylistMode;
-  }
-
-  isYouTubeLink(url: string): boolean {
-    return url.includes('youtu');
-  }
-
-  getYoutubeId(url: string): string {
-    const shortUrlPattern = /youtu\.be\/([a-zA-Z0-9_-]{11})/;
-    const longUrlPattern = /youtube\.com\/.*[?&]v=([a-zA-Z0-9_-]{11})/;
-
-    let match = url.match(shortUrlPattern);
-    if (match && match[1]) {
-      return match[1];
-    }
-
-    match = url.match(longUrlPattern);
-    if (match && match[1]) {
-      return match[1];
-    }
-
-    return '';
-  }
-
-  getYouTubeEmbedUrl(url: string): string {
-    return `https://www.youtube.com/embed/${this.getYoutubeId(
-      url
-    )}?autoplay=1&cc_load_policy=1`;
-  }
-
-  sanitizeUrl(url: string): string {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(
-      this.getYouTubeEmbedUrl(url)
-    ) as string;
   }
 
   playVideo(url: string): void {

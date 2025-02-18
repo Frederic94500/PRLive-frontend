@@ -65,31 +65,13 @@
   </p>
 </div>
 
-<div *ngIf="currentVideoSource" class="center floating-video-player">
-  <button class="close-button" (click)="closeVideoPlayer()">✖</button>
-  <u>Now playing</u>
-  <br />
-  <b>{{ getNowPlaying(currentVideoSource, "urlVideo").artist }}</b> -
-  <b>{{ getNowPlaying(currentVideoSource, "urlVideo").title }}</b>
-  <br />
-  <iframe
-    id="ytplayer"
-    type="text/html"
-    height="360"
-    [src]="sanitizeUrl(currentVideoSource)"
-    frameborder="0"
-    allowfullscreen
-    *ngIf="currentVideoSource && isYouTubeLink(currentVideoSource)"
-  ></iframe>
-  <video
-    #player
-    id="player"
-    controls
-    [src]="currentVideoSource"
-    autoplay
-    *ngIf="currentVideoSource && !isYouTubeLink(currentVideoSource)"
-  ></video>
-</div>
+<app-video-player
+  *ngIf="currentVideoSource"
+  [currentVideoSource]="currentVideoSource"
+  [artist]="getNowPlaying(currentVideoSource, 'urlVideo').artist"
+  [title]="getNowPlaying(currentVideoSource, 'urlVideo').title"
+  (closeVideoPlayer)="closeVideoPlayer()"
+></app-video-player>
 
 <div *ngIf="currentAudioSource" class="floating-audio-player center">
   <button class="close-button" (click)="closeAudioPlayer()">✖</button>

@@ -11,12 +11,13 @@ import { MatSort } from '@angular/material/sort';
 import { PR } from '@/src/interfaces/pr.interface';
 import { Song } from '@/src/interfaces/song.interface';
 import { User } from '@/src/interfaces/user.interface';
+import { VideoPlayerComponent } from '../video-player/video-player.component';
 import { getServerURL } from '@/src/toolbox/toolbox';
 
 @Component({
   selector: 'app-confirm-join-pr',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatButtonModule, MatIconModule],
+  imports: [CommonModule, MatTableModule, MatButtonModule, MatIconModule, VideoPlayerComponent],
   templateUrl: './confirm-join-pr.component.html',
   styleUrl: './confirm-join-pr.component.css',
 })
@@ -61,35 +62,6 @@ export class ConfirmJoinPRComponent implements AfterViewInit {
     }
     const isURL = URL.includes('https://');
     return isURL ? URL : `${getServerURL(this.user)}${URL}`;
-  }
-
-  isYouTubeLink(url: string): boolean {
-    return url.includes('youtu');
-  }
-
-  getYoutubeId(url: string): string {
-    const shortUrlPattern = /youtu\.be\/([a-zA-Z0-9_-]{11})/;
-    const longUrlPattern = /youtube\.com\/.*[?&]v=([a-zA-Z0-9_-]{11})/;
-    
-    let match = url.match(shortUrlPattern);
-    if (match && match[1]) {
-      return match[1];
-    }
-  
-    match = url.match(longUrlPattern);
-    if (match && match[1]) {
-      return match[1];
-    }
-  
-    return '';
-  }
-
-  getYouTubeEmbedUrl(url: string): string {
-    return `https://www.youtube.com/embed/${this.getYoutubeId(url)}?autoplay=1&cc_load_policy=1`;
-  }
-
-  sanitizeUrl(url: string): string {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(this.getYouTubeEmbedUrl(url)) as string
   }
 
   getNowPlaying(url: string, field: string): { artist: string; title: string } {

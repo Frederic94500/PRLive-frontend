@@ -1,0 +1,24 @@
+<div *ngIf="currentVideoSource" class="center floating-video-player">
+  <button class="close-button" (click)="closeVideoPlayer()">✖</button>
+  <u>Now playing</u>
+  <br />
+  <b>{{ artist }}</b> -
+  <b>{{ title }}</b>
+  <br />
+  <iframe
+    id="ytplayer"
+    height="360"
+    [src]="sanitizedUrl"
+    frameborder="0"
+    allowfullscreen
+    *ngIf="currentVideoSource && isYouTubeLink(currentVideoSource)"
+  ></iframe>
+  <video
+    #player
+    id="player"
+    controls
+    [src]="currentVideoSource"
+    autoplay
+    *ngIf="currentVideoSource && !isYouTubeLink(currentVideoSource)"
+  ></video>
+</div>

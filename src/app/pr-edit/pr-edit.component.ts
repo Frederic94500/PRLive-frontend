@@ -22,7 +22,7 @@ import { PRService } from '@services/pr.service';
 import { PrEditAddSongDialogComponent } from '../pr-edit-add-song-dialog/pr-edit-add-song-dialog.component';
 import { Song } from '@interfaces/song.interface';
 import { User } from '@interfaces/user.interface';
-import { UserService } from '@/src/services/user.service';
+import { VideoPlayerComponent } from '../video-player/video-player.component';
 import { getServerURL } from '@/src/toolbox/toolbox';
 
 @Component({
@@ -40,6 +40,7 @@ import { getServerURL } from '@/src/toolbox/toolbox';
     MatIconModule,
     MatSlideToggleModule,
     MatButtonModule,
+    VideoPlayerComponent,
   ],
   templateUrl: './pr-edit.component.html',
   styleUrl: './pr-edit.component.css',
@@ -251,39 +252,6 @@ export class PREditComponent implements OnInit, AfterViewInit {
         this.pr.songList.find((x) => url.includes(x[field] as string))?.title ??
         '',
     };
-  }
-
-  isYouTubeLink(url: string): boolean {
-    return url.includes('youtu');
-  }
-
-  getYoutubeId(url: string): string {
-    const shortUrlPattern = /youtu\.be\/([a-zA-Z0-9_-]{11})/;
-    const longUrlPattern = /youtube\.com\/.*[?&]v=([a-zA-Z0-9_-]{11})/;
-
-    let match = url.match(shortUrlPattern);
-    if (match && match[1]) {
-      return match[1];
-    }
-
-    match = url.match(longUrlPattern);
-    if (match && match[1]) {
-      return match[1];
-    }
-
-    return '';
-  }
-
-  getYouTubeEmbedUrl(url: string): string {
-    return `https://www.youtube.com/embed/${this.getYoutubeId(
-      url
-    )}?autoplay=1&cc_load_policy=1`;
-  }
-
-  sanitizeUrl(url: string): string {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(
-      this.getYouTubeEmbedUrl(url)
-    ) as string;
   }
 
   playVideo(url: string): void {

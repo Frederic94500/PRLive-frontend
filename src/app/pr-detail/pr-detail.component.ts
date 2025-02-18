@@ -20,6 +20,7 @@ import { PRService } from '@/src/services/pr.service';
 import { SheetService } from '@/src/services/sheet.service';
 import { SheetViewDialogComponent } from '../sheet-view-dialog/sheet-view-dialog.component';
 import { Song } from '@/src/interfaces/song.interface';
+import { VideoPlayerComponent } from '../video-player/video-player.component';
 import { environment } from '@/src/environments/environment';
 
 @Component({
@@ -34,6 +35,7 @@ import { environment } from '@/src/environments/environment';
     MatTabsModule,
     RouterLink,
     MatMenuModule,
+    VideoPlayerComponent,
   ],
   templateUrl: './pr-detail.component.html',
   styleUrl: './pr-detail.component.css',
@@ -228,39 +230,6 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
     }
     const isURL = URL.includes('https://');
     return isURL ? URL : `${getServerURL(this.user)}${URL}`;
-  }
-
-  isYouTubeLink(url: string): boolean {
-    return url.includes('youtu');
-  }
-
-  getYoutubeId(url: string): string {
-    const shortUrlPattern = /youtu\.be\/([a-zA-Z0-9_-]{11})/;
-    const longUrlPattern = /youtube\.com\/.*[?&]v=([a-zA-Z0-9_-]{11})/;
-
-    let match = url.match(shortUrlPattern);
-    if (match && match[1]) {
-      return match[1];
-    }
-
-    match = url.match(longUrlPattern);
-    if (match && match[1]) {
-      return match[1];
-    }
-
-    return '';
-  }
-
-  getYouTubeEmbedUrl(url: string): string {
-    return `https://www.youtube.com/embed/${this.getYoutubeId(
-      url
-    )}?autoplay=1&cc_load_policy=1`;
-  }
-
-  sanitizeUrl(url: string): string {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(
-      this.getYouTubeEmbedUrl(url)
-    ) as string;
   }
 
   getNowPlaying(url: string, field: string): { artist: string; title: string } {
