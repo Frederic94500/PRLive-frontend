@@ -2,6 +2,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
+import { AudioPlayerComponent } from '../audio-player/audio-player.component';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatButtonModule } from '@angular/material/button';
@@ -17,7 +18,7 @@ import { getServerURL } from '@/src/toolbox/toolbox';
 @Component({
   selector: 'app-confirm-join-pr',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatButtonModule, MatIconModule, VideoPlayerComponent],
+  imports: [CommonModule, MatTableModule, MatButtonModule, MatIconModule, VideoPlayerComponent, AudioPlayerComponent],
   templateUrl: './confirm-join-pr.component.html',
   styleUrl: './confirm-join-pr.component.css',
 })

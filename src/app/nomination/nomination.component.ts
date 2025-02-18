@@ -3,6 +3,7 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
+import { AudioPlayerComponent } from '../audio-player/audio-player.component';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatButtonModule } from '@angular/material/button';
@@ -31,6 +32,7 @@ import { getServerURL } from '@/src/toolbox/toolbox';
     MatMenuModule,
     MatSortModule,
     VideoPlayerComponent,
+    AudioPlayerComponent,
   ],
   templateUrl: './nomination.component.html',
   styleUrl: './nomination.component.css',

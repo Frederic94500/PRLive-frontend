@@ -6,6 +6,7 @@ import { PR, PRDetail } from '@/src/interfaces/pr.interface';
 import { User, UserOutput } from '@interfaces/user.interface';
 import { getServerURL, modifyPRURL } from '@/src/toolbox/toolbox';
 
+import { AudioPlayerComponent } from '../audio-player/audio-player.component';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FileType } from '@/src/enums/fileType.enum';
@@ -36,6 +37,7 @@ import { environment } from '@/src/environments/environment';
     RouterLink,
     MatMenuModule,
     VideoPlayerComponent,
+    AudioPlayerComponent,
   ],
   templateUrl: './pr-detail.component.html',
   styleUrl: './pr-detail.component.css',

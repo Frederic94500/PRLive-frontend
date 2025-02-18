@@ -1,0 +1,16 @@
+<div *ngIf="currentAudioSource" class="center floating-audio-player">
+  <button class="close-button" (click)="closeAudioPlayer()">✖</button>
+  <u>Now playing</u>
+  <br />
+  <b>{{ artist }}</b> -
+  <b>{{ title }}</b>
+  <br />
+  <audio
+    #player
+    id="player"
+    controls
+    [src]="currentAudioSource"
+    *ngIf="currentAudioSource"
+    autoplay
+  ></audio>
+</div>

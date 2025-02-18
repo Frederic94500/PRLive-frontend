@@ -25,22 +25,13 @@
   (closeVideoPlayer)="closeVideoPlayer()"
 ></app-video-player>
 
-<div *ngIf="currentAudioSource" class="center floating-audio-player">
-  <button class="close-button" (click)="closeAudioPlayer()">✖</button>
-  <u>Now playing</u>
-  <br />
-  <b>{{ getNowPlaying(currentAudioSource, "urlAudio").artist }}</b> -
-  <b>{{ getNowPlaying(currentAudioSource, "urlAudio").title }}</b>
-  <br />
-  <audio
-    #player
-    id="player"
-    controls
-    [src]="currentAudioSource"
-    *ngIf="currentAudioSource"
-    autoplay
-  ></audio>
-</div>
+<app-audio-player
+  *ngIf="currentAudioSource"
+  [currentAudioSource]="currentAudioSource"
+  [artist]="getNowPlaying(currentAudioSource, 'urlAudio').artist"
+  [title]="getNowPlaying(currentAudioSource, 'urlAudio').title"
+  (closeAudioPlayer)="closeAudioPlayer()"
+></app-audio-player>
 
 <table mat-table [dataSource]="songList" matSort class="full-width-table">
   <!-- Artist Column -->

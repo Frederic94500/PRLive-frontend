@@ -3,6 +3,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
 import { ActivatedRoute } from '@angular/router';
+import { AudioPlayerComponent } from '../audio-player/audio-player.component';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FileType } from '@/src/enums/fileType.enum';
@@ -41,6 +42,7 @@ import { getServerURL } from '@/src/toolbox/toolbox';
     MatSlideToggleModule,
     MatButtonModule,
     VideoPlayerComponent,
+    AudioPlayerComponent,
   ],
   templateUrl: './pr-edit.component.html',
   styleUrl: './pr-edit.component.css',
