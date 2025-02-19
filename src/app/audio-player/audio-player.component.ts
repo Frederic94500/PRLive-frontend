@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 
@@ -13,10 +13,12 @@ export class AudioPlayerComponent {
   @Input() artist: string = '';
   @Input() title: string = '';
   @Input() currentAudioSource: string | null = null;
+  @Output() closeAudioPlayerComponent = new EventEmitter<void>();
 
   constructor() {}
 
   closeAudioPlayer(): void {
+    this.closeAudioPlayerComponent.emit();
     this.currentAudioSource = null;
   }
 }

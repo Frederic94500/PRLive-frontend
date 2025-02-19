@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -14,6 +14,7 @@ export class VideoPlayerComponent implements OnInit {
   @Input() artist: string = '';
   @Input() title: string = '';
   @Input() currentVideoSource: string | null = null;
+  @Output() closeVideoPlayerComponent = new EventEmitter<void>();
   sanitizedUrl: string | null = null;
 
   constructor(public sanitizer: DomSanitizer) {}
@@ -23,6 +24,7 @@ export class VideoPlayerComponent implements OnInit {
   }
 
   closeVideoPlayer(): void {
+    this.closeVideoPlayerComponent.emit();
     this.currentVideoSource = null;
   }
 

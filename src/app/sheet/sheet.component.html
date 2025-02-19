@@ -70,7 +70,7 @@
   [currentVideoSource]="currentVideoSource"
   [artist]="getNowPlaying(currentVideoSource, 'urlVideo').artist"
   [title]="getNowPlaying(currentVideoSource, 'urlVideo').title"
-  (closeVideoPlayer)="closeVideoPlayer()"
+  (closeVideoPlayerComponent)="closeVideoPlayer()"
 ></app-video-player>
 
 <div *ngIf="currentAudioSource" class="floating-audio-player center">

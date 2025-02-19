@@ -136,7 +136,7 @@
   [currentVideoSource]="currentVideoSource"
   [artist]="getNowPlaying(currentVideoSource, 'urlVideo').artist"
   [title]="getNowPlaying(currentVideoSource, 'urlVideo').title"
-  (closeVideoPlayer)="closeVideoPlayer()"
+  (closeVideoPlayerComponent)="closeVideoPlayer()"
 ></app-video-player>
 
 <app-audio-player
@@ -144,7 +144,7 @@
   [currentAudioSource]="currentAudioSource"
   [artist]="getNowPlaying(currentAudioSource, 'urlAudio').artist"
   [title]="getNowPlaying(currentAudioSource, 'urlAudio').title"
-  (closeAudioPlayer)="closeAudioPlayer()"
+  (closeAudioPlayerComponent)="closeAudioPlayer()"
 ></app-audio-player>
 
 <table
