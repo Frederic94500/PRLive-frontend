@@ -125,3 +125,8 @@ export interface ResultTable {
 export interface AnnouncePR {
   message: string;
 }
+
+export interface BulkAnnouncePR {
+  message: string;
+  prIds: string[];
+}

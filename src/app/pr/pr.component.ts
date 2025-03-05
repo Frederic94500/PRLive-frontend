@@ -5,12 +5,14 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 import { MatButton } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTabsModule } from '@angular/material/tabs';
 import { PR } from '@/src/interfaces/pr.interface';
+import { PRBulkAnnounceDialogComponent } from '../pr-bulk-announce-dialog/pr-bulk-announce-dialog.component';
 import { PRStatus } from '@/src/enums/prStatus.enum';
 import { PRTableComponent } from '@components/pr-table/pr-table.component';
 import { SheetSimple } from '@/src/interfaces/sheet.interface';
@@ -74,7 +76,7 @@ export class PRComponent implements OnInit {
   filter: string = SheetStatus.ALL;
   searchFilter: string = '';
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private dialog: MatDialog) {}
 
   isAllJoined(prsData: MatTableDataSource<PR>): boolean {
     const sheets = this.sheets.filter((sheet: SheetSimple) =>
@@ -178,5 +180,11 @@ export class PRComponent implements OnInit {
 
   applyFilter(event: Event): void {
     this.searchFilter = (event.target as HTMLInputElement).value;
+  }
+
+  openBulkAnnounceDialog(): void {
+    this.dialog.open(PRBulkAnnounceDialogComponent, {
+      data: { prs: this.prs },
+    });
   }
 }

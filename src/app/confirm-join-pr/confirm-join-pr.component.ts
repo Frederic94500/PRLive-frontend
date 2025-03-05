@@ -33,7 +33,7 @@ export class ConfirmJoinPRComponent implements AfterViewInit {
   displayedColumnsSongList = ['artist', 'title', 'source', 'type', 'urlVideo', 'urlAudio'];
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer, private snackBar: MatSnackBar, private router: Router) {
+  constructor(private route: ActivatedRoute, private snackBar: MatSnackBar, private router: Router) {
     this.user = this.route.snapshot.data['auth'].data;
     this.pr = this.route.snapshot.data['pr'].data;
 

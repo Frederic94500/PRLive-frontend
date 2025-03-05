@@ -80,7 +80,6 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
     public dialog: MatDialog,
-    private sanitizer: DomSanitizer,
     private prService: PRService
   ) {}
 

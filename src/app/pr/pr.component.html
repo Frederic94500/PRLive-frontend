@@ -4,6 +4,9 @@
     <button mat-raised-button routerLink="/pr/create">
       <mat-icon>add</mat-icon>Create Party Ranking
     </button>
+    <button mat-raised-button (click)="openBulkAnnounceDialog()">
+      <mat-icon>send</mat-icon>Bulk Announce
+    </button>
   </span>
   <p>
     <span *ngIf="sheets">

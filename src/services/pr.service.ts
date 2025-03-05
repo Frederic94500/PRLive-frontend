@@ -53,6 +53,14 @@ export class PRService {
     );
   }
 
+  public async bulkAnnouncePR(prIds: string[], message: string): Promise<Response> {
+    return await this.apiService.postPutData(
+      { prIds, message },
+      `${this.apiEndpoint}/bulkannounce`,
+      'POST'
+    );
+  }
+
   public async deleteSongPR(prId: string, songUuid: string): Promise<Response> {
     return await this.apiService.deleteData(
       `${this.apiEndpoint}/deletesong/${prId}/${songUuid}`
