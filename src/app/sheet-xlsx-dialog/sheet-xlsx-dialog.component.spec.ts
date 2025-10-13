@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SheetXLSXDialogComponent } from './sheet-xlsxdialog.component';
+import { SheetXLSXDialogComponent } from './sheet-xlsx-dialog.component';
 
 describe('SheetXLSXDialogComponent', () => {
   let component: SheetXLSXDialogComponent;
@@ -10,7 +10,7 @@ describe('SheetXLSXDialogComponent', () => {
     await TestBed.configureTestingModule({
       imports: [SheetXLSXDialogComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(SheetXLSXDialogComponent);
     component = fixture.componentInstance;

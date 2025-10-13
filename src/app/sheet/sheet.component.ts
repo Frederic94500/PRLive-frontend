@@ -32,7 +32,7 @@ import { SheetService } from '@services/sheet.service';
 import { User } from '@interfaces/user.interface';
 import { VideoPlayerComponent } from '../video-player/video-player.component';
 import { modifyPRURL } from '@/src/toolbox/toolbox';
-import { SheetXLSXDialogComponent } from '../sheet-xlsx-dialog/sheet-xlsxdialog.component';
+import { SheetXLSXDialogComponent } from '../sheet-xlsx-dialog/sheet-xlsx-dialog.component';
 
 @Component({
   selector: 'app-sheet',
