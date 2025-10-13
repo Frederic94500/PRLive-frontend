@@ -34,4 +34,5 @@ export interface SheetSheetFront {
   rank: number;
   score: number;
   comment: string;
+  [key: string]: any;
 }

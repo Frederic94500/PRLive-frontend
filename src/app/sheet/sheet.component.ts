@@ -32,6 +32,7 @@ import { SheetService } from '@services/sheet.service';
 import { User } from '@interfaces/user.interface';
 import { VideoPlayerComponent } from '../video-player/video-player.component';
 import { modifyPRURL } from '@/src/toolbox/toolbox';
+import { SheetXLSXDialogComponent } from '../sheet-xlsx-dialog/sheet-xlsxdialog.component';
 
 @Component({
   selector: 'app-sheet',
@@ -374,6 +375,22 @@ export class SheetComponent implements OnInit, AfterViewInit {
 
   openSheetCSVDialog(): void {
     this.dialog.open(SheetCSVDialogComponent, {
+      data: {
+        prName: this.pr.name,
+        username: this.sheet.name,
+        sheet: this.sheet,
+        sheetSheetFrontModel: this.sheetTable.data,
+      },
+    });
+
+    this.dialog.afterAllClosed.subscribe(async () => {
+      this.sheet = (await this.sheetService.getSheet(this.pr._id)).data;
+      this.updateSheet();
+    });
+  }
+
+  openSheetXLSXDialog(): void {
+    this.dialog.open(SheetXLSXDialogComponent, {
       data: {
         prName: this.pr.name,
         username: this.sheet.name,

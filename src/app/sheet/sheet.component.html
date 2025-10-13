@@ -52,6 +52,13 @@
     >
       <mat-icon>table_view</mat-icon>Import/Export CSV
     </button>
+    <button
+      mat-raised-button
+      (click)="openSheetXLSXDialog()"
+      [disabled]="pr.finished"
+    >
+      <mat-icon>grid_view</mat-icon>Import/Export XLSX
+    </button>
     <button mat-raised-button (click)="togglePlaylistMode()">
       <mat-icon>{{
         isPlaylistMode ? "playlist_play" : "playlist_remove"
