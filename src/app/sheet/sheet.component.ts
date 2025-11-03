@@ -33,6 +33,7 @@ import { User } from '@interfaces/user.interface';
 import { VideoPlayerComponent } from '../video-player/video-player.component';
 import { modifyPRURL } from '@/src/toolbox/toolbox';
 import { SheetXLSXDialogComponent } from '../sheet-xlsx-dialog/sheet-xlsx-dialog.component';
+import { SheetGsheetDialogComponent } from '../sheet-gsheet-dialog/sheet-gsheet-dialog.component';
 
 @Component({
   selector: 'app-sheet',
@@ -402,6 +403,19 @@ export class SheetComponent implements OnInit, AfterViewInit {
     this.dialog.afterAllClosed.subscribe(async () => {
       this.sheet = (await this.sheetService.getSheet(this.pr._id)).data;
       this.updateSheet();
+    });
+  }
+
+  openSheetGSheetDialog(): void {
+    this.dialog.open(SheetGsheetDialogComponent, {
+      data: {
+        sheet: this.sheet,
+      },
+    });
+
+    this.dialog.afterAllClosed.subscribe(async () => {
+      this.sheet = (await this.sheetService.getSheet(this.pr._id)).data;
+      this.update();
     });
   }
 

@@ -61,4 +61,24 @@ export class SheetService {
       `${this.apiEndpoint}/delete/${prId}/${userId}`
     );
   }
+
+  public async getGSheetLink(
+    prId: string,
+    voterId: string,
+    sheetId: string
+  ): Promise<Response> {
+    return await this.apiService.getNoCred(
+      `${this.apiEndpoint}/gsheet/${prId}/${voterId}/${sheetId}`
+    );
+  }
+
+  public async getImportGSheet(
+    prId: string,
+    voterId: string,
+    sheetId: string
+  ): Promise<Response> {
+    return await this.apiService.getWithCred(
+      `${this.apiEndpoint}/gsheet/import/${prId}/${voterId}/${sheetId}`
+    );
+  }
 }

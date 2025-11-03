@@ -10,6 +10,7 @@ export interface Sheet {
   name: string;
   image: string;
   latestUpdate: string;
+  gsheet?: string;
   sheet: SheetSheet[];
 }
 

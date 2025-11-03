@@ -59,6 +59,13 @@
     >
       <mat-icon>grid_view</mat-icon>Import/Export XLSX
     </button>
+    <button
+      mat-raised-button
+      (click)="openSheetGSheetDialog()"
+      [disabled]="pr.finished"
+    >
+      <mat-icon>g_mobiledata</mat-icon>Import/Export Google Sheet
+    </button>
     <button mat-raised-button (click)="togglePlaylistMode()">
       <mat-icon>{{
         isPlaylistMode ? "playlist_play" : "playlist_remove"
