@@ -66,6 +66,9 @@
     <button mat-raised-button (click)="openAnnouncePRDialog()" [disabled]="pr.finished">
       <mat-icon>campaign</mat-icon>Announce PR
     </button>
+    <button mat-raised-button (click)="openPopupSyncGSheet() " [disabled]="pr.finished || !isGSheetLinked()">
+      <mat-icon>sync</mat-icon>Sync Google Sheet
+    </button>
   </p>
 </div>
 

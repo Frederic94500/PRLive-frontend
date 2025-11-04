@@ -303,4 +303,29 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
     };
     input.click();
   }
+
+  isGSheetLinked(): boolean {
+    return this.pr.voters.some((voter) => voter.gsheet && voter.gsheet.length > 0);
+  }
+
+  openPopupSyncGSheet(): void {
+    confirm('Are you sure you want to sync this PR with Google Sheet? This may take a while and overwrite data.')
+      ? this.syncGSheet()
+      : null;
+  }
+
+  syncGSheet(): void {
+    this.snackBar.open('Syncing with Google Sheet...', 'Close', { duration: 2000 });
+    this.prService.syncGSheetPR(this.pr._id).then((response) => {
+      if (response.code !== 200) {
+        this.snackBar.open('Error syncing Google Sheet', 'Close', {
+          duration: 2000,
+        });
+        return;
+      }
+      this.snackBar.open('Sheets are synced with Google Sheet successfully', 'Close', {
+        duration: 2000,
+      });
+    });
+  }
 }

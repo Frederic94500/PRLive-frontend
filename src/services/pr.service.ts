@@ -121,4 +121,10 @@ export class PRService {
       `${this.apiEndpoint}/delete/${prId}`
     );
   }
+
+  public async syncGSheetPR(prId: string): Promise<Response> {
+    return await this.apiService.getWithCred(
+      `${this.apiEndpoint}/gsheet/sync/${prId}`
+    );
+  }
 }
