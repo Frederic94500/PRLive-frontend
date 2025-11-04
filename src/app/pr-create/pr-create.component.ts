@@ -76,6 +76,7 @@ export class PRCreateComponent implements OnInit {
       deadlineNomination: [''],
       songPerUser: [1],
       songList: [null],
+      mandatoryGSheet: [false],
     });
   }
 

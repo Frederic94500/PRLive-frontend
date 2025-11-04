@@ -67,6 +67,10 @@
       </mat-form-field>
     </span>
 
+    <mat-slide-toggle formControlName="mandatoryGSheet" required>
+      Use Google Sheet by default
+    </mat-slide-toggle>
+
     <span *ngIf="!isNomination" class="centered-content">
       <button mat-raised-button (click)="downloadTemplate()">
         <mat-icon>download</mat-icon>

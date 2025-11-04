@@ -28,7 +28,9 @@
     <mat-icon>{{ pr.video ? "check_circle" : "cancel" }}</mat-icon> | Affinity
     image:
     <mat-icon>{{ pr.affinityImage ? "check_circle" : "cancel" }}</mat-icon> |
-    Stats: <mat-icon>{{ pr.prStats ? "check_circle" : "cancel" }}</mat-icon>
+    Stats: <mat-icon>{{ pr.prStats ? "check_circle" : "cancel" }}</mat-icon> |
+    Mandatory GSheet: <mat-icon>{{ pr.mandatoryGSheet ? "check_circle" : "cancel" }}</mat-icon> |
+    Has GSheet: <mat-icon>{{ isGSheetLinked() ? "check_circle" : "cancel" }}</mat-icon>
   </p>
   <p>
     Must be: <b>{{ pr.mustBe }}</b> |

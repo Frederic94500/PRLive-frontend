@@ -38,6 +38,7 @@ export interface PR {
   affinityImage: string;
   prStats: string;
   songList: Song[];
+  mandatoryGSheet: boolean;
   [key: string]:
     | string
     | number
@@ -79,6 +80,7 @@ export interface PRInput {
   deadline: number;
   songList?: SongInput[];
   anisongDb?: AnisongDb[];
+  mandatoryGSheet?: boolean;
 }
 
 export interface PROutput {
@@ -94,6 +96,7 @@ export interface PROutput {
   mustBe: number;
   threadId: string;
   serverId: string;
+  mandatoryGSheet: boolean;
   video?: string;
   affinityImage?: string;
   prStats?: string;
