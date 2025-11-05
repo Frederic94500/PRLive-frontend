@@ -324,8 +324,11 @@ export class PRDetailComponent implements OnInit, AfterViewInit {
         return;
       }
       this.snackBar.open('Sheets are synced with Google Sheet successfully', 'Close', {
-        duration: 2000,
+        duration: 3000,
       });
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
     });
   }
 }
