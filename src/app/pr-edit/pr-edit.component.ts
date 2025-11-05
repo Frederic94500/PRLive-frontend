@@ -25,6 +25,7 @@ import { Song } from '@interfaces/song.interface';
 import { User } from '@interfaces/user.interface';
 import { VideoPlayerComponent } from '../video-player/video-player.component';
 import { getServerURL } from '@/src/toolbox/toolbox';
+import { PrEditDynamicSampleLengthDialogComponent } from '../pr-edit-dynamic-sample-length-dialog/pr-edit-dynamic-sample-length-dialog.component';
 
 @Component({
   selector: 'app-pr-edit',
@@ -318,6 +319,23 @@ export class PREditComponent implements OnInit, AfterViewInit {
 
     this.snackBar.open('Sample length updated', 'Close', {
       duration: 2000,
+    });
+  }
+
+  async openDynamicSampleLengthDialog(): Promise<void> {
+    const dialogRef = this.dialog.open(PrEditDynamicSampleLengthDialogComponent, {
+      data: {
+        pr: this.pr,
+        prOutput: (await this.prService.outputPR(this.pr._id)).data,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((prResult: PR | undefined) => {
+      if (prResult) {
+        this.pr = prResult;
+        this.songList = new MatTableDataSource(this.pr.songList);
+        this.updatePR();
+      }
     });
   }
 }
