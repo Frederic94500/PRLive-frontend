@@ -1,7 +1,7 @@
 import { PR, PROutput } from '@/src/interfaces/pr.interface';
 import { CommonModule } from '@angular/common';
 import { Component, Inject, Input } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -37,10 +37,20 @@ export class PrEditDynamicSampleLengthDialogComponent {
     this.pr = data.pr;
     this.prOutput = data.prOutput;
     this.dynamicSampleLengthForm = this.formBuilder.group({
-      lastPosSampleLength: [0, Validators.required],
-      firstPosSampleLength: [1, Validators.required]
-    });
+      lastPosSampleLength: [1, [Validators.required, Validators.min(1)]],
+      firstPosSampleLength: [10, [Validators.required, Validators.min(1)]],
+    }, { validators: this.sampleLengthValidator });
   }
+
+  sampleLengthValidator: ValidatorFn = (group: AbstractControl): ValidationErrors | null => {
+    const first = group.get('firstPosSampleLength')?.value;
+    const last = group.get('lastPosSampleLength')?.value;
+
+    if (first < last) {
+      return { invalidLength: true };
+    }
+    return null;
+  };
 
   onCancel() {
     this.dialogRef.close();
