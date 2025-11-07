@@ -74,7 +74,7 @@ export class PrEditDynamicSampleLengthDialogComponent {
     this.pr.songList.sort((a, b) => {
       const rankA = rankMap.get(a.uuid) || 0;
       const rankB = rankMap.get(b.uuid) || 0;
-      return rankB - rankA;
+      return rankA - rankB;
     });
 
     const numberOfSongs = this.pr.songList.length;
